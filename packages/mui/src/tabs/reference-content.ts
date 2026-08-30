@@ -93,7 +93,10 @@ GET /parts/{id}/usages
 GET /constructs?project=NEU-2024-11
     → { name, projectId, partIds: string[], note? }[]`
 
-export const REFERENCE: Record<LocaleCode, { title: string; lede: string; sections: RefSection[] }> = {
+export const REFERENCE: Record<
+  LocaleCode,
+  { title: string; lede: string; sections: RefSection[] }
+> = {
   en: {
     title: 'Connecting your own registry',
     lede: 'What CASTOR needs from a parts database, what each field is used for, and the two modelling decisions that matter most.',
@@ -146,7 +149,7 @@ for (const construct of archive) {
         title: '4. The API surface',
         body: [
           'CASTOR talks to a registry through one interface. Implementing it is roughly twenty lines against whatever you already run; the picker renders one tab per provider and nothing else changes.',
-          '`roles` is not a hint. It is the slot\'s contract, and returning parts outside it puts a polyA in the promoter list.',
+          "`roles` is not a hint. It is the slot's contract, and returning parts outside it puts a polyA in the promoter list.",
           'If your registry is large, honour `limit` and `cursor` and return `truncated`. The picker will say so rather than pretending it showed everything.',
         ],
         code: { lang: 'ts', source: PROVIDER_SHAPE },

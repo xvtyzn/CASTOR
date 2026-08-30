@@ -7,13 +7,7 @@
  */
 import type { Citation } from '../model/provenance.js'
 
-export type CapacityBand =
-  | 'underfilled'
-  | 'low'
-  | 'optimal'
-  | 'near-limit'
-  | 'over-limit'
-  | 'error'
+export type CapacityBand = 'underfilled' | 'low' | 'optimal' | 'near-limit' | 'over-limit' | 'error'
 
 export const CAPACITY_SEVERITY: Record<CapacityBand, 'ok' | 'info' | 'warning' | 'error'> = {
   underfilled: 'info',
@@ -84,8 +78,7 @@ export const SC_BANDS: readonly BandSpec[] = [
   {
     band: 'error',
     max: Number.POSITIVE_INFINITY,
-    message:
-      'Exceeds scAAV capacity. Switch to single-stranded packaging or shorten the cassette.',
+    message: 'Exceeds scAAV capacity. Switch to single-stranded packaging or shorten the cassette.',
   },
 ]
 
@@ -103,8 +96,7 @@ export const CAPACITY_CITATIONS: Citation[] = [
     url: 'https://journals.asm.org/doi/full/10.1128/jvi.79.15.9933-9944.2005',
   },
   {
-    title:
-      'AAV vector yield, bioactivity and particle heterogeneity as a function of genome size',
+    title: 'AAV vector yield, bioactivity and particle heterogeneity as a function of genome size',
     year: 2025,
     url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC12207685/',
   },

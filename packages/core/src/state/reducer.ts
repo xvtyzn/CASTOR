@@ -95,6 +95,17 @@ function uniqueLabel(cart: Cart, base: string): string {
   }
 }
 
+function lockedInstance(
+  parts: readonly PartInstance[],
+  instanceId: InstanceId,
+  template: CassetteTemplate,
+): boolean {
+  const instance = parts.find((part) => part.instanceId === instanceId)
+  if (!instance) return false
+  const slot = flattenSlots(template.nodes).find((candidate) => candidate.key === instance.slotKey)
+  return Boolean(instance.locked || slot?.locked)
+}
+
 export function designerReducer(
   state: DesignerState,
   action: DesignerAction,
@@ -102,7 +113,10 @@ export function designerReducer(
 ): DesignerState {
   switch (action.type) {
     case 'setBackbone':
-      return { ...state, construct: touch({ ...state.construct, backboneId: action.backboneId }, deps) }
+      return {
+        ...state,
+        construct: touch({ ...state.construct, backboneId: action.backboneId }, deps),
+      }
 
     case 'addPart': {
       const instance: PartInstance = {
@@ -129,6 +143,8 @@ export function designerReducer(
     }
 
     case 'replacePart': {
+      if (lockedInstance(state.construct.cassette.parts, action.instanceId, deps.template))
+        return state
       const parts = state.construct.cassette.parts.map((p) =>
         p.instanceId === action.instanceId
           ? { ...p, partId: action.part.id, override: undefined }
@@ -138,9 +154,9 @@ export function designerReducer(
     }
 
     case 'removePart': {
-      const parts = state.construct.cassette.parts.filter(
-        (p) => p.instanceId !== action.instanceId,
-      )
+      if (lockedInstance(state.construct.cassette.parts, action.instanceId, deps.template))
+        return state
+      const parts = state.construct.cassette.parts.filter((p) => p.instanceId !== action.instanceId)
       return {
         ...state,
         selectedInstanceId:
@@ -150,6 +166,8 @@ export function designerReducer(
     }
 
     case 'movePart': {
+      if (lockedInstance(state.construct.cassette.parts, action.instanceId, deps.template))
+        return state
       const parts = [...state.construct.cassette.parts]
       const from = parts.findIndex((p) => p.instanceId === action.instanceId)
       if (from === -1) return state
@@ -159,6 +177,8 @@ export function designerReducer(
     }
 
     case 'setStrand': {
+      if (lockedInstance(state.construct.cassette.parts, action.instanceId, deps.template))
+        return state
       const parts = state.construct.cassette.parts.map((p) =>
         p.instanceId === action.instanceId ? { ...p, strand: action.strand } : p,
       )
@@ -166,7 +186,10 @@ export function designerReducer(
     }
 
     case 'setPackaging':
-      return { ...state, construct: touch({ ...state.construct, packaging: action.packaging }, deps) }
+      return {
+        ...state,
+        construct: touch({ ...state.construct, packaging: action.packaging }, deps),
+      }
 
     case 'setSerotype':
       return {
@@ -238,9 +261,19 @@ export function designerReducer(
 
     case 'cart/reorder': {
       const byId = new Map(state.cart.items.map((i) => [String(i.itemId), i]))
-      const items = action.itemIds
-        .map((id) => byId.get(String(id)))
-        .filter((i): i is CartItem => !!i)
+      const seen = new Set<string>()
+      const items: CartItem[] = []
+      for (const id of action.itemIds) {
+        const key = String(id)
+        const item = byId.get(key)
+        if (!item || seen.has(key)) continue
+        items.push(item)
+        seen.add(key)
+      }
+      // A public reducer must not turn a partial or stale reorder payload into deletion.
+      for (const item of state.cart.items) {
+        if (!seen.has(String(item.itemId))) items.push(item)
+      }
       return { ...state, cart: { ...state.cart, items } }
     }
 

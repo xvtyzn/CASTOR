@@ -59,7 +59,7 @@ export interface Construct {
   updatedAt: string
   tags?: string[]
   notes?: string
-  /** Bumped whenever the persisted shape changes; `migrate()` reads it. */
+  /** Bumped whenever the persisted shape changes; `migrateConstruct()` reads it. */
   schemaVersion: 1
 }
 

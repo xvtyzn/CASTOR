@@ -7,10 +7,5 @@ export { DesignTab, type DesignTabProps } from './tabs/DesignTab.js'
 export { CompareTab, type CompareTabProps } from './tabs/CompareTab.js'
 export { RegistryTab, type RegistryTabProps } from './tabs/RegistryTab.js'
 export { ReferenceTab, type ReferenceTabProps } from './tabs/ReferenceTab.js'
-export {
-  workbenchEn,
-  workbenchJa,
-  workbenchLocales,
-  type WorkbenchMessages,
-} from './messages.js'
+export { workbenchEn, workbenchJa, workbenchLocales, type WorkbenchMessages } from './messages.js'
 export { REFERENCE, type RefSection } from './tabs/reference-content.js'

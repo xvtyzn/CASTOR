@@ -32,6 +32,8 @@ export interface PartProvider {
   id: string
   label: string
   capabilities: { byRole: boolean; freeText: boolean; paste: boolean; paging: boolean }
+  /** Role used when a paste-capable provider is opened without a slot role constraint. */
+  defaultPasteRole?: PartRole
   search(query: PartQuery, signal?: AbortSignal): Promise<PartPage>
   get(id: PartId, signal?: AbortSignal): Promise<Part | undefined>
 }
@@ -86,6 +88,7 @@ export function pastedSequenceProvider(options: PastedSequenceOptions = {}): Par
     id: 'paste',
     label: 'Paste a sequence',
     capabilities: { byRole: false, freeText: false, paste: true, paging: false },
+    defaultPasteRole: options.defaultRole ?? 'custom',
     async search() {
       return { parts: [] }
     },

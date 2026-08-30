@@ -55,9 +55,10 @@ export function PlasmidMapWithActions({
   height = 440,
   className,
 }: PlasmidMapWithActionsProps) {
-  const [popover, setPopover] = useState<
-    { target: MapPopoverTarget; anchor: { x: number; y: number } } | null
-  >(null)
+  const [popover, setPopover] = useState<{
+    target: MapPopoverTarget
+    anchor: { x: number; y: number }
+  } | null>(null)
 
   const requestFor = (
     slot: SlotSpec,

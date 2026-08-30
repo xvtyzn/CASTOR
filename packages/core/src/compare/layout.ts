@@ -128,7 +128,7 @@ function rowLength(row: ComparisonRow): number {
 }
 
 export function computeLayout(model: ComparisonModel, options: LayoutOptions): BpLayout {
-  const { order, flipped, anchor, rowHeight, rowGap, padding, geom, theme, colorMode } = options
+  const { order, flipped, anchor, rowHeight, rowGap, padding, theme, colorMode } = options
 
   const byId = new Map(model.rows.map((r) => [r.id, r]))
   const rows = order.map((id) => byId.get(id)).filter((r): r is ComparisonRow => !!r)
@@ -199,8 +199,7 @@ export function computeLayout(model: ComparisonModel, options: LayoutOptions): B
       // Several matches are treated as one span from leftmost to rightmost, as gggenomes does.
       const lo = Math.min(...hits.map((h) => h[0]))
       const hi = Math.max(...hits.map((h) => h[1]))
-      const pos =
-        anchor.justify === 'left' ? lo : anchor.justify === 'right' ? hi : (lo + hi) / 2
+      const pos = anchor.justify === 'left' ? lo : anchor.justify === 'right' ? hi : (lo + hi) / 2
       anchorPos.push({ rowId: local.row.id, pos })
     }
     if (anchorPos.length > 0) {
@@ -235,8 +234,8 @@ export function computeLayout(model: ComparisonModel, options: LayoutOptions): B
         if (!span) continue
         const fill =
           colorMode === 'byHomologyGroup'
-            ? (item.groupId && groupColorOverride.get(item.groupId)) ??
-              (item.groupId ? byGroup(item.groupId) : byRole(item.role))
+            ? ((item.groupId && groupColorOverride.get(item.groupId)) ??
+              (item.groupId ? byGroup(item.groupId) : byRole(item.role)))
             : byRole(item.role)
         const laid: LaidOutItem = {
           uid: item.uid,
@@ -282,7 +281,7 @@ export function computeLayout(model: ComparisonModel, options: LayoutOptions): B
       colorMode === 'byIdentity'
         ? byIdentity(link.identity)
         : colorMode === 'byHomologyGroup'
-          ? (link.groupId && groupColorOverride.get(link.groupId)) ?? theme.strokeMuted
+          ? ((link.groupId && groupColorOverride.get(link.groupId)) ?? theme.strokeMuted)
           : theme.strokeMuted
 
     ribbons.push({

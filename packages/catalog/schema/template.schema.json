@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://castor-bio.dev/schema/template.schema.json",
+  "title": "CASTOR cassette template collection",
+  "type": "object",
+  "required": ["collection", "templates"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "collection": { "const": "templates" },
+    "templates": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/template" } }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "role": {
+      "enum": [
+        "backbone",
+        "itr",
+        "spacer",
+        "enhancer",
+        "promoter",
+        "switch",
+        "intron",
+        "utr5",
+        "kozak",
+        "signal_peptide",
+        "tag",
+        "linker",
+        "cds",
+        "joiner",
+        "stop",
+        "utr3",
+        "wpre",
+        "polya",
+        "stuffer",
+        "shrna",
+        "amirna_scaffold",
+        "grna_scaffold",
+        "terminator",
+        "custom"
+      ]
+    },
+    "predicate": {
+      "type": "object",
+      "required": ["fn"],
+      "properties": { "fn": { "type": "string", "minLength": 1 }, "args": { "type": "object" } },
+      "additionalProperties": false
+    },
+    "slot": {
+      "type": "object",
+      "required": ["kind", "key", "label", "roles", "min", "max", "strand"],
+      "properties": {
+        "kind": { "const": "slot" },
+        "key": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "roles": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/role" }
+        },
+        "min": { "type": "integer", "minimum": 0 },
+        "max": { "type": ["integer", "null"], "minimum": 0 },
+        "strand": { "enum": ["forward", "reverse", "inherit"] },
+        "requiredIf": { "$ref": "#/$defs/predicate" },
+        "forbiddenIf": { "$ref": "#/$defs/predicate" },
+        "locked": { "type": "boolean" },
+        "hint": { "type": "string" },
+        "defaultPartId": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "repeat": {
+      "type": "object",
+      "required": ["kind", "key", "label", "min", "max", "children"],
+      "properties": {
+        "kind": { "const": "repeat" },
+        "key": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "min": { "type": "integer", "minimum": 0 },
+        "max": { "type": ["integer", "null"], "minimum": 0 },
+        "children": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/slot" } },
+        "separator": { "$ref": "#/$defs/slot" }
+      },
+      "additionalProperties": false
+    },
+    "citation": {
+      "type": "object",
+      "required": ["title"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "pmid": { "type": "string" },
+        "doi": { "type": "string" },
+        "url": { "type": "string" },
+        "year": { "type": "integer" }
+      },
+      "additionalProperties": false
+    },
+    "template": {
+      "type": "object",
+      "required": ["id", "name", "kind", "description", "packaging", "nodes"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^template/.+@\\d+\\.\\d+\\.\\d+$" },
+        "name": { "type": "string", "minLength": 1 },
+        "kind": {
+          "enum": [
+            "coding.simple",
+            "coding.multicistronic_2A",
+            "coding.multicistronic_IRES",
+            "coding.cre_dependent",
+            "coding.LSL",
+            "rnai.shRNA",
+            "rnai.amiRNA",
+            "crispr.all_in_one",
+            "crispr.split",
+            "tet_on",
+            "dual_aav.trans_splicing",
+            "dual_aav.hybrid",
+            "sc.simple"
+          ]
+        },
+        "description": { "type": "string" },
+        "packaging": { "enum": ["ss", "sc", "either"] },
+        "nodes": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "oneOf": [{ "$ref": "#/$defs/slot" }, { "$ref": "#/$defs/repeat" }] }
+        },
+        "ruleIds": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+        "seed": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["slotKey", "partId"],
+            "properties": {
+              "slotKey": { "type": "string", "minLength": 1 },
+              "partId": { "type": "string", "minLength": 1 },
+              "repeatIndex": { "type": "integer", "minimum": 0 }
+            },
+            "additionalProperties": false
+          }
+        },
+        "references": { "type": "array", "items": { "$ref": "#/$defs/citation" } }
+      },
+      "additionalProperties": false
+    }
+  }
+}

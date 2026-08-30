@@ -25,9 +25,7 @@ for (const r of BACKBONE_RECIPES) {
   const features = (r.featurePicks ?? []).flatMap((pick) =>
     rec.features
       .filter((f) =>
-        Object.values(f.qualifiers).some((v) =>
-          v.toLowerCase().includes(pick.match.toLowerCase()),
-        ),
+        Object.values(f.qualifiers).some((v) => v.toLowerCase().includes(pick.match.toLowerCase())),
       )
       .filter((f) => f.start >= start && f.end <= end)
       .map((f) => ({

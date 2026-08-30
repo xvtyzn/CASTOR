@@ -7,7 +7,11 @@
  * recomputed on every assembly rather than stored.
  */
 import type { InstanceId, PartId, SlotKey } from '../model/ids.js'
-import { instanceId as toInstanceId, partId as toPartId, slotKey as toSlotKey } from '../model/ids.js'
+import {
+  instanceId as toInstanceId,
+  partId as toPartId,
+  slotKey as toSlotKey,
+} from '../model/ids.js'
 import type { Part } from '../model/part.js'
 import type { PartInstance } from '../model/construct.js'
 import type { LicenseInfo, Provenance } from '../model/provenance.js'

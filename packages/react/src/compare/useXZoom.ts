@@ -50,7 +50,8 @@ export function useXZoom(
       .filter((event: Event) => {
         // Let the page scroll unless the user means to zoom; a widget that swallows the
         // wheel is a widget people cannot scroll past.
-        if (event.type === 'wheel') return (event as WheelEvent).ctrlKey || (event as WheelEvent).metaKey
+        if (event.type === 'wheel')
+          return (event as WheelEvent).ctrlKey || (event as WheelEvent).metaKey
         return !(event as MouseEvent).button
       })
       .on('zoom', (event: D3ZoomEvent<SVGSVGElement, unknown>) => {

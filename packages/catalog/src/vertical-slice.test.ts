@@ -23,7 +23,6 @@ import {
   instanceId as toInstanceId,
   partId as toPartId,
   project,
-  rowId as toRowId,
   type Cart,
   type Construct,
   type Part,
@@ -117,8 +116,7 @@ describe('the shipped catalogue', () => {
     for (const p of catalog.parts) {
       expect(p.provenance.origin).toBeTruthy()
       expect(p.license.redistributable).toBe(true)
-      const sourced =
-        (p.provenance.accessions?.length ?? 0) > 0 || Boolean(p.provenance.note)
+      const sourced = (p.provenance.accessions?.length ?? 0) > 0 || Boolean(p.provenance.note)
       expect(sourced).toBe(true)
     }
   })
@@ -219,7 +217,8 @@ describe('validation catches real construction mistakes', () => {
     // push a real cassette past 5 kb using only real parts.
     let big = base
     const ids = createCountingIdFactory()
-    for (let i = 0; i < 3; i++) big = addPart(big, 'promoter', 'promoter/EF1a@1.0.0', () => ids('x'))
+    for (let i = 0; i < 3; i++)
+      big = addPart(big, 'promoter', 'promoter/EF1a@1.0.0', () => ids('x'))
     const { assembly, validation } = analyze(big, backbone, template, lookup, {
       idFactory: createCountingIdFactory(),
     })
@@ -239,7 +238,12 @@ describe('cart -> comparison view', () => {
   const designs = [
     buildDesign('CAG-EGFP-SV40', 'promoter/CAG-935@1.0.0', 'polya/SV40@1.0.0'),
     buildDesign('EF1a-EGFP-hGH', 'promoter/EF1a@1.0.0', 'polya/hGH@1.0.0'),
-    buildDesign('gfaABC1D-3xFLAG-EGFP', 'promoter/gfaABC1D@1.0.0', 'polya/SV40@1.0.0', 'tag/3xFLAG@1.0.0'),
+    buildDesign(
+      'gfaABC1D-3xFLAG-EGFP',
+      'promoter/gfaABC1D@1.0.0',
+      'polya/SV40@1.0.0',
+      'tag/3xFLAG@1.0.0',
+    ),
   ]
 
   const cart: Cart = {
@@ -278,7 +282,8 @@ describe('cart -> comparison view', () => {
   it('links shared parts between adjacent rows only', () => {
     const order = model.rows.map((r) => r.id)
     const rowOf = new Map<string, string>()
-    for (const r of model.rows) for (const it of r.segments[0]!.items) rowOf.set(it.uid, String(r.id))
+    for (const r of model.rows)
+      for (const it of r.segments[0]!.items) rowOf.set(it.uid, String(r.id))
 
     expect(model.links.length).toBeGreaterThan(0)
     for (const link of model.links) {
@@ -293,7 +298,8 @@ describe('cart -> comparison view', () => {
     // on literally every figure.
     const itrLinks = model.links.filter((l) => String(l.groupId).startsWith('itr/'))
     const byGroup = new Map<string, number>()
-    for (const l of itrLinks) byGroup.set(String(l.groupId), (byGroup.get(String(l.groupId)) ?? 0) + 1)
+    for (const l of itrLinks)
+      byGroup.set(String(l.groupId), (byGroup.get(String(l.groupId)) ?? 0) + 1)
     // Two adjacent row pairs x one link per ITR identity.
     expect(byGroup.get('itr/AAV2-ITR-145-flip@1.0.0')).toBe(2)
     expect(byGroup.get('itr/AAV2-ITR-145-3prime@1.0.0')).toBe(2)
@@ -318,12 +324,17 @@ describe('cart -> comparison view', () => {
 
     const pxPerBp = 800 / (layout.domain[1] - layout.domain[0])
     const xScale = (bp: number) => 180 + bp * pxPerBp
-    const px = project(layout, xScale, { width: 800, plotLeft: 180 }, {
-      geom: DEFAULT_GEOM,
-      rowHeight: DEFAULT_LAYOUT_OPTIONS.rowHeight,
-      minLabelWidthPx: 34,
-      overscanPx: 200,
-    })
+    const px = project(
+      layout,
+      xScale,
+      { width: 800, plotLeft: 180 },
+      {
+        geom: DEFAULT_GEOM,
+        rowHeight: DEFAULT_LAYOUT_OPTIONS.rowHeight,
+        minLabelWidthPx: 34,
+        overscanPx: 200,
+      },
+    )
 
     expect(px.arrows.length).toBeGreaterThan(0)
     expect(px.backbones).toHaveLength(3)

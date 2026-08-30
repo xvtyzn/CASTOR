@@ -168,26 +168,22 @@ export function assemble(
   // 4. plasmid space = backbone first, then the cassette shifted past it. Keeping the
   //    backbone contiguous is what guarantees no user-editable feature spans the origin.
   const plasmidFeatures: Feature[] = [
-    ...backbone.features.map(
-      (f, i): Feature => ({
-        id: `bb:${backbone.id}:${i}`,
-        name: f.name,
-        role: f.role,
-        start: f.start,
-        end: f.end,
-        strand: f.strand,
-        color: f.color,
-        origin: 'backbone',
-      }),
-    ),
-    ...cassetteFeatures.map(
-      (f): Feature => ({
-        ...f,
-        id: `p:${f.id}`,
-        start: f.start + backbone.length,
-        end: f.end + backbone.length,
-      }),
-    ),
+    ...backbone.features.map((f, i): Feature => ({
+      id: `bb:${backbone.id}:${i}`,
+      name: f.name,
+      role: f.role,
+      start: f.start,
+      end: f.end,
+      strand: f.strand,
+      color: f.color,
+      origin: 'backbone',
+    })),
+    ...cassetteFeatures.map((f): Feature => ({
+      ...f,
+      id: `p:${f.id}`,
+      start: f.start + backbone.length,
+      end: f.end + backbone.length,
+    })),
   ]
 
   // 5. capacity. ITR length is read from the assembled parts, never assumed, because AAV2

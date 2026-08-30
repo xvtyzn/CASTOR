@@ -9,12 +9,7 @@
  * In a real deployment `search` and `get` would call your API instead of reading these arrays.
  * Nothing else changes.
  */
-import {
-  staticCatalogProvider,
-  type Part,
-  type PartProvider,
-  type Usage,
-} from '@castor-bio/core'
+import { staticCatalogProvider, type Part, type PartProvider, type Usage } from '@castor-bio/core'
 import { ARCHIVE, PROJECTS, type ArchivedConstruct } from './projects.js'
 import { EXAMPLE_PARTS } from './example-parts.js'
 

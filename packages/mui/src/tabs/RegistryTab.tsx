@@ -102,7 +102,10 @@ export function RegistryTab({ t, parts }: RegistryTabProps) {
   )
 
   const header = (key: SortKey, label: string, numeric = false) => (
-    <TableCell align={numeric ? 'right' : 'left'} sortDirection={sort.key === key ? (sort.desc ? 'desc' : 'asc') : false}>
+    <TableCell
+      align={numeric ? 'right' : 'left'}
+      sortDirection={sort.key === key ? (sort.desc ? 'desc' : 'asc') : false}
+    >
       <TableSortLabel
         active={sort.key === key}
         direction={sort.key === key && sort.desc ? 'desc' : 'asc'}
@@ -121,12 +124,12 @@ export function RegistryTab({ t, parts }: RegistryTabProps) {
         ))}
       </Explain>
 
-      <Section
-        title={t.registry.parts}
-        aside={`${rows.length} of ${parts.length}`}
-        flush
-      >
-        <Stack direction="row" spacing={1.5} sx={{ p: 1.25, alignItems: 'center', flexWrap: 'wrap' }}>
+      <Section title={t.registry.parts} aside={t.registry.showing(rows.length, parts.length)} flush>
+        <Stack
+          direction="row"
+          spacing={1.5}
+          sx={{ p: 1.25, alignItems: 'center', flexWrap: 'wrap' }}
+        >
           <TextField
             size="small"
             placeholder={t.registry.searchPlaceholder}
@@ -186,13 +189,22 @@ export function RegistryTab({ t, parts }: RegistryTabProps) {
                   >
                     {r.projects || '—'}
                   </TableCell>
-                  <TableCell align="right" sx={{ fontFamily: castorMonospace, color: 'text.secondary' }}>
+                  <TableCell
+                    align="right"
+                    sx={{ fontFamily: castorMonospace, color: 'text.secondary' }}
+                  >
                     {r.constructs || '—'}
                   </TableCell>
                   <TableCell>
                     <Stack direction="row" spacing={0.5} sx={{ flexWrap: 'wrap', gap: 0.5 }}>
                       {r.projectIds.slice(0, 4).map((id) => (
-                        <Chip key={id} label={id} size="small" variant="outlined" sx={{ height: 20, fontSize: 11 }} />
+                        <Chip
+                          key={id}
+                          label={id}
+                          size="small"
+                          variant="outlined"
+                          sx={{ height: 20, fontSize: 11 }}
+                        />
                       ))}
                       {r.projectIds.length > 4 && (
                         <Typography variant="caption" color="text.secondary">
@@ -201,12 +213,14 @@ export function RegistryTab({ t, parts }: RegistryTabProps) {
                       )}
                       {r.projectIds.length === 0 && r.publications > 0 && (
                         <Typography variant="caption" color="text.secondary">
-                          {r.publications} publication{r.publications === 1 ? '' : 's'}
+                          {t.registry.publications(r.publications)}
                         </Typography>
                       )}
                     </Stack>
                   </TableCell>
-                  <TableCell sx={{ fontFamily: castorMonospace, fontSize: 11.5, color: 'text.secondary' }}>
+                  <TableCell
+                    sx={{ fontFamily: castorMonospace, fontSize: 11.5, color: 'text.secondary' }}
+                  >
                     {r.source}
                   </TableCell>
                 </TableRow>

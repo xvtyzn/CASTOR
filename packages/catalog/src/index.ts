@@ -10,13 +10,7 @@
  * promoters does not ship the CDS collection. JSON does not tree-shake, so this is the only
  * mechanism that actually keeps the payload down.
  */
-import type {
-  Backbone,
-  CassetteTemplate,
-  Part,
-  PartId,
-  PartRole,
-} from '@castor-bio/core'
+import type { Backbone, CassetteTemplate, Part, PartId, PartRole } from '@castor-bio/core'
 
 export interface CatalogBundle {
   parts: Part[]

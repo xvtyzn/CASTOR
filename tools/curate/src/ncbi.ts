@@ -63,7 +63,8 @@ export interface GenBankRecord {
  * and keeping this dependency-free means the tool cannot drift from the library it feeds.
  */
 export function parseGenBank(text: string): GenBankRecord {
-  const definition = /^DEFINITION\s+([\s\S]*?)\n(?=[A-Z])/m.exec(text)?.[1]?.replace(/\s+/g, ' ').trim() ?? ''
+  const definition =
+    /^DEFINITION\s+([\s\S]*?)\n(?=[A-Z])/m.exec(text)?.[1]?.replace(/\s+/g, ' ').trim() ?? ''
   const accession = /^ACCESSION\s+(\S+)/m.exec(text)?.[1] ?? ''
 
   const originIdx = text.indexOf('\nORIGIN')

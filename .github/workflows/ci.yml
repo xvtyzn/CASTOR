@@ -16,12 +16,20 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Format
+        run: pnpm format:check
+      - name: Lint
+        run: pnpm lint
       - name: Typecheck
         run: pnpm typecheck
       - name: Test
         run: pnpm test
-      - name: Build (runs publint + attw on @castor-bio/core)
+      - name: Benchmark smoke
+        run: pnpm bench
+      - name: Build (runs publint + attw on every public package)
         run: pnpm build
+      - name: Build playground
+        run: pnpm --filter playground build
       - name: Validate catalogue against JSON Schema
         run: pnpm --filter @castor-bio/catalog validate
       - name: Browser smoke test

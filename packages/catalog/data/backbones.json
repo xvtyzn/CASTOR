@@ -1,5 +1,5 @@
 {
-  "$schema": "../../schema/backbone.schema.json",
+  "$schema": "../schema/backbone.schema.json",
   "collection": "backbones",
   "backbones": [
     {
@@ -53,9 +53,7 @@
         }
       ],
       "providesItrs": false,
-      "compatibleTemplates": [
-        "template/coding.simple@1.0.0"
-      ],
+      "compatibleTemplates": ["template/coding.simple@1.0.0"],
       "selectionMarker": "AmpR",
       "origin": "pUC/ColE1",
       "description": "The complete pUC19 cloning vector, used here as the bacterial backbone outside the ITRs. Most AAV transfer plasmids are pUC-derived: high-copy pUC origin plus AmpR, with the ITR-to-ITR cassette cloned into the polylinker. AmpR is fine for research use but is a regulatory problem for GMP material, where KanR is preferred.",

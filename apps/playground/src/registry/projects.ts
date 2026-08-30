@@ -165,15 +165,7 @@ export const ARCHIVE: ArchivedConstruct[] = [
   {
     name: 'pAAV-gfaABC1D-GCaMP6f-WPRE-SV40pA',
     projectId: 'NEU-2024-11',
-    partIds: [
-      ITR5,
-      'promoter/gfaABC1D@1.0.0',
-      KOZAK,
-      'cds/GCaMP6f-lab@1.0.0',
-      WPRE,
-      SV40,
-      ITR3,
-    ],
+    partIds: [ITR5, 'promoter/gfaABC1D@1.0.0', KOZAK, 'cds/GCaMP6f-lab@1.0.0', WPRE, SV40, ITR3],
     note: 'Astrocyte-restricted calcium sensor.',
   },
   {

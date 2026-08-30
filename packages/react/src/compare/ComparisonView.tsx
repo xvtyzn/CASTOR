@@ -129,13 +129,18 @@ export function ComparisonView({
 
   const px = useMemo(
     () =>
-      project(layout, xScale, { width: plotWidth, plotLeft: LABEL_GUTTER }, {
-        geom,
-        rowHeight: layoutOptions.rowHeight,
-        minLabelWidthPx: options?.showLabels === false ? Number.POSITIVE_INFINITY : 34,
-        overscanPx: 240,
-        ...(highlightedUids ? { highlightedUids, dimUnhighlighted: true } : {}),
-      }),
+      project(
+        layout,
+        xScale,
+        { width: plotWidth, plotLeft: LABEL_GUTTER },
+        {
+          geom,
+          rowHeight: layoutOptions.rowHeight,
+          minLabelWidthPx: options?.showLabels === false ? Number.POSITIVE_INFINITY : 34,
+          overscanPx: 240,
+          ...(highlightedUids ? { highlightedUids, dimUnhighlighted: true } : {}),
+        },
+      ),
     [layout, xScale, plotWidth, geom, highlightedUids, options?.showLabels],
   )
 
@@ -187,11 +192,9 @@ export function ComparisonView({
     return [...byKey.values()]
   }, [layout.items, options?.colorMode, options?.hiddenGroups, model.groups])
 
-  if (model.rows.length === 0) {
+  if (model.rows.length < 2) {
     return (
-      <p className={['castor-hint', className].filter(Boolean).join(' ')}>
-        {t.compare.needTwo}
-      </p>
+      <p className={['castor-hint', className].filter(Boolean).join(' ')}>{t.compare.needTwo}</p>
     )
   }
 
@@ -312,7 +315,7 @@ export function ComparisonView({
           width={width}
           height={layout.height}
           role="img"
-          aria-label={`Linear comparison of ${layout.rows.length} designs`}
+          aria-label={t.shell.linearComparison(layout.rows.length)}
         >
           <rect width={width} height={layout.height} fill={theme.surface} />
 
@@ -331,95 +334,106 @@ export function ComparisonView({
           </defs>
 
           <g clipPath={`url(#${clipId})`}>
-          {/* ribbons first: they sit under the arrows */}
-          <g aria-hidden="true">
-            {px.ribbons.map((r) =>
-              r.d ? (
-                <path key={r.id} d={r.d} fill={r.fill} fillOpacity={r.opacity} stroke="none" />
-              ) : (
-                <polygon
-                  key={r.id}
-                  points={r.points}
-                  fill={r.fill}
-                  fillOpacity={r.opacity}
-                  stroke="none"
+            {/* ribbons first: they sit under the arrows */}
+            <g aria-hidden="true">
+              {px.ribbons.map((r) =>
+                r.d ? (
+                  <path key={r.id} d={r.d} fill={r.fill} fillOpacity={r.opacity} stroke="none" />
+                ) : (
+                  <polygon
+                    key={r.id}
+                    points={r.points}
+                    fill={r.fill}
+                    fillOpacity={r.opacity}
+                    stroke="none"
+                  />
+                ),
+              )}
+            </g>
+
+            {/* backbones */}
+            <g aria-hidden="true">
+              {px.backbones.map((b) => (
+                <line
+                  key={String(b.rowId)}
+                  x1={b.x0}
+                  x2={b.x1}
+                  y1={b.y}
+                  y2={b.y}
+                  stroke={theme.strokeStrong}
+                  strokeWidth={1}
                 />
-              ),
-            )}
-          </g>
+              ))}
+            </g>
 
-          {/* backbones */}
-          <g aria-hidden="true">
-            {px.backbones.map((b) => (
-              <line
-                key={String(b.rowId)}
-                x1={b.x0}
-                x2={b.x1}
-                y1={b.y}
-                y2={b.y}
-                stroke={theme.strokeStrong}
-                strokeWidth={1}
-              />
-            ))}
-          </g>
+            {/* arrows */}
+            <g>
+              {px.arrows.map((a) => (
+                <polygon
+                  key={a.uid}
+                  className="castor-compare__arrow"
+                  points={a.points}
+                  fill={a.fill}
+                  fillOpacity={a.opacity}
+                  stroke={a.stroke}
+                  strokeWidth={0.5}
+                  vectorEffect="non-scaling-stroke"
+                  role="button"
+                  tabIndex={0}
+                  aria-label={describe(layout.itemsByUid.get(a.uid))}
+                  onMouseEnter={() => setHoveredPartId(a.partId)}
+                  onMouseLeave={() => setHoveredPartId(null)}
+                  onFocus={() => setHoveredPartId(a.partId)}
+                  onBlur={() => setHoveredPartId(null)}
+                  onClick={() => {
+                    const next = selectedUid === a.uid ? null : a.uid
+                    setSelectedUid(next)
+                    onSelectItem?.(next)
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key !== 'Enter' && event.key !== ' ') return
+                    event.preventDefault()
+                    const next = selectedUid === a.uid ? null : a.uid
+                    setSelectedUid(next)
+                    onSelectItem?.(next)
+                  }}
+                >
+                  <title>{describe(layout.itemsByUid.get(a.uid))}</title>
+                </polygon>
+              ))}
+            </g>
 
-          {/* arrows */}
-          <g>
-            {px.arrows.map((a) => (
-              <polygon
-                key={a.uid}
-                className="castor-compare__arrow"
-                points={a.points}
-                fill={a.fill}
-                fillOpacity={a.opacity}
-                stroke={a.stroke}
-                strokeWidth={0.5}
-                vectorEffect="non-scaling-stroke"
-                onMouseEnter={() => setHoveredPartId(a.partId)}
-                onMouseLeave={() => setHoveredPartId(null)}
-                onClick={() => {
-                  const next = selectedUid === a.uid ? null : a.uid
-                  setSelectedUid(next)
-                  onSelectItem?.(next)
-                }}
-              >
-                <title>{describe(layout.itemsByUid.get(a.uid))}</title>
-              </polygon>
-            ))}
-          </g>
+            {/* part labels, culled by width in project() */}
+            <g aria-hidden="true">
+              {px.labels.map((l) => (
+                <text
+                  key={l.uid}
+                  className="castor-compare__item-label"
+                  x={l.x}
+                  y={l.y}
+                  textAnchor={l.anchor}
+                >
+                  {l.text}
+                </text>
+              ))}
+            </g>
 
-          {/* part labels, culled by width in project() */}
-          <g aria-hidden="true">
-            {px.labels.map((l) => (
-              <text
-                key={l.uid}
-                className="castor-compare__item-label"
-                x={l.x}
-                y={l.y}
-                textAnchor={l.anchor}
-              >
-                {l.text}
-              </text>
-            ))}
-          </g>
-
-          {/* the sequence itself, once each base has room to be read */}
-          <g aria-hidden="true">
-            {px.bases.map((b, i) => (
-              <text
-                key={`${String(b.rowId)}:${i}`}
-                className="castor-compare__base"
-                x={b.x}
-                y={b.y}
-                textAnchor="middle"
-                fontSize={b.fontSize}
-                fill={theme.textPrimary}
-              >
-                {b.base}
-              </text>
-            ))}
-          </g>
-
+            {/* the sequence itself, once each base has room to be read */}
+            <g aria-hidden="true">
+              {px.bases.map((b, i) => (
+                <text
+                  key={`${String(b.rowId)}:${i}`}
+                  className="castor-compare__base"
+                  x={b.x}
+                  y={b.y}
+                  textAnchor="middle"
+                  fontSize={b.fontSize}
+                  fill={theme.textPrimary}
+                >
+                  {b.base}
+                </text>
+              ))}
+            </g>
           </g>
 
           {/* row labels, in the gutter outside the plot */}
@@ -477,7 +491,9 @@ export function ComparisonView({
   )
 }
 
-function describe(item: { label: string; x0: number; x1: number; role: string } | undefined): string {
+function describe(
+  item: { label: string; x0: number; x1: number; role: string } | undefined,
+): string {
   if (!item) return ''
   return `${item.label} · ${Math.round(item.x1 - item.x0)} bp · ${item.role}`
 }
@@ -508,8 +524,7 @@ function AxisBp({
   const to = Math.min(domain[1], bpAt(width))
   const visible = Math.max(1, to - from)
   const raw = visible / 6
-  const step =
-    [1, 2, 5, 10, 25, 50, 100, 250, 500, 1000, 2000, 5000].find((s) => s >= raw) ?? 10000
+  const step = [1, 2, 5, 10, 25, 50, 100, 250, 500, 1000, 2000, 5000].find((s) => s >= raw) ?? 10000
   const ticks: number[] = []
   for (let v = Math.ceil(from / step) * step; v <= to; v += step) ticks.push(v)
 
@@ -521,12 +536,7 @@ function AxisBp({
         return (
           <g key={v}>
             <line x1={x} x2={x} y1={y - 4} y2={y} stroke={color} strokeWidth={0.75} />
-            <text
-              className="castor-compare__row-sub"
-              x={x + 3}
-              y={y - 1}
-              fill={color}
-            >
+            <text className="castor-compare__row-sub" x={x + 3} y={y - 1} fill={color}>
               {/* Below a kilobase per tick the reader is counting bases, so show bases. */}
               {v === 0 ? '0' : step < 1000 ? v.toLocaleString('en-US') : kb(v, 0)}
             </text>

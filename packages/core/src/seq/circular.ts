@@ -24,9 +24,13 @@ import {
   doesRangeSpanOrigin as tgDoesRangeSpanOrigin,
   normalizeRange as tgNormalizeRange,
 } from '@teselagen/range-utils'
-import { fromTeselagenRangeSplit, toTeselagenRange, type InclusiveRange, type Range } from './coords.js'
+import {
+  fromTeselagenRangeSplit,
+  toTeselagenRange,
+  type InclusiveRange,
+  type Range,
+} from './coords.js'
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 const getRangeLength_ = tgGetRangeLength as (range: InclusiveRange, rangeMax?: number) => number
 const getSequenceWithinRange_ = tgGetSequenceWithinRange as (
   range: InclusiveRange,
@@ -40,7 +44,6 @@ const normalizeRange_ = tgNormalizeRange as (
   range: InclusiveRange,
   sequenceLength: number,
 ) => InclusiveRange
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
 /**
  * Length of a range that may wrap the origin of a circular sequence.

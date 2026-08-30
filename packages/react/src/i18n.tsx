@@ -46,6 +46,21 @@ export interface CastorMessages {
     headroom: (bp: string) => string
     overLimit: (bp: string) => string
   }
+  shell: {
+    composition: string
+    findings: string
+    designs: string
+    map: string
+    compare: string
+    saved: (n: number) => string
+    errorsWarnings: (errors: number, warnings: number) => string
+    comparisonHint: string
+    singleStranded: string
+    selfComplementary: string
+    linearComparison: (n: number) => string
+    required: string
+    finding: (severity: string) => string
+  }
   slots: {
     addLabel: string
     addOne: (label: string) => string
@@ -77,6 +92,7 @@ export interface CastorMessages {
     onlyProjectWithCount: (project: string, constructs: number) => string
     sharedAcross: (projects: number, constructs: number) => string
     unnamedConstruct: string
+    inConstruct: (name: string) => string
   }
   findings: {
     none: string
@@ -163,6 +179,22 @@ export const en: CastorMessages = {
     headroom: (bp) => `${bp} bp headroom`,
     overLimit: (bp) => `${bp} bp over the limit`,
   },
+  shell: {
+    composition: 'Composition',
+    findings: 'Findings',
+    designs: 'Designs',
+    map: 'Map',
+    compare: 'Compare',
+    saved: (n) => `${n} saved`,
+    errorsWarnings: (errors, warnings) => `${errors} errors · ${warnings} warnings`,
+    comparisonHint:
+      'Ribbons join parts that are the same catalogue entry. The gaps are the differences.',
+    singleStranded: 'single-stranded',
+    selfComplementary: 'self-complementary',
+    linearComparison: (n) => `Linear comparison of ${n} designs`,
+    required: 'required',
+    finding: (severity) => `${severity} finding`,
+  },
   slots: {
     addLabel: 'Add',
     addOne: (label) => `Add ${label.toLowerCase()}`,
@@ -195,6 +227,7 @@ export const en: CastorMessages = {
     onlyProjectWithCount: (project, constructs) => `only ${project} · ${constructs} constructs`,
     sharedAcross: (projects, constructs) => `${projects} projects · ${constructs} constructs`,
     unnamedConstruct: 'unnamed construct',
+    inConstruct: (name) => `in ${name}`,
   },
   findings: {
     none: 'No findings. The cassette is well formed and within the packaging limit.',
@@ -294,6 +327,21 @@ export const ja: Partial<CastorMessages> = {
     headroom: (bp) => `残り ${bp} bp`,
     overLimit: (bp) => `上限を ${bp} bp 超過`,
   },
+  shell: {
+    composition: '構成',
+    findings: '指摘',
+    designs: 'デザイン',
+    map: 'マップ',
+    compare: '比較',
+    saved: (n) => `${n} 件保存済み`,
+    errorsWarnings: (errors, warnings) => `エラー ${errors} · 警告 ${warnings}`,
+    comparisonHint: '同じカタログ項目をリボンで結びます。途切れている箇所が相違点です。',
+    singleStranded: '一本鎖',
+    selfComplementary: '自己相補型',
+    linearComparison: (n) => `${n} 件のデザインの線形比較`,
+    required: '必須',
+    finding: (severity) => `${severity}の指摘`,
+  },
   slots: {
     addLabel: '追加',
     addOne: (label) => `${label} を追加`,
@@ -326,6 +374,7 @@ export const ja: Partial<CastorMessages> = {
     onlyProjectWithCount: (project, constructs) => `${project} のみ · ${constructs} 構築`,
     sharedAcross: (projects, constructs) => `${projects} プロジェクト · ${constructs} 構築`,
     unnamedConstruct: '名称未設定の構築',
+    inConstruct: (name) => `${name} 内`,
   },
   findings: {
     none: '指摘はありません。カセットは整合しており、パッケージング上限の内側です。',
@@ -386,9 +435,7 @@ export const locales = { en, ja } as const
 export type LocaleCode = keyof typeof locales
 
 /** Deep-merges a partial locale over English, one level of nesting. */
-export function resolveMessages(
-  overrides?: Partial<CastorMessages> | LocaleCode,
-): CastorMessages {
+export function resolveMessages(overrides?: Partial<CastorMessages> | LocaleCode): CastorMessages {
   const partial = typeof overrides === 'string' ? locales[overrides] : overrides
   if (!partial) return en
   const out = { ...en } as CastorMessages

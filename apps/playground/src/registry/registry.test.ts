@@ -8,7 +8,15 @@
 import { describe, expect, it } from 'vitest'
 import { loadCatalog } from '@castor-bio/catalog'
 import { indexBy, partId, type Part } from '@castor-bio/core'
-import { ARCHIVE, EXAMPLE_PARTS, PROJECTS, buildUsageIndex, labRegistryProvider, summarise, withProjectHistory } from './index.js'
+import {
+  ARCHIVE,
+  EXAMPLE_PARTS,
+  PROJECTS,
+  buildUsageIndex,
+  labRegistryProvider,
+  summarise,
+  withProjectHistory,
+} from './index.js'
 
 const catalog = await loadCatalog()
 const known = new Set<string>([
@@ -50,7 +58,9 @@ describe('usage derivation', () => {
 
   it('counts a part once per construct, however often it appears in it', () => {
     // The DIO cassettes carry loxP four times each; that is one usage per construct.
-    const dioConstructs = ARCHIVE.filter((c) => c.partIds.filter((p) => p === 'switch/loxP@1.0.0').length > 1)
+    const dioConstructs = ARCHIVE.filter(
+      (c) => c.partIds.filter((p) => p === 'switch/loxP@1.0.0').length > 1,
+    )
     expect(dioConstructs.length).toBeGreaterThan(0)
     const loxP = index.get('switch/loxP@1.0.0') ?? []
     expect(loxP).toHaveLength(dioConstructs.length)

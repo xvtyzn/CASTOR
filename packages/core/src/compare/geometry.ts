@@ -178,7 +178,10 @@ export function linkRibbonPath(
   const up = edge(aX1, b1).reverse()
   const d =
     `M${fmt(down[0]!)}` +
-    down.slice(1).map((p) => `L${fmt(p)}`).join('') +
+    down
+      .slice(1)
+      .map((p) => `L${fmt(p)}`)
+      .join('') +
     up.map((p) => `L${fmt(p)}`).join('') +
     'Z'
   return d

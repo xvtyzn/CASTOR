@@ -28,10 +28,7 @@ export function App() {
     () => (catalog ? [labRegistryProvider(catalog.parts)] : []),
     [catalog],
   )
-  const parts = useMemo(
-    () => (catalog ? withProjectHistory(catalog.parts) : []),
-    [catalog],
-  )
+  const parts = useMemo(() => (catalog ? withProjectHistory(catalog.parts) : []), [catalog])
 
   if (!catalog) {
     return <div className="pg-loading">Loading catalogue…</div>

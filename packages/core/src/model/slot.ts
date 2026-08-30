@@ -31,9 +31,30 @@ export type PartRole =
   | 'custom'
 
 export const PART_ROLES: readonly PartRole[] = [
-  'backbone', 'itr', 'spacer', 'enhancer', 'promoter', 'switch', 'intron', 'utr5', 'kozak',
-  'signal_peptide', 'tag', 'linker', 'cds', 'joiner', 'stop', 'utr3', 'wpre', 'polya',
-  'stuffer', 'shrna', 'amirna_scaffold', 'grna_scaffold', 'terminator', 'custom',
+  'backbone',
+  'itr',
+  'spacer',
+  'enhancer',
+  'promoter',
+  'switch',
+  'intron',
+  'utr5',
+  'kozak',
+  'signal_peptide',
+  'tag',
+  'linker',
+  'cds',
+  'joiner',
+  'stop',
+  'utr3',
+  'wpre',
+  'polya',
+  'stuffer',
+  'shrna',
+  'amirna_scaffold',
+  'grna_scaffold',
+  'terminator',
+  'custom',
 ]
 
 /**
@@ -44,7 +65,7 @@ export const PART_ROLES: readonly PartRole[] = [
  * finding when they disagree. That separation is what lets a user drag a tag past the CDS
  * and get a warning rather than a blocked interaction.
  */
-export const CANONICAL_ORDER: readonly SlotKey[] = ([
+export const CANONICAL_ORDER: readonly SlotKey[] = [
   'backbone5',
   'itr_5',
   'spacer',
@@ -69,7 +90,7 @@ export const CANONICAL_ORDER: readonly SlotKey[] = ([
   'stuffer',
   'itr_3',
   'backbone3',
-] as string[]) as SlotKey[]
+] as string[] as SlotKey[]
 
 /** Rank of a slot in the canonical order; `Infinity` for keys we do not know about. */
 export function canonicalRank(key: SlotKey): number {

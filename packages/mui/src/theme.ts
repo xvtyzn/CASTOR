@@ -48,7 +48,10 @@ export function createCastorMuiTheme(
         button: { textTransform: 'none', fontWeight: 500 },
       },
       components: {
-        MuiPaper: { defaultProps: { elevation: 0 }, styleOverrides: { root: { backgroundImage: 'none' } } },
+        MuiPaper: {
+          defaultProps: { elevation: 0 },
+          styleOverrides: { root: { backgroundImage: 'none' } },
+        },
         MuiTab: {
           styleOverrides: {
             root: { minHeight: 38, padding: '8px 14px', textTransform: 'none', fontWeight: 500 },

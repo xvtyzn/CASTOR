@@ -84,7 +84,7 @@ export const RECIPES: Recipe[] = [
     end: 145,
     expectLength: 145,
     description:
-      "Wild-type AAV2 inverted terminal repeat, flip orientation. Annotated in the AAV2 " +
+      'Wild-type AAV2 inverted terminal repeat, flip orientation. Annotated in the AAV2 ' +
       'reference genome as repeat_region 1..145, "inverted terminal repeat".',
     attributes: {
       role: 'itr',
@@ -222,8 +222,7 @@ export const RECIPES: Recipe[] = [
     id: 'tag/3xFLAG@1.0.0',
     name: '3xFLAG',
     role: 'tag',
-    sequence:
-      'GACTACAAAGACCATGACGGTGATTATAAAGATCATGACATCGATTACAAGGATGACGATGACAAG',
+    sequence: 'GACTACAAAGACCATGACGGTGATTATAAAGATCATGACATCGATTACAAGGATGACGATGACAAG',
     rationale: `Peptide DYKDHDGDYKDHDIDYKDDDDK. ${BACKTRANSLATION_NOTE}`,
     attributes: { role: 'tag', terminus: 'either', copies: 3 },
     license: CC0,
@@ -444,4 +443,3 @@ export const RECIPES: Recipe[] = [
     license: CC0,
   },
 ]
-

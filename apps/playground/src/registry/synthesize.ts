@@ -57,7 +57,7 @@ export function syntheticCds(name: string, length: number): string {
   const next = rng(seedFrom(name))
   let out = 'ATG'
   while (out.length < length - 3) {
-    let codon = ''
+    let codon: string
     do {
       codon = ''
       for (let i = 0; i < 3; i++) codon += BASES[Math.floor(next() * 4)]

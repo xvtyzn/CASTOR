@@ -29,7 +29,9 @@ export function ValidationPanel({
 }: ValidationPanelProps) {
   const theme = useCastorTheme()
   const t = useMessages()
-  const findings = filter ? report.findings.filter((f) => filter.includes(f.severity)) : report.findings
+  const findings = filter
+    ? report.findings.filter((f) => filter.includes(f.severity))
+    : report.findings
 
   const color = (s: Severity) =>
     s === 'error'
@@ -39,7 +41,11 @@ export function ValidationPanel({
         : theme.strokeMuted
 
   if (findings.length === 0) {
-    return <p className={['castor-hint', className].filter(Boolean).join(' ')}>{emptyMessage ?? t.findings.none}</p>
+    return (
+      <p className={['castor-hint', className].filter(Boolean).join(' ')}>
+        {emptyMessage ?? t.findings.none}
+      </p>
+    )
   }
 
   return (

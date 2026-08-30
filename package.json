@@ -14,19 +14,25 @@
     "bench": "vitest bench --run",
     "lint": "eslint .",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm bench && pnpm build && pnpm --filter @castor-bio/catalog validate && pnpm --filter playground build",
     "dev": "pnpm --filter playground dev"
   },
   "devDependencies": {
     "@arethetypeswrong/core": "^0.18.5",
+    "@eslint/js": "^10.0.1",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.3",
     "@types/node": "^22.10.2",
+    "eslint": "^10.9.1",
+    "globals": "^16.5.0",
     "jsdom": "^30.0.1",
     "playwright": "^1.62.1",
     "prettier": "^3.4.2",
     "publint": "^0.3.24",
     "tsdown": "^0.22.14",
     "typescript": "~5.9.0",
-    "vitest": "^4.1.11"
+    "typescript-eslint": "^8.68.0",
+    "vitest": "4.1.11"
   }
 }

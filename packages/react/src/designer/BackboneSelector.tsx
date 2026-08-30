@@ -19,9 +19,7 @@ export function BackboneSelector({
 }: BackboneSelectorProps) {
   const t = useMessages()
   const options = templateId
-    ? backbones.filter(
-        (b) => !b.compatibleTemplates || b.compatibleTemplates.includes(templateId),
-      )
+    ? backbones.filter((b) => !b.compatibleTemplates || b.compatibleTemplates.includes(templateId))
     : backbones
   const selected = options.find((b) => b.id === value)
 

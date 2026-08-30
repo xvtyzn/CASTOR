@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
-  type CastorTheme,
   type AssemblyResult,
   type CapacityBand,
   type InstanceId,
@@ -105,10 +104,7 @@ export function CassetteRuler({
       // ~5.2 px per glyph of the monospace label at fontSize 9.
       const halfText = (text.length * 5.2) / 2
       // Clamp into the viewBox so the first and last labels are not half-cut by its edges.
-      const centre = Math.min(
-        Math.max(x(f.start) + w / 2, halfText),
-        viewWidth - halfText,
-      )
+      const centre = Math.min(Math.max(x(f.start) + w / 2, halfText), viewWidth - halfText)
       if (w < 18 || centre - halfText < lastRight + 3) {
         plan.push(null)
         continue
@@ -129,128 +125,125 @@ export function CassetteRuler({
         role="img"
         aria-label={`Cassette, ${cassette.length} base pairs of a ${capacity.limit} base pair packaging limit`}
       >
-      {/* packaging bands, behind everything */}
-      {bands.map((band, i) => {
-        const from = i === 0 ? 0 : bands[i - 1]!.max
-        const to = Math.min(band.max, domainMax)
-        if (to <= from) return null
-        return (
-          <rect
-            key={band.band}
-            x={x(from)}
-            y={trackY}
-            width={x(to) - x(from)}
-            height={TRACK_HEIGHT}
-            fill={theme.capacityBands[band.band as CapacityBand]}
-            fillOpacity={0.1}
-          />
-        )
-      })}
-
-      {/* the limit itself, drawn as a hard edge rather than a colour change */}
-      <line
-        x1={x(capacity.limit)}
-        x2={x(capacity.limit)}
-        y1={trackY - 4}
-        y2={trackY + TRACK_HEIGHT + 4}
-        stroke={theme.capacityBands.error}
-        strokeWidth={1.5}
-        strokeDasharray="3 2"
-      />
-      <text
-        className="castor-ruler__tick-label"
-        x={x(capacity.limit) - 4}
-        y={trackY + TRACK_HEIGHT + 11}
-        textAnchor="end"
-        fontSize={9}
-        fill={theme.capacityBands.error}
-      >
-        {t.cassette.limit(kb(capacity.limit, 1))}
-      </text>
-
-      {/* bp axis */}
-      {ticks.map((v) => (
-        <g key={v}>
-          <line
-            x1={x(v)}
-            x2={x(v)}
-            y1={AXIS_HEIGHT - 5}
-            y2={AXIS_HEIGHT}
-            stroke={theme.strokeMuted}
-          />
-          <text
-            className="castor-ruler__tick-label"
-            x={x(v) + 2}
-            y={AXIS_HEIGHT - 7}
-            fontSize={9}
-            fill={theme.textMuted}
-          >
-            {v === 0 ? '0' : kb(v, 0)}
-          </text>
-        </g>
-      ))}
-
-      {/* the parts, to scale */}
-      {cassette.features.map((f, i) => {
-        const w = Math.max(x(f.end) - x(f.start), 0.6)
-        const selected = selectedInstanceId && f.instanceId === selectedInstanceId
-        const fill = f.color ?? theme.partColors[f.role] ?? theme.partColors.custom
-        const label = labelPlan[i]
-        return (
-          <g key={f.id}>
+        {/* packaging bands, behind everything */}
+        {bands.map((band, i) => {
+          const from = i === 0 ? 0 : bands[i - 1]!.max
+          const to = Math.min(band.max, domainMax)
+          if (to <= from) return null
+          return (
             <rect
-              className={[
-                'castor-ruler__seg',
-                selected ? 'castor-ruler__seg--selected' : '',
-              ]
-                .filter(Boolean)
-                .join(' ')}
-              x={x(f.start)}
+              key={band.band}
+              x={x(from)}
               y={trackY}
-              width={w}
+              width={x(to) - x(from)}
               height={TRACK_HEIGHT}
-              fill={fill}
-              stroke={selected ? theme.textPrimary : theme.surface}
-              strokeWidth={selected ? 2 : 0.5}
-              onClick={() => onSelect?.(f.instanceId ?? null)}
-            >
-              <title>{`${f.name} · ${f.end - f.start} bp · ${f.role}`}</title>
-            </rect>
-            {label && (
-              <text
-                className="castor-ruler__seg-label"
-                x={label.centre}
-                y={labelY}
-                textAnchor="middle"
-                fontSize={9}
-                fill={theme.textMuted}
-              >
-                {label.text}
-              </text>
-            )}
-          </g>
-        )
-      })}
+              fill={theme.capacityBands[band.band as CapacityBand]}
+              fillOpacity={0.1}
+            />
+          )
+        })}
 
-      {/* the empty remainder is the headroom; leaving it blank is the whole idea */}
-      <rect
-        x={x(cassette.length)}
-        y={trackY}
-        width={Math.max(0, x(domainMax) - x(cassette.length))}
-        height={TRACK_HEIGHT}
-        fill="none"
-        stroke={theme.strokeMuted}
-        strokeDasharray="2 3"
-        strokeWidth={0.75}
-      />
-      <line
-        x1={x(cassette.length)}
-        x2={x(cassette.length)}
-        y1={trackY}
-        y2={trackY + TRACK_HEIGHT}
-        stroke={theme.textPrimary}
-        strokeWidth={1}
-      />
+        {/* the limit itself, drawn as a hard edge rather than a colour change */}
+        <line
+          x1={x(capacity.limit)}
+          x2={x(capacity.limit)}
+          y1={trackY - 4}
+          y2={trackY + TRACK_HEIGHT + 4}
+          stroke={theme.capacityBands.error}
+          strokeWidth={1.5}
+          strokeDasharray="3 2"
+        />
+        <text
+          className="castor-ruler__tick-label"
+          x={x(capacity.limit) - 4}
+          y={trackY + TRACK_HEIGHT + 11}
+          textAnchor="end"
+          fontSize={9}
+          fill={theme.capacityBands.error}
+        >
+          {t.cassette.limit(kb(capacity.limit, 1))}
+        </text>
+
+        {/* bp axis */}
+        {ticks.map((v) => (
+          <g key={v}>
+            <line
+              x1={x(v)}
+              x2={x(v)}
+              y1={AXIS_HEIGHT - 5}
+              y2={AXIS_HEIGHT}
+              stroke={theme.strokeMuted}
+            />
+            <text
+              className="castor-ruler__tick-label"
+              x={x(v) + 2}
+              y={AXIS_HEIGHT - 7}
+              fontSize={9}
+              fill={theme.textMuted}
+            >
+              {v === 0 ? '0' : kb(v, 0)}
+            </text>
+          </g>
+        ))}
+
+        {/* the parts, to scale */}
+        {cassette.features.map((f, i) => {
+          const w = Math.max(x(f.end) - x(f.start), 0.6)
+          const selected = selectedInstanceId && f.instanceId === selectedInstanceId
+          const fill = f.color ?? theme.partColors[f.role] ?? theme.partColors.custom
+          const label = labelPlan[i]
+          return (
+            <g key={f.id}>
+              <rect
+                className={['castor-ruler__seg', selected ? 'castor-ruler__seg--selected' : '']
+                  .filter(Boolean)
+                  .join(' ')}
+                x={x(f.start)}
+                y={trackY}
+                width={w}
+                height={TRACK_HEIGHT}
+                fill={fill}
+                stroke={selected ? theme.textPrimary : theme.surface}
+                strokeWidth={selected ? 2 : 0.5}
+                onClick={() => onSelect?.(f.instanceId ?? null)}
+              >
+                <title>{`${f.name} · ${f.end - f.start} bp · ${f.role}`}</title>
+              </rect>
+              {label && (
+                <text
+                  className="castor-ruler__seg-label"
+                  x={label.centre}
+                  y={labelY}
+                  textAnchor="middle"
+                  fontSize={9}
+                  fill={theme.textMuted}
+                >
+                  {label.text}
+                </text>
+              )}
+            </g>
+          )
+        })}
+
+        {/* the empty remainder is the headroom; leaving it blank is the whole idea */}
+        <rect
+          x={x(cassette.length)}
+          y={trackY}
+          width={Math.max(0, x(domainMax) - x(cassette.length))}
+          height={TRACK_HEIGHT}
+          fill="none"
+          stroke={theme.strokeMuted}
+          strokeDasharray="2 3"
+          strokeWidth={0.75}
+        />
+        <line
+          x1={x(cassette.length)}
+          x2={x(cassette.length)}
+          y1={trackY}
+          y2={trackY + TRACK_HEIGHT}
+          stroke={theme.textPrimary}
+          strokeWidth={1}
+        />
       </svg>
     </div>
   )

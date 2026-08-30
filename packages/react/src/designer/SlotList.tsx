@@ -92,14 +92,8 @@ export function SlotList({
   className,
 }: SlotListProps) {
   const t = useMessages()
-  const slots = useMemo(
-    () => flattenSlots(template.nodes.filter(isSlotSpec)),
-    [template],
-  )
-  const slotByKey = useMemo(
-    () => new Map(slots.map((s) => [String(s.key), s])),
-    [slots],
-  )
+  const slots = useMemo(() => flattenSlots(template.nodes.filter(isSlotSpec)), [template])
+  const slotByKey = useMemo(() => new Map(slots.map((s) => [String(s.key), s])), [slots])
 
   /**
    * Part rows in true array order, plus ONE trailing row of chips for the slots that can still
@@ -139,10 +133,7 @@ export function SlotList({
   }, [construct.cassette.parts, slots])
 
   const sortableIds = useMemo(
-    () =>
-      construct.cassette.parts
-        .filter((p) => !p.locked)
-        .map((p) => String(p.instanceId)),
+    () => construct.cassette.parts.filter((p) => !p.locked).map((p) => String(p.instanceId)),
     [construct.cassette.parts],
   )
 
@@ -208,10 +199,7 @@ export function SlotList({
               <button
                 key={String(slot.key)}
                 type="button"
-                className={[
-                  'castor-chip',
-                  required ? 'castor-chip--required' : '',
-                ]
+                className={['castor-chip', required ? 'castor-chip--required' : '']
                   .filter(Boolean)
                   .join(' ')}
                 title={slot.hint}
@@ -226,7 +214,7 @@ export function SlotList({
                 }
               >
                 {slot.label}
-                {required && <span aria-label="required"> *</span>}
+                {required && <span aria-label={t.shell.required}> *</span>}
               </button>
             ))}
           </span>
@@ -268,14 +256,10 @@ function PartRow({
   const t = useMessages()
   const locked = Boolean(instance.locked || slot?.locked)
 
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: String(instance.instanceId), disabled: locked })
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: String(instance.instanceId),
+    disabled: locked,
+  })
 
   const range = assembly.index.get(instance.instanceId)
   const length = range ? range.cassette.end - range.cassette.start : (part?.length ?? 0)
@@ -310,9 +294,7 @@ function PartRow({
     >
       <span className="castor-slot__label">
         {locked ? (
-          <span title={t.slots.lockedHint}>
-            {slot?.label}
-          </span>
+          <span title={t.slots.lockedHint}>{slot?.label}</span>
         ) : (
           <button
             type="button"
@@ -323,7 +305,9 @@ function PartRow({
             onClick={(e) => e.stopPropagation()}
           >
             <GripIcon />
-            <span className="castor-slot__grip-text">{slot?.label ?? String(instance.slotKey)}</span>
+            <span className="castor-slot__grip-text">
+              {slot?.label ?? String(instance.slotKey)}
+            </span>
           </button>
         )}
       </span>
@@ -341,7 +325,7 @@ function PartRow({
         </span>
         {severity && (
           <span
-            aria-label={`${severity} finding`}
+            aria-label={t.shell.finding(severity)}
             title={list?.[0]?.title}
             style={{ color: severityColor[severity], fontSize: 11 }}
           >

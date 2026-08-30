@@ -53,9 +53,7 @@ for (const id of ids) {
     console.error(`  ${id}: ${(err as Error).message}`)
     continue
   }
-  const labels = rec.features.map((f) =>
-    [f.type, ...Object.values(f.qualifiers)].join(' '),
-  )
+  const labels = rec.features.map((f) => [f.type, ...Object.values(f.qualifiers)].join(' '))
   const found = Object.entries(WANTED)
     .filter(([, re]) => labels.some((l) => re.test(l)))
     .map(([name]) => name)

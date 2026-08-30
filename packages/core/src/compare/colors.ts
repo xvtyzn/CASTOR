@@ -33,7 +33,10 @@ function hexToRgb(hex: string): [number, number, number] {
 }
 
 function rgbToHex(r: number, g: number, b: number): string {
-  const f = (n: number) => Math.max(0, Math.min(255, Math.round(n))).toString(16).padStart(2, '0')
+  const f = (n: number) =>
+    Math.max(0, Math.min(255, Math.round(n)))
+      .toString(16)
+      .padStart(2, '0')
   return `#${f(r)}${f(g)}${f(b)}`
 }
 
@@ -48,10 +51,6 @@ export function identityRamp(theme: CastorTheme): (identity: number) => string {
   const b = hexToRgb(hi)
   return (identity) => {
     const t = Math.max(0, Math.min(1, identity))
-    return rgbToHex(
-      a[0] + (b[0] - a[0]) * t,
-      a[1] + (b[1] - a[1]) * t,
-      a[2] + (b[2] - a[2]) * t,
-    )
+    return rgbToHex(a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t)
   }
 }

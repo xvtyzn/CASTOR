@@ -56,9 +56,7 @@ describe('our convention: 0-based, half-open [start, end)', () => {
   it('adjacent ranges abut without overlap or gap — the property that makes concatenation additive', () => {
     // blockA ends exactly where blockC begins.
     expect(FIXTURE[0]!.range.end).toBe(FIXTURE[1]!.range.start)
-    expect(sliceRange(SEQ, FIXTURE[0]!.range) + sliceRange(SEQ, FIXTURE[1]!.range)).toBe(
-      'AAAACCCC',
-    )
+    expect(sliceRange(SEQ, FIXTURE[0]!.range) + sliceRange(SEQ, FIXTURE[1]!.range)).toBe('AAAACCCC')
   })
 
   it('containment excludes the end position', () => {
@@ -85,7 +83,7 @@ describe('MEASURED: @teselagen/range-utils uses 0-based INCLUSIVE [start, end]',
     expect(getRangeLength({ start: 4, end: 7 }, SEQ.length)).toBe(4)
   })
 
-  it('our own containment helper is used instead of the library\'s, which has a surprising default', () => {
+  it("our own containment helper is used instead of the library's, which has a surprising default", () => {
     // @teselagen/range-utils exposes isPositionWithinRange(pos, range, seqLength,
     // includeStartEdge, includeEndEdge). With the edge flags omitted it EXCLUDES the start
     // position -- the opposite of what the name implies. circular.ts deliberately does not
@@ -211,18 +209,21 @@ describe('properties', () => {
 
   it('concatenating abutting ranges reconstructs the sequence — the invariant assemble() relies on', () => {
     fc.assert(
-      fc.property(fc.array(fc.integer({ min: 1, max: 6 }), { minLength: 1, maxLength: 6 }), (lens) => {
-        const total = lens.reduce((a, b) => a + b, 0)
-        const seq = 'ACGT'.repeat(Math.ceil(total / 4)).slice(0, total)
-        let cursor = 0
-        const ranges = lens.map((len) => {
-          const r = rangeOfLength(cursor, len)
-          cursor += len
-          return r
-        })
-        expect(cursor).toBe(total)
-        expect(ranges.map((r) => sliceRange(seq, r)).join('')).toBe(seq)
-      }),
+      fc.property(
+        fc.array(fc.integer({ min: 1, max: 6 }), { minLength: 1, maxLength: 6 }),
+        (lens) => {
+          const total = lens.reduce((a, b) => a + b, 0)
+          const seq = 'ACGT'.repeat(Math.ceil(total / 4)).slice(0, total)
+          let cursor = 0
+          const ranges = lens.map((len) => {
+            const r = rangeOfLength(cursor, len)
+            cursor += len
+            return r
+          })
+          expect(cursor).toBe(total)
+          expect(ranges.map((r) => sliceRange(seq, r)).join('')).toBe(seq)
+        },
+      ),
     )
   })
 })

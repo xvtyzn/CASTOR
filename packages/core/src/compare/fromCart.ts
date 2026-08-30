@@ -36,10 +36,7 @@ function sublabelFor(item: CartItem, assembly: AssemblyResult): string {
   } · ${formatKb(assembly.cassette.length)}`
 }
 
-export function buildComparisonModel(
-  cart: Cart,
-  options: BuildComparisonOptions,
-): ComparisonModel {
+export function buildComparisonModel(cart: Cart, options: BuildComparisonOptions): ComparisonModel {
   const theme = options.theme ?? defaultTheme
   const rows: ComparisonRow[] = []
 

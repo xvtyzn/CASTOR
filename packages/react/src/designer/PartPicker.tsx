@@ -1,13 +1,8 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
-import {
-  parsePastedSequence,
-  type Part,
-  type PartProvider,
-  type Usage,
-} from '@castor-bio/core'
-import { useCastorTheme } from '../theme/useTheme.js'
+import { parsePastedSequence, type Part, type PartProvider, type Usage } from '@castor-bio/core'
+import { themeToCssVars, useCastorTheme } from '../theme/useTheme.js'
 import { bp, formatSequenceBlock } from '../format.js'
-import { useMessages, type CastorMessages } from '../i18n.js'
+import { useMessages } from '../i18n.js'
 import type { PartRequest } from './SlotList.js'
 
 export interface PartPickerProps {
@@ -68,7 +63,9 @@ export function PartPicker({
       .then((page) => {
         if (cancelled) return
         setResults(page.parts)
-        setSelected((cur) => cur ?? page.parts[0] ?? null)
+        setSelected(
+          (cur) => page.parts.find((part) => part.id === cur?.id) ?? page.parts[0] ?? null,
+        )
       })
       .catch(() => {
         if (!cancelled) setResults([])
@@ -81,30 +78,63 @@ export function PartPicker({
 
   useEffect(() => {
     if (!open) return
+    const previousFocus = document.activeElement as HTMLElement | null
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
+      if (e.key === 'Escape') {
+        onClose()
+        return
+      }
+      if (e.key !== 'Tab' || !dialogRef.current) return
+      const focusable = [
+        ...dialogRef.current.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), a[href], input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      ]
+      if (focusable.length === 0) {
+        e.preventDefault()
+        dialogRef.current.focus()
+        return
+      }
+      const first = focusable[0]!
+      const last = focusable[focusable.length - 1]!
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
     }
     document.addEventListener('keydown', onKey)
     dialogRef.current?.focus()
-    return () => document.removeEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      if (previousFocus?.isConnected) previousFocus.focus()
+    }
   }, [open, onClose])
 
   const parsedPaste = useMemo(() => {
     if (!pasted.trim() || !request) return null
-    return parsePastedSequence(pasted, request.roles[0] ?? 'custom', { name: pasteName })
-  }, [pasted, pasteName, request])
+    return parsePastedSequence(pasted, request.roles[0] ?? provider?.defaultPasteRole ?? 'custom', {
+      name: pasteName,
+    })
+  }, [pasted, pasteName, request, provider])
 
   if (!open || !request) return null
 
   const isPaste = provider?.capabilities.paste ?? false
 
   return (
-    <div className="castor-dialog-backdrop" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
+    <div
+      className="castor-dialog-backdrop castor-scope"
+      style={themeToCssVars(theme)}
+      onMouseDown={(e) => e.target === e.currentTarget && onClose()}
+    >
       <div
         className="castor-dialog"
         role="dialog"
         aria-modal="true"
-        aria-label={`Choose a part for ${request.label}`}
+        aria-label={t.picker.title(request.label)}
         ref={dialogRef}
         tabIndex={-1}
       >
@@ -128,6 +158,7 @@ export function PartPicker({
               aria-selected={p.id === providerId}
               onClick={() => {
                 setProviderId(p.id)
+                setResults([])
                 setSelected(null)
               }}
             >
@@ -174,7 +205,11 @@ export function PartPicker({
                   className="castor-input"
                   style={{ width: '100%', marginBottom: 8 }}
                   value={text}
-                  onChange={(e) => setText(e.target.value)}
+                  onChange={(e) => {
+                    setText(e.target.value)
+                    setResults([])
+                    setSelected(null)
+                  }}
                   placeholder={t.picker.searchPlaceholder(request.roles.join(', '))}
                   aria-label={t.common.search}
                 />
@@ -291,13 +326,9 @@ function UsageBadge({ part }: { part: Part }) {
 
   if (projects.length === 0) {
     return other.length > 0 ? (
-      <span className="castor-candidate__meta">
-        {t.picker.publications(other.length)}
-      </span>
+      <span className="castor-candidate__meta">{t.picker.publications(other.length)}</span>
     ) : (
-      <span className="castor-candidate__meta castor-usage-badge--none">
-        {t.picker.notUsedYet}
-      </span>
+      <span className="castor-candidate__meta castor-usage-badge--none">{t.picker.notUsedYet}</span>
     )
   }
 
@@ -358,10 +389,17 @@ function UsageList({ usages }: { usages: readonly Usage[] }) {
                 )}
               </div>
               {u.constructName && (
-                <div className="castor-usage__construct">in {u.constructName}</div>
+                <div className="castor-usage__construct">
+                  {t.picker.inConstruct(u.constructName)}
+                </div>
               )}
               <div className="castor-usage__meta">
-                {[u.journal, u.year, u.pmid ? `PMID ${u.pmid}` : null, u.doi ? `doi:${u.doi}` : null]
+                {[
+                  u.journal,
+                  u.year,
+                  u.pmid ? `PMID ${u.pmid}` : null,
+                  u.doi ? `doi:${u.doi}` : null,
+                ]
                   .filter(Boolean)
                   .join(' · ')}
               </div>
@@ -377,12 +415,7 @@ function summarise(part: Part): string {
   const a = part.attributes
   switch (a.role) {
     case 'promoter':
-      return [
-        `Pol ${a.polymerase}`,
-        a.strength,
-        a.tissue?.join(', '),
-        a.minimal ? 'minimal' : null,
-      ]
+      return [`Pol ${a.polymerase}`, a.strength, a.tissue?.join(', '), a.minimal ? 'minimal' : null]
         .filter(Boolean)
         .join(' · ')
     case 'itr':
@@ -459,7 +492,10 @@ function PartDetail({
             <dt>Addgene</dt>
             <dd>
               <a
-                href={part.provenance.addgene.url ?? `https://www.addgene.org/${part.provenance.addgene.plasmidId}/`}
+                href={
+                  part.provenance.addgene.url ??
+                  `https://www.addgene.org/${part.provenance.addgene.plasmidId}/`
+                }
                 target="_blank"
                 rel="noreferrer noopener"
               >
@@ -485,9 +521,7 @@ function PartDetail({
       {renderProvenance ? (
         renderProvenance(usages, part)
       ) : usages.length === 0 ? (
-        <p className="castor-hint">
-          {part.provenance.note ?? t.picker.noUsage}
-        </p>
+        <p className="castor-hint">{part.provenance.note ?? t.picker.noUsage}</p>
       ) : (
         <UsageList usages={usages} />
       )}

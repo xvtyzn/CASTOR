@@ -31,14 +31,23 @@
         "default": "./dist/compare/index.cjs"
       }
     },
-    "./styles.css": "./dist/styles.css",
+    "./styles.css": {
+      "import": {
+        "types": "./dist/styles.css.d.mts",
+        "default": "./dist/styles.css"
+      },
+      "require": {
+        "types": "./dist/styles.css.d.cts",
+        "default": "./dist/styles.css"
+      }
+    },
     "./package.json": "./package.json"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "scripts": {
-    "build": "tsdown && cp src/styles/castor.css dist/styles.css"
+    "build": "tsdown"
   },
   "peerDependencies": {
     "react": "^18.2.0 || ^19.0.0",
@@ -74,6 +83,9 @@
     "*": {
       "compare": [
         "./dist/compare/index.d.cts"
+      ],
+      "styles.css": [
+        "./dist/styles.css.d.cts"
       ]
     }
   }

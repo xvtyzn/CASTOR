@@ -57,7 +57,7 @@ export function DesignTab({ t, designer, onRequestPart }: DesignTabProps) {
               variant="outlined"
               value={state.construct.name}
               onChange={(e) => dispatch({ type: 'rename', name: e.target.value })}
-              slotProps={{ htmlInput: { 'aria-label': 'Design name' } }}
+              slotProps={{ htmlInput: { 'aria-label': m.cassette.designName } }}
               sx={{ width: 240, '& .MuiInputBase-input': { py: 0.5, fontSize: 13 } }}
             />
           }
@@ -82,7 +82,9 @@ export function DesignTab({ t, designer, onRequestPart }: DesignTabProps) {
             <Section
               title={t.design.composition}
               aside={`${state.construct.genomeSerotype}/${state.construct.capsidSerotype} · ${
-                state.construct.packaging === 'sc' ? 'self-complementary' : 'single-stranded'
+                state.construct.packaging === 'sc'
+                  ? m.shell.selfComplementary
+                  : m.shell.singleStranded
               }`}
             >
               <BackboneSelector
@@ -103,7 +105,9 @@ export function DesignTab({ t, designer, onRequestPart }: DesignTabProps) {
                 onRequestPart={onRequestPart}
                 onRemove={(id) => dispatch({ type: 'removePart', instanceId: id })}
                 onMove={(id, toIndex) => dispatch({ type: 'movePart', instanceId: id, toIndex })}
-                onSetStrand={(id, strand) => dispatch({ type: 'setStrand', instanceId: id, strand })}
+                onSetStrand={(id, strand) =>
+                  dispatch({ type: 'setStrand', instanceId: id, strand })
+                }
               />
             </Section>
 

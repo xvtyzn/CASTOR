@@ -227,9 +227,7 @@ export function project(
     } else {
       ribbons.push({
         id: r.id,
-        points: pointsAttr(
-          linkQuad(aX0, aX1, r.aY, bX0, bX1, r.bY, r.inverted, geom, rowHeight),
-        ),
+        points: pointsAttr(linkQuad(aX0, aX1, r.aY, bX0, bX1, r.bY, r.inverted, geom, rowHeight)),
         fill: r.fill,
         opacity: r.opacity,
       })
@@ -247,7 +245,7 @@ export function project(
   if (showBases) {
     const visibleLeft = viewport.plotLeft
     const visibleRight = viewport.plotLeft + viewport.width
-    let budget = maxBaseGlyphs
+    const budget = maxBaseGlyphs
 
     const planned: ProjectedBase[] = []
     outer: for (const row of layout.rows) {
@@ -255,7 +253,10 @@ export function project(
       if (!seq) continue
       // Solve for the base indices whose centres fall inside the viewport.
       const firstBp = Math.max(0, Math.floor(invert(xScale, visibleLeft) - row.offsetBp) - 1)
-      const lastBp = Math.min(seq.length, Math.ceil(invert(xScale, visibleRight) - row.offsetBp) + 1)
+      const lastBp = Math.min(
+        seq.length,
+        Math.ceil(invert(xScale, visibleRight) - row.offsetBp) + 1,
+      )
       for (let i = firstBp; i < lastBp; i++) {
         if (planned.length >= budget) {
           basesTruncated = true

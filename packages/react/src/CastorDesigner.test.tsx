@@ -34,7 +34,12 @@ const lookup = (() => {
 
 function makeDeps() {
   const ids = createCountingIdFactory()
-  return { template, backbones: catalog.backbones, idFactory: ids, now: () => '2026-08-30T00:00:00.000Z' }
+  return {
+    template,
+    backbones: catalog.backbones,
+    idFactory: ids,
+    now: () => '2026-08-30T00:00:00.000Z',
+  }
 }
 
 function initialState(): DesignerState {
@@ -53,16 +58,24 @@ describe('designerReducer', () => {
     const deps = makeDeps()
     let s = initialState()
     // Add out of order on purpose: polyA first, then promoter.
-    s = designerReducer(s, {
-      type: 'addPart',
-      slotKey: 'polya' as never,
-      part: lookup(toPartId('polya/SV40@1.0.0'))!,
-    }, deps)
-    s = designerReducer(s, {
-      type: 'addPart',
-      slotKey: 'promoter' as never,
-      part: lookup(toPartId('promoter/CAG-935@1.0.0'))!,
-    }, deps)
+    s = designerReducer(
+      s,
+      {
+        type: 'addPart',
+        slotKey: 'polya' as never,
+        part: lookup(toPartId('polya/SV40@1.0.0'))!,
+      },
+      deps,
+    )
+    s = designerReducer(
+      s,
+      {
+        type: 'addPart',
+        slotKey: 'promoter' as never,
+        part: lookup(toPartId('promoter/CAG-935@1.0.0'))!,
+      },
+      deps,
+    )
 
     const slots = s.construct.cassette.parts.map((p) => String(p.slotKey))
     expect(slots.indexOf('promoter')).toBeLessThan(slots.indexOf('polya'))
@@ -73,19 +86,27 @@ describe('designerReducer', () => {
   it('takes a snapshot into the cart, so later edits do not rewrite the figure', () => {
     const deps = makeDeps()
     let s = initialState()
-    s = designerReducer(s, {
-      type: 'addPart',
-      slotKey: 'promoter' as never,
-      part: lookup(toPartId('promoter/CAG-935@1.0.0'))!,
-    }, deps)
+    s = designerReducer(
+      s,
+      {
+        type: 'addPart',
+        slotKey: 'promoter' as never,
+        part: lookup(toPartId('promoter/CAG-935@1.0.0'))!,
+      },
+      deps,
+    )
     s = designerReducer(s, { type: 'cart/add' }, deps)
     const snapshotLength = s.cart.items[0]!.construct.cassette.parts.length
 
-    s = designerReducer(s, {
-      type: 'addPart',
-      slotKey: 'cds' as never,
-      part: lookup(toPartId('cds/EGFP@1.0.0'))!,
-    }, deps)
+    s = designerReducer(
+      s,
+      {
+        type: 'addPart',
+        slotKey: 'cds' as never,
+        part: lookup(toPartId('cds/EGFP@1.0.0'))!,
+      },
+      deps,
+    )
 
     expect(s.construct.cassette.parts.length).toBe(snapshotLength + 1)
     expect(s.cart.items[0]!.construct.cassette.parts.length).toBe(snapshotLength)
@@ -100,7 +121,11 @@ describe('designerReducer', () => {
       ['wpre', 'wpre/WPRE@1.0.0'],
       ['polya', 'polya/SV40@1.0.0'],
     ] as const) {
-      s = designerReducer(s, { type: 'addPart', slotKey: slot as never, part: lookup(toPartId(part))! }, deps)
+      s = designerReducer(
+        s,
+        { type: 'addPart', slotKey: slot as never, part: lookup(toPartId(part))! },
+        deps,
+      )
     }
     const slotsOf = (st: DesignerState) => st.construct.cassette.parts.map((p) => String(p.slotKey))
     expect(slotsOf(s)).toEqual(['itr_5', 'promoter', 'kozak', 'cds', 'wpre', 'polya', 'itr_3'])
@@ -124,14 +149,23 @@ describe('designerReducer', () => {
       ['cds', 'cds/EGFP@1.0.0'],
       ['polya', 'polya/SV40@1.0.0'],
     ] as const) {
-      s = designerReducer(s, { type: 'addPart', slotKey: slot as never, part: lookup(toPartId(part))! }, deps)
+      s = designerReducer(
+        s,
+        { type: 'addPart', slotKey: slot as never, part: lookup(toPartId(part))! },
+        deps,
+      )
     }
     const cds = s.construct.cassette.parts.find((p) => String(p.slotKey) === 'cds')!
     s = designerReducer(s, { type: 'movePart', instanceId: cds.instanceId, toIndex: 4 }, deps)
 
     // The move went through — validation does not veto edits.
     expect(s.construct.cassette.parts.map((p) => String(p.slotKey))).toEqual([
-      'itr_5', 'promoter', 'kozak', 'polya', 'cds', 'itr_3',
+      'itr_5',
+      'promoter',
+      'kozak',
+      'polya',
+      'cds',
+      'itr_3',
     ])
     const { validation } = analyze(s.construct, backbone, template, lookup)
     const ids = validation.findings.map((f) => f.ruleId)
@@ -142,9 +176,26 @@ describe('designerReducer', () => {
   it('reorders the cart, which is what decides who is compared against whom', () => {
     const deps = makeDeps()
     let s = initialState()
-    s = designerReducer(s, { type: 'addPart', slotKey: 'promoter' as never, part: lookup(toPartId('promoter/CAG-935@1.0.0'))! }, deps)
+    s = designerReducer(
+      s,
+      {
+        type: 'addPart',
+        slotKey: 'promoter' as never,
+        part: lookup(toPartId('promoter/CAG-935@1.0.0'))!,
+      },
+      deps,
+    )
     s = designerReducer(s, { type: 'cart/add' }, deps)
-    s = designerReducer(s, { type: 'replacePart', instanceId: s.construct.cassette.parts.find((p) => String(p.slotKey) === 'promoter')!.instanceId, part: lookup(toPartId('promoter/EF1a@1.0.0'))! }, deps)
+    s = designerReducer(
+      s,
+      {
+        type: 'replacePart',
+        instanceId: s.construct.cassette.parts.find((p) => String(p.slotKey) === 'promoter')!
+          .instanceId,
+        part: lookup(toPartId('promoter/EF1a@1.0.0'))!,
+      },
+      deps,
+    )
     s = designerReducer(s, { type: 'cart/add' }, deps)
 
     const ids = s.cart.items.map((i) => i.itemId)
@@ -154,14 +205,46 @@ describe('designerReducer', () => {
     expect(s.cart.items.map((i) => String(i.itemId))).toEqual([String(ids[1]), String(ids[0])])
   })
 
+  it('preserves omitted cart items when a stale client sends a partial reorder', () => {
+    const deps = makeDeps()
+    let s = initialState()
+    s = designerReducer(s, { type: 'cart/add' }, deps)
+    s = designerReducer(s, { type: 'cart/add' }, deps)
+    s = designerReducer(s, { type: 'cart/add' }, deps)
+    const ids = s.cart.items.map((item) => item.itemId)
+
+    s = designerReducer(s, { type: 'cart/reorder', itemIds: [ids[1]!, ids[1]!] }, deps)
+    expect(s.cart.items.map((item) => item.itemId)).toEqual([ids[1], ids[0], ids[2]])
+  })
+
+  it('protects template-locked boundary parts at the reducer boundary', () => {
+    const deps = makeDeps()
+    const s = initialState()
+    const itr = s.construct.cassette.parts[0]!
+    const replacement = lookup(toPartId('itr/AAV2-ITR-145-3prime@1.0.0'))!
+
+    for (const action of [
+      { type: 'removePart', instanceId: itr.instanceId },
+      { type: 'movePart', instanceId: itr.instanceId, toIndex: 2 },
+      { type: 'setStrand', instanceId: itr.instanceId, strand: -1 },
+      { type: 'replacePart', instanceId: itr.instanceId, part: replacement },
+    ] as const) {
+      expect(designerReducer(s, action, deps)).toBe(s)
+    }
+  })
+
   it('removing a part clears the selection when it was the selected one', () => {
     const deps = makeDeps()
     let s = initialState()
-    s = designerReducer(s, {
-      type: 'addPart',
-      slotKey: 'cds' as never,
-      part: lookup(toPartId('cds/EGFP@1.0.0'))!,
-    }, deps)
+    s = designerReducer(
+      s,
+      {
+        type: 'addPart',
+        slotKey: 'cds' as never,
+        part: lookup(toPartId('cds/EGFP@1.0.0'))!,
+      },
+      deps,
+    )
     const id = s.selectedInstanceId!
     expect(id).toBeTruthy()
     s = designerReducer(s, { type: 'removePart', instanceId: id }, deps)
@@ -179,7 +262,11 @@ describe('findings anchor to something the UI can point at', () => {
       ['wpre', 'wpre/WPRE@1.0.0'],
       ['polya', 'polya/SV40@1.0.0'],
     ] as const) {
-      s = designerReducer(s, { type: 'addPart', slotKey: slot as never, part: lookup(toPartId(part))! }, deps)
+      s = designerReducer(
+        s,
+        { type: 'addPart', slotKey: slot as never, part: lookup(toPartId(part))! },
+        deps,
+      )
     }
     // Break it so there is something to anchor.
     const parts = [...s.construct.cassette.parts]

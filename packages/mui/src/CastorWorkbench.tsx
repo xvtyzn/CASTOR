@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { lazy, Suspense, useMemo, useState } from 'react'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
@@ -16,7 +16,9 @@ import {
   MessagesProvider,
   PartPicker,
   ThemeProvider as CastorThemeProvider,
+  themeToCssVars,
   useCastorDesigner,
+  useCastorTheme,
   type LocaleCode,
   type PartRequest,
 } from '@castor-bio/react'
@@ -33,11 +35,24 @@ import {
 } from '@castor-bio/core'
 import { createCastorMuiTheme, castorMonospace } from './theme.js'
 import { workbenchLocales } from './messages.js'
-import { OverviewTab } from './tabs/OverviewTab.js'
-import { DesignTab } from './tabs/DesignTab.js'
-import { CompareTab } from './tabs/CompareTab.js'
-import { RegistryTab } from './tabs/RegistryTab.js'
-import { ReferenceTab } from './tabs/ReferenceTab.js'
+
+// Tabs carry very different heavy dependencies (seqviz, comparison SVGs, registry tables).
+// Loading the active one keeps the workbench's initial bundle small without changing its API.
+const OverviewTab = lazy(() =>
+  import('./tabs/OverviewTab.js').then((module) => ({ default: module.OverviewTab })),
+)
+const DesignTab = lazy(() =>
+  import('./tabs/DesignTab.js').then((module) => ({ default: module.DesignTab })),
+)
+const CompareTab = lazy(() =>
+  import('./tabs/CompareTab.js').then((module) => ({ default: module.CompareTab })),
+)
+const RegistryTab = lazy(() =>
+  import('./tabs/RegistryTab.js').then((module) => ({ default: module.RegistryTab })),
+)
+const ReferenceTab = lazy(() =>
+  import('./tabs/ReferenceTab.js').then((module) => ({ default: module.ReferenceTab })),
+)
 
 export interface CastorWorkbenchProps {
   parts: Part[]
@@ -91,6 +106,7 @@ function WorkbenchBody({
   onLocaleChange,
   comparisonWidth = 1180,
 }: CastorWorkbenchProps) {
+  const castorTheme = useCastorTheme()
   const [internalLocale, setInternalLocale] = useState<LocaleCode>(locale ?? 'en')
   const activeLocale = locale ?? internalLocale
   const setLocale = (next: LocaleCode) => {
@@ -114,7 +130,7 @@ function WorkbenchBody({
     [parts, providers],
   )
 
-  /** Everything the registry table shows, catalogue plus injected sources. */
+  /** Materialized entries for the registry table; async providers stay in the picker. */
   const registryParts = useMemo(() => {
     const merged = new Map<string, Part>()
     for (const p of parts) merged.set(String(p.id), p)
@@ -126,13 +142,20 @@ function WorkbenchBody({
 
   return (
     <MessagesProvider messages={activeLocale}>
-      <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
-        <AppBar position="sticky" color="inherit" elevation={0} sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box
+        className="castor-scope"
+        style={themeToCssVars(castorTheme)}
+        sx={{ bgcolor: 'background.default', minHeight: '100vh' }}
+      >
+        <AppBar
+          position="sticky"
+          color="inherit"
+          elevation={0}
+          sx={{ borderBottom: 1, borderColor: 'divider' }}
+        >
           <Toolbar variant="dense" sx={{ gap: 1.5, minHeight: 44 }}>
             <Tooltip title={`${t.tagline} — ${t.expansion}`}>
-              <Typography
-                sx={{ fontWeight: 700, fontSize: 15, cursor: 'default' }}
-              >
+              <Typography sx={{ fontWeight: 700, fontSize: 15, cursor: 'default' }}>
                 {t.appName}
               </Typography>
             </Tooltip>
@@ -199,23 +222,31 @@ function WorkbenchBody({
 
         {/* castor-scope carries the library's design tokens without its stacked layout, which
             this shell provides instead. */}
-        <Container maxWidth="xl" className="castor-scope" sx={{ py: 2 }}>
-          {tab === 'overview' && (
-            <OverviewTab
-              t={t}
-              counts={{
-                parts: parts.length,
-                backbones: backbones.length,
-                templates: templates.length,
-                designs: designer.state.cart.items.length,
-              }}
-              onStart={() => setTab('design')}
-            />
-          )}
-          {tab === 'design' && <DesignTab t={t} designer={designer} onRequestPart={setRequest} />}
-          {tab === 'compare' && <CompareTab t={t} designer={designer} width={comparisonWidth} />}
-          {tab === 'registry' && <RegistryTab t={t} parts={registryParts} />}
-          {tab === 'reference' && <ReferenceTab locale={activeLocale} />}
+        <Container maxWidth="xl" sx={{ py: 2 }}>
+          <Suspense
+            fallback={
+              <Box role="status" sx={{ py: 4, color: 'text.secondary' }}>
+                {t.loading}
+              </Box>
+            }
+          >
+            {tab === 'overview' && (
+              <OverviewTab
+                t={t}
+                counts={{
+                  parts: parts.length,
+                  backbones: backbones.length,
+                  templates: templates.length,
+                  designs: designer.state.cart.items.length,
+                }}
+                onStart={() => setTab('design')}
+              />
+            )}
+            {tab === 'design' && <DesignTab t={t} designer={designer} onRequestPart={setRequest} />}
+            {tab === 'compare' && <CompareTab t={t} designer={designer} width={comparisonWidth} />}
+            {tab === 'registry' && <RegistryTab t={t} parts={registryParts} />}
+            {tab === 'reference' && <ReferenceTab locale={activeLocale} />}
+          </Suspense>
         </Container>
 
         <PartPicker

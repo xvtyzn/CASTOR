@@ -5,22 +5,11 @@
     "composite": false,
     "noEmit": true,
     "paths": {
-      "@castor-bio/core": [
-        "../../packages/core/src/index.ts"
-      ],
-      "@castor-bio/catalog": [
-        "../../packages/catalog/src/index.ts"
-      ],
-      "@castor-bio/react": [
-        "../../packages/react/src/index.ts"
-      ],
-      "@castor-bio/mui": [
-        "../../packages/mui/src/index.ts"
-      ]
+      "@castor-bio/core": ["../../packages/core/src/index.ts"],
+      "@castor-bio/catalog": ["../../packages/catalog/src/index.ts"],
+      "@castor-bio/react": ["../../packages/react/src/index.ts"],
+      "@castor-bio/mui": ["../../packages/mui/src/index.ts"]
     }
   },
-  "include": [
-    "src/**/*",
-    "vite.config.ts"
-  ]
+  "include": ["src/**/*", "vite.config.ts"]
 }

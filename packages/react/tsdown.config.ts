@@ -7,6 +7,13 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   target: 'es2022',
+  copy: [
+    { from: 'src/styles/castor.css', to: 'dist', rename: 'styles.css' },
+    { from: 'src/styles/styles.css.d.ts', to: 'dist', rename: 'styles.css.d.mts' },
+    { from: 'src/styles/styles.css.d.ts', to: 'dist', rename: 'styles.css.d.cts' },
+  ],
+  publint: true,
+  attw: true,
   // React must never be bundled into a component library.
   deps: { neverBundle: ['react', 'react-dom', 'react/jsx-runtime'] },
 })

@@ -26,6 +26,7 @@ export default defineConfig({
           name: 'core',
           environment: 'node',
           include: ['packages/{core,catalog,io}/**/*.test.ts', 'apps/playground/src/**/*.test.ts'],
+          benchmark: { include: ['packages/core/**/*.bench.ts'] },
         },
       },
       {
@@ -35,6 +36,7 @@ export default defineConfig({
           environment: 'jsdom',
           setupFiles: ['./packages/react/vitest.setup.ts'],
           include: ['packages/react/**/*.test.tsx'],
+          benchmark: { include: ['packages/react/**/*.bench.tsx'] },
         },
       },
     ],

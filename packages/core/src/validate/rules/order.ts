@@ -34,7 +34,11 @@ export const canonicalOrderRule: Rule = {
           `… ${String(prev.slotKey)} should follow ${String(cur.slotKey)}, not precede it. ` +
           'This is a warning, not an error — reorder only if it was unintentional.',
         anchors: [
-          { kind: 'junction' as const, beforeInstanceId: prev.instanceId, afterInstanceId: cur.instanceId },
+          {
+            kind: 'junction' as const,
+            beforeInstanceId: prev.instanceId,
+            afterInstanceId: cur.instanceId,
+          },
           { kind: 'instance' as const, instanceId: cur.instanceId },
         ],
         data: { prevSlot: String(prev.slotKey), slot: String(cur.slotKey) },

@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://castor-bio.dev/schema/backbone.schema.json",
+  "title": "CASTOR backbone collection",
+  "type": "object",
+  "required": ["collection", "backbones"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "collection": { "const": "backbones" },
+    "backbones": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/backbone" } }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "role": {
+      "enum": [
+        "backbone",
+        "itr",
+        "spacer",
+        "enhancer",
+        "promoter",
+        "switch",
+        "intron",
+        "utr5",
+        "kozak",
+        "signal_peptide",
+        "tag",
+        "linker",
+        "cds",
+        "joiner",
+        "stop",
+        "utr3",
+        "wpre",
+        "polya",
+        "stuffer",
+        "shrna",
+        "amirna_scaffold",
+        "grna_scaffold",
+        "terminator",
+        "custom"
+      ]
+    },
+    "feature": {
+      "type": "object",
+      "required": ["name", "role", "start", "end", "strand"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "role": { "$ref": "#/$defs/role" },
+        "start": { "type": "integer", "minimum": 0 },
+        "end": { "type": "integer", "minimum": 1 },
+        "strand": { "enum": [1, -1] },
+        "color": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["origin", "confidence"],
+      "properties": {
+        "origin": { "enum": ["curated", "user", "imported", "derived"] },
+        "confidence": { "enum": ["high", "medium", "low"] },
+        "curatedBy": { "type": "string" },
+        "curatedAt": { "type": "string" },
+        "note": { "type": "string" },
+        "accessions": { "type": "array", "items": { "type": "object" } },
+        "addgene": { "type": "object" },
+        "usages": { "type": "array", "items": { "type": "object" } }
+      },
+      "additionalProperties": false
+    },
+    "license": {
+      "type": "object",
+      "required": ["spdx", "redistributable"],
+      "properties": {
+        "spdx": { "type": "string", "minLength": 1 },
+        "redistributable": { "type": "boolean" },
+        "source": { "type": "string" },
+        "note": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "backbone": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "sequence",
+        "length",
+        "checksum",
+        "features",
+        "providesItrs",
+        "provenance",
+        "license"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^backbone/.+@\\d+\\.\\d+\\.\\d+$" },
+        "name": { "type": "string", "minLength": 1 },
+        "sequence": { "type": "string", "pattern": "^[ACGTURYSWKMBDHVN]+$" },
+        "length": { "type": "integer", "minimum": 1 },
+        "checksum": { "type": "string", "pattern": "^sha1:[0-9a-f]{40}$" },
+        "features": { "type": "array", "items": { "$ref": "#/$defs/feature" } },
+        "providesItrs": { "type": "boolean" },
+        "itr5PartId": { "type": "string" },
+        "itr3PartId": { "type": "string" },
+        "compatibleTemplates": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string" }
+        },
+        "selectionMarker": { "enum": ["AmpR", "KanR", "other"] },
+        "origin": { "type": "string" },
+        "provenance": { "$ref": "#/$defs/provenance" },
+        "license": { "$ref": "#/$defs/license" },
+        "description": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

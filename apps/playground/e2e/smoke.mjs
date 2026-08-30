@@ -15,7 +15,10 @@ const URL = process.env.PLAYGROUND_URL ?? 'http://localhost:5178/'
 const OUT = process.argv[2] ?? null
 
 const browser = await chromium.launch()
-const page = await browser.newPage({ viewport: { width: 1280, height: 1400 }, deviceScaleFactor: 2 })
+const page = await browser.newPage({
+  viewport: { width: 1280, height: 1400 },
+  deviceScaleFactor: 2,
+})
 
 const errors = []
 page.on('pageerror', (e) => errors.push('PAGEERROR: ' + e.message))
@@ -47,8 +50,7 @@ async function replace(slotLabel, partName) {
   await page.waitForSelector('.castor-dialog', { state: 'detached' })
 }
 
-const addDesign = () =>
-  page.locator('.castor-btn--primary', { hasText: 'Add this design' }).click()
+const addDesign = () => page.locator('.castor-btn--primary', { hasText: 'Add this design' }).click()
 
 const partNames = () => page.locator('.castor-slot .castor-slot__name').allTextContents()
 
@@ -64,7 +66,10 @@ if (OUT) await page.screenshot({ path: `${OUT}/design.png`, fullPage: true })
 // The circular view is the one to drive here: seqviz's linear view scrolls infinitely and only
 // renders the blocks near the viewport, so a label further down simply is not in the DOM.
 const beforeMapInsert = await partNames()
-await page.locator('.castor-map text', { hasText: /^EGFP$/ }).first().click({ force: true })
+await page
+  .locator('.castor-map text', { hasText: /^EGFP$/ })
+  .first()
+  .click({ force: true })
 await page.waitForTimeout(300)
 const popover = page.locator('.castor-popover')
 const popoverActions = await popover.locator('.castor-popover__action').allTextContents()
@@ -108,7 +113,11 @@ await page.mouse.up()
 await page.waitForTimeout(300)
 const afterPointer = await partNames()
 
-const polyaGrip = page.locator('.castor-slot').filter({ hasText: 'polyA' }).first().locator('.castor-slot__grip')
+const polyaGrip = page
+  .locator('.castor-slot')
+  .filter({ hasText: 'polyA' })
+  .first()
+  .locator('.castor-slot__grip')
 await polyaGrip.focus()
 await page.keyboard.press('Space')
 await page.waitForTimeout(120)
@@ -179,8 +188,10 @@ if (seqRow1 !== seqRow2) {
   problems.push(`aligned rows show different sequence:\n    ${seqRow1}\n    ${seqRow2}`)
 }
 if (basesAfterFit !== 0) problems.push('bases still drawn after fitting back out')
-if (!jaTabs.includes('設計')) problems.push(`switching to Japanese did not translate the tabs: ${jaTabs.join(', ')}`)
-if (!enTabs.includes('Design')) problems.push(`switching back to English did not restore the tabs: ${enTabs.join(', ')}`)
+if (!jaTabs.includes('設計'))
+  problems.push(`switching to Japanese did not translate the tabs: ${jaTabs.join(', ')}`)
+if (!enTabs.includes('Design'))
+  problems.push(`switching back to English did not restore the tabs: ${enTabs.join(', ')}`)
 if (!/リボン|整列|配列/.test(jaBody)) problems.push('Japanese did not reach the component strings')
 if (!popoverActions.includes('Replace…')) {
   problems.push(`clicking a part on the map gave no actions: ${popoverActions.join(', ')}`)

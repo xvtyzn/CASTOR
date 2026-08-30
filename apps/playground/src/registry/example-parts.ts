@@ -23,8 +23,7 @@ function example(
   description: string,
   aliases?: string[],
 ): Part {
-  const sequence =
-    role === 'cds' ? syntheticCds(id, length) : syntheticRegulatory(id, length)
+  const sequence = role === 'cds' ? syntheticCds(id, length) : syntheticRegulatory(id, length)
   return {
     id: partId(id),
     name,

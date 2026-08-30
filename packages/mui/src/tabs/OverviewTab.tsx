@@ -134,7 +134,11 @@ export function OverviewTab({ t, counts, onStart }: OverviewTabProps) {
           <Typography key={s.label} variant="body2" color="text.secondary">
             <Box
               component="span"
-              sx={{ fontFamily: castorMonospace, fontVariantNumeric: 'tabular-nums', color: 'text.primary' }}
+              sx={{
+                fontFamily: castorMonospace,
+                fontVariantNumeric: 'tabular-nums',
+                color: 'text.primary',
+              }}
             >
               {s.n}
             </Box>{' '}

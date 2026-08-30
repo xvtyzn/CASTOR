@@ -156,9 +156,7 @@ export function MapPopover({
                   className="castor-popover__action"
                   onClick={() => onFlip(target.instance)}
                 >
-                  {target.instance.strand === 1
-                    ? t.slots.reverseComplement
-                    : t.map.backToForward}
+                  {target.instance.strand === 1 ? t.slots.reverseComplement : t.map.backToForward}
                 </button>
                 <button
                   type="button"

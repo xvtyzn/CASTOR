@@ -21,7 +21,11 @@ Two things, in one library:
 Runs entirely in the browser. No backend, no network calls at runtime.
 
 ```bash
-pnpm add @castor-bio/react @castor-bio/catalog
+# Framework-neutral components
+pnpm add @castor-bio/react @castor-bio/catalog react react-dom
+
+# Optional batteries-included MUI workbench
+pnpm add @castor-bio/mui @mui/material @emotion/react @emotion/styled
 ```
 
 ```tsx
@@ -43,12 +47,12 @@ const catalog = await loadCatalog()
 
 ## Packages
 
-| Package | What it is | Imposes |
-|---|---|---|
-| `@castor-bio/core` | Domain model, sequence assembly, packaging capacity, validation rules, comparison layout. | nothing — no React, no DOM |
-| `@castor-bio/catalog` | Curated parts, backbones and cassette templates as static JSON, per-role subpath exports. | nothing |
-| `@castor-bio/react` | The components, plus one prefixed stylesheet. | `react`, `react-dom` |
-| `@castor-bio/mui` | The batteries-included tabbed workbench: Overview, Design, Compare, Registry, Reference. **Optional.** | `@mui/material`, `@emotion/*` |
+| Package               | What it is                                                                                             | Imposes                       |
+| --------------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------- |
+| `@castor-bio/core`    | Domain model, sequence assembly, packaging capacity, validation rules, comparison layout.              | nothing — no React, no DOM    |
+| `@castor-bio/catalog` | Curated parts, backbones and cassette templates as static JSON, per-role subpath exports.              | nothing                       |
+| `@castor-bio/react`   | The components, plus one prefixed stylesheet.                                                          | `react`, `react-dom`          |
+| `@castor-bio/mui`     | The batteries-included tabbed workbench: Overview, Design, Compare, Registry, Reference. **Optional.** | `@mui/material`, `@emotion/*` |
 
 **MUI is deliberately not a dependency of the library.** MUI 9 requires `@emotion/react` and
 `@emotion/styled` as peers, and forcing that on a host running Tailwind, or a different MUI
@@ -72,7 +76,7 @@ imposes its choice, its provider and its bundle on every host.
 
 Two conventions in the Japanese: terms that appear on the sequence itself (ITR, polyA, WPRE,
 Kozak, pGOI) stay in Latin script because that is how they are written in a Japanese lab
-notebook, and units stay `bp`. Your *data* is not translated — see the Reference tab for how to
+notebook, and units stay `bp`. Your _data_ is not translated — see the Reference tab for how to
 carry `{ en, ja }` labels if you need that.
 
 **Headless** — `useCastorDesigner()` returns `{ state, dispatch, analysis, comparison }` and
@@ -123,7 +127,7 @@ Two things it is careful about, and yours should be too:
   sequence came from and which of your experiments used it. Neither half answers "should I use
   this one" alone.
 - **Example sequences are unmistakably example sequences.** The lab-specific parts carry real
-  published *lengths* — so the capacity meter, the ruler and the comparison behave the way the
+  published _lengths_ — so the capacity meter, the ruler and the comparison behave the way the
   real thing would — but generated bases, marked `origin: 'user'`, `confidence: 'low'`,
   `redistributable: false`, and a note saying not to order from them. A scientist who cannot
   tell verified data from placeholder has to treat all of it as unverified.
@@ -207,7 +211,10 @@ pnpm install
 pnpm dev            # playground at http://localhost:5178
 pnpm test
 pnpm typecheck
-pnpm build          # runs publint + attw
+pnpm lint
+pnpm bench
+pnpm build          # runs publint + attw for every public package
+pnpm check          # all release gates, including the playground build
 ```
 
 The catalogue is not hand-written. `tools/curate/` fetches real records from NCBI

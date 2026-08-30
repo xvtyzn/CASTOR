@@ -85,7 +85,10 @@ export function autoOrder(rows: readonly ComparisonRow[]): RowId[] {
 
   const totals = rows.map((r) => ({
     id: r.id,
-    total: rows.reduce((sum, o) => (o.id === r.id ? sum : sum + (sim.get(key(r.id, o.id)) ?? 0)), 0),
+    total: rows.reduce(
+      (sum, o) => (o.id === r.id ? sum : sum + (sim.get(key(r.id, o.id)) ?? 0)),
+      0,
+    ),
   }))
   totals.sort((a, b) => b.total - a.total || String(a.id).localeCompare(String(b.id)))
 
@@ -100,7 +103,10 @@ export function autoOrder(rows: readonly ComparisonRow[]): RowId[] {
     for (const id of remaining) {
       const score = sim.get(key(last, id)) ?? 0
       // Deterministic tie-break, so golden files stay stable.
-      if (score > bestScore || (score === bestScore && best !== null && String(id) < String(best))) {
+      if (
+        score > bestScore ||
+        (score === bestScore && best !== null && String(id) < String(best))
+      ) {
         best = id
         bestScore = score
       }

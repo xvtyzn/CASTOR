@@ -52,7 +52,11 @@ function filled(): DesignerState {
     ['cds', 'cds/EGFP@1.0.0'],
     ['polya', 'polya/SV40@1.0.0'],
   ] as const) {
-    s = designerReducer(s, { type: 'addPart', slotKey: slot as never, part: lookup(toPartId(part))! }, deps)
+    s = designerReducer(
+      s,
+      { type: 'addPart', slotKey: slot as never, part: lookup(toPartId(part))! },
+      deps,
+    )
   }
   return s
 }

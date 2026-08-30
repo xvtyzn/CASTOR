@@ -41,10 +41,10 @@
   --castor-radius: 3px;
   --castor-gap: 12px;
 
-  --castor-font: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
-    Arial, sans-serif;
-  --castor-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono',
-    monospace;
+  --castor-font:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --castor-mono:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
 
   color: var(--castor-ink);
   font-family: var(--castor-font);
@@ -162,7 +162,9 @@
 
 .castor-ruler__seg {
   cursor: pointer;
-  transition: x 180ms ease, width 180ms ease;
+  transition:
+    x 180ms ease,
+    width 180ms ease;
 }
 .castor-ruler__seg:hover {
   filter: brightness(1.08);
@@ -366,7 +368,6 @@
 
 /* Without :focus-within above, a keyboard user tabbing into the row would find the actions
    inert and invisible — hover-only affordances are a keyboard trap. */
-
 
 /* --- part picker ---------------------------------------------------------------------- */
 

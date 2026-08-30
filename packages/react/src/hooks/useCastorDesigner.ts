@@ -6,6 +6,7 @@ import {
   createRandomIdFactory,
   designerReducer,
   emptyCart,
+  flattenSlots,
   indexBy,
   type AnalysisResult,
   type Backbone,
@@ -17,6 +18,7 @@ import {
   type DesignerState,
   type Part,
   type PartId,
+  type TemplateId,
   type ValidationOptions,
 } from '@castor-bio/core'
 
@@ -45,6 +47,18 @@ export interface CastorDesignerApi {
   isComplete: boolean
 }
 
+function templateFor(templates: readonly CassetteTemplate[], id: TemplateId): CassetteTemplate {
+  const template = templates.find((candidate) => candidate.id === id)
+  if (!template) throw new Error(`CASTOR: template '${String(id)}' was not provided`)
+  return template
+}
+
+function backboneFor(backbones: readonly Backbone[], id: Construct['backboneId']): Backbone {
+  const backbone = backbones.find((candidate) => candidate.id === id)
+  if (!backbone) throw new Error(`CASTOR: backbone '${String(id)}' was not provided`)
+  return backbone
+}
+
 /**
  * The headless designer.
  *
@@ -61,23 +75,32 @@ export function useCastorDesigner({
   validation,
 }: UseCastorDesignerArgs): CastorDesignerApi {
   const idFactory = useRef(createRandomIdFactory()).current
-  const template = templates[0]!
+  const defaultTemplate = initialConstruct
+    ? templateFor(templates, initialConstruct.templateId)
+    : templates[0]
+  if (!defaultTemplate) throw new Error('CASTOR: at least one template is required')
+  const defaultBackbone = initialConstruct
+    ? backboneFor(backbones, initialConstruct.backboneId)
+    : backbones[0]
+  if (!defaultBackbone) throw new Error('CASTOR: at least one backbone is required')
   const partIndex = useMemo(() => indexBy(parts, (p) => p.id), [parts])
   const lookup = useCallback((id: PartId) => partIndex.get(id), [partIndex])
 
   const [state, rawDispatch] = useReducer(
-    (s: DesignerState, a: DesignerAction) =>
-      designerReducer(s, a, {
-        template,
+    (s: DesignerState, a: DesignerAction) => {
+      const currentTemplate = templateFor(templates, s.construct.templateId)
+      return designerReducer(s, a, {
+        template: currentTemplate,
         backbones,
         idFactory,
         now: () => new Date().toISOString(),
-      }),
+      })
+    },
     undefined,
     (): DesignerState => ({
       construct:
         initialConstruct ??
-        createConstruct(template, backbones[0]!, { name: 'Design 1', idFactory }),
+        createConstruct(defaultTemplate, defaultBackbone, { name: 'Design 1', idFactory }),
       cart: initialCart ?? emptyCart(),
       selectedInstanceId: null,
     }),
@@ -85,22 +108,29 @@ export function useCastorDesigner({
 
   const dispatch = useCallback((a: DesignerAction) => rawDispatch(a), [])
 
-  const backbone =
-    backbones.find((b) => b.id === state.construct.backboneId) ?? backbones[0]!
+  const template = templateFor(templates, state.construct.templateId)
+  const backbone = backboneFor(backbones, state.construct.backboneId)
 
   const analysis = useMemo(
-    () => analyze(state.construct, backbone, template, lookup, { ...(validation ? { validation } : {}) }),
+    () =>
+      analyze(state.construct, backbone, template, lookup, {
+        ...(validation ? { validation } : {}),
+      }),
     [state.construct, backbone, template, lookup, validation],
   )
 
   const cartAssemblies = useMemo(() => {
     const map = new Map<string, AnalysisResult['assembly']>()
     for (const item of state.cart.items) {
-      const bb = backbones.find((b) => b.id === item.construct.backboneId) ?? backbones[0]!
-      map.set(String(item.itemId), analyze(item.construct, bb, template, lookup).assembly)
+      const itemBackbone = backboneFor(backbones, item.construct.backboneId)
+      const itemTemplate = templateFor(templates, item.construct.templateId)
+      map.set(
+        String(item.itemId),
+        analyze(item.construct, itemBackbone, itemTemplate, lookup).assembly,
+      )
     }
     return map
-  }, [state.cart.items, backbones, template, lookup])
+  }, [state.cart.items, backbones, templates, lookup])
 
   const comparison = useMemo(
     () => buildComparisonModel(state.cart, { assemblies: cartAssemblies, parts: lookup }),
@@ -108,9 +138,7 @@ export function useCastorDesigner({
   )
 
   const isComplete = useMemo(() => {
-    const required = template.nodes.filter(
-      (n): n is Extract<typeof n, { kind: 'slot' }> => n.kind === 'slot' && n.min > 0,
-    )
+    const required = flattenSlots(template.nodes).filter((slot) => slot.min > 0)
     return required.every((slot) =>
       state.construct.cassette.parts.some((p) => String(p.slotKey) === String(slot.key)),
     )

@@ -18,7 +18,10 @@ export interface SectionProps {
 /** A titled panel. One component so every panel in the workbench has the same head. */
 export function Section({ title, aside, children, flush, sx }: SectionProps) {
   return (
-    <Paper variant="outlined" sx={[{ overflow: 'hidden' }, ...(Array.isArray(sx) ? sx : [sx])] as SxProps<Theme>}>
+    <Paper
+      variant="outlined"
+      sx={[{ overflow: 'hidden' }, ...(Array.isArray(sx) ? sx : [sx])] as SxProps<Theme>}
+    >
       {/* MUI 9 moved Stack's alignment props into sx; keeping them there also keeps every
           layout value in one place per component. */}
       <Stack

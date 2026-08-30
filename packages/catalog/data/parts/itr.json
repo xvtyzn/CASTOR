@@ -6,11 +6,7 @@
     {
       "id": "itr/AAV2-ITR-145-flip@1.0.0",
       "name": "AAV2 5' ITR (145 nt)",
-      "aliases": [
-        "ITR",
-        "5' ITR",
-        "AAV2 ITR"
-      ],
+      "aliases": ["ITR", "5' ITR", "AAV2 ITR"],
       "role": "itr",
       "sequence": "TTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACTCCATCACTAGGGGTTCCT",
       "length": 145,
@@ -59,9 +55,7 @@
     {
       "id": "itr/AAV2-ITR-145-3prime@1.0.0",
       "name": "AAV2 3' ITR (145 nt)",
-      "aliases": [
-        "3' ITR"
-      ],
+      "aliases": ["3' ITR"],
       "role": "itr",
       "sequence": "TTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGCCCGGGCAAAGCCCGGGCGTCGGGCGACCTTTGGTCGCCCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACTCCATCACTAGGGGTTCCT",
       "length": 145,

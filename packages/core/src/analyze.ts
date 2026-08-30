@@ -8,7 +8,12 @@
 import type { Backbone } from './model/backbone.js'
 import type { Construct } from './model/construct.js'
 import type { CassetteTemplate } from './model/template.js'
-import { assemble, type AssembleOptions, type AssemblyResult, type PartLookup } from './seq/assemble.js'
+import {
+  assemble,
+  type AssembleOptions,
+  type AssemblyResult,
+  type PartLookup,
+} from './seq/assemble.js'
 import { scanSequence, type SequenceScan } from './validate/scan.js'
 import {
   DEFAULT_VALIDATION_OPTIONS,

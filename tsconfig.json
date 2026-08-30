@@ -2,26 +2,14 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "baseUrl": ".",
     "paths": {
-      "@castor-bio/core": [
-        "./packages/core/src/index.ts"
-      ],
-      "@castor-bio/core/*": [
-        "./packages/core/src/*"
-      ],
-      "@castor-bio/catalog": [
-        "./packages/catalog/src/index.ts"
-      ],
-      "@castor-bio/react": [
-        "./packages/react/src/index.ts"
-      ],
-      "@castor-bio/mui": [
-        "./packages/mui/src/index.ts"
-      ]
+      "@castor-bio/core": ["./packages/core/src/index.ts"],
+      "@castor-bio/core/*": ["./packages/core/src/*"],
+      "@castor-bio/catalog": ["./packages/catalog/src/index.ts"],
+      "@castor-bio/react": ["./packages/react/src/index.ts"],
+      "@castor-bio/mui": ["./packages/mui/src/index.ts"]
     }
   },
   "include": [

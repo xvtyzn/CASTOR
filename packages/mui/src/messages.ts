@@ -14,6 +14,7 @@ export interface WorkbenchMessages {
   expansion: string
   tabs: { overview: string; design: string; compare: string; registry: string; reference: string }
   language: string
+  loading: string
   overview: {
     title: string
     lede: string
@@ -48,6 +49,8 @@ export interface WorkbenchMessages {
     searchPlaceholder: string
     role: string
     allRoles: string
+    showing: (shown: number, total: number) => string
+    publications: (n: number) => string
     columns: {
       part: string
       role: string
@@ -78,6 +81,7 @@ export const workbenchEn: WorkbenchMessages = {
     reference: 'Reference',
   },
   language: 'Language',
+  loading: 'Loading…',
   overview: {
     title: 'Design an AAV cassette, then see what changed',
     lede: 'CASTOR builds ITR-to-ITR cassettes from parts your group already uses, and lays the results side by side so the differences are the thing you look at.',
@@ -147,7 +151,8 @@ export const workbenchEn: WorkbenchMessages = {
   },
   compare: {
     explainTitle: 'Read the differences off the figure',
-    explainSummary: 'Ribbons join parts that are the same catalogue entry. The gaps are what differs.',
+    explainSummary:
+      'Ribbons join parts that are the same catalogue entry. The gaps are what differs.',
     explainBody: [
       'There is no alignment and no similarity threshold here: two parts are linked because they are the same registry entry, which is something the designer knows for certain. Where no ribbon crosses between two rows, those rows genuinely differ.',
       'Ribbons are drawn between neighbouring rows only, so the order of the saved designs decides what is compared against what — drag them to change it. Align the rows on a part and zoom in and the tracks resolve into individual bases, the same position in every design, stacked.',
@@ -155,7 +160,8 @@ export const workbenchEn: WorkbenchMessages = {
   },
   registry: {
     explainTitle: 'What the group already has',
-    explainSummary: 'Every part the designer can offer, and how much use each one has actually seen.',
+    explainSummary:
+      'Every part the designer can offer, and how much use each one has actually seen.',
     explainBody: [
       'Sorted by projects, the parts your group has standardised on come first and the one-offs come last. That ordering is most of what a registry is for: a promoter three projects already used is usually the one you want, and a transgene used once two years ago is usually the one to look at carefully before reusing.',
       'Source says where the sequence came from. A GenBank accession means the bases were extracted from a named public record and checked; anything else is unverified and marked low-confidence in the picker.',
@@ -164,6 +170,8 @@ export const workbenchEn: WorkbenchMessages = {
     searchPlaceholder: 'Search name, alias, accession or project',
     role: 'Role',
     allRoles: 'All roles',
+    showing: (shown, total) => `${shown} of ${total}`,
+    publications: (n) => `${n} publication${n === 1 ? '' : 's'}`,
     columns: {
       part: 'Part',
       role: 'Role',
@@ -194,6 +202,7 @@ export const workbenchJa: WorkbenchMessages = {
     reference: 'リファレンス',
   },
   language: '言語',
+  loading: '読み込み中…',
   overview: {
     title: 'AAV カセットを設計し、何が変わったかを見る',
     lede: 'CASTOR は、あなたのグループがすでに使っているパーツから ITR 間のカセットを組み立て、結果を横に並べて「違いそのもの」を見えるようにします。',
@@ -279,6 +288,8 @@ export const workbenchJa: WorkbenchMessages = {
     searchPlaceholder: '名前・別名・アクセッション・プロジェクトで検索',
     role: '種別',
     allRoles: 'すべての種別',
+    showing: (shown, total) => `${total} 件中 ${shown} 件`,
+    publications: (n) => `論文 ${n} 件`,
     columns: {
       part: 'パーツ',
       role: '種別',

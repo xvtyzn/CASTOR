@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react'
 import {
-  compositeProvider,
   pastedSequenceProvider,
   staticCatalogProvider,
   type CastorTheme,
@@ -136,10 +135,12 @@ function DesignerBody({
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--castor-gap)' }}>
           <section className="castor-panel">
             <div className="castor-panel__head">
-              <h2 className="castor-panel__title">Composition</h2>
+              <h2 className="castor-panel__title">{t.shell.composition}</h2>
               <span className="castor-hint">
                 {state.construct.genomeSerotype}/{state.construct.capsidSerotype} ·{' '}
-                {state.construct.packaging === 'sc' ? 'self-complementary' : 'single-stranded'}
+                {state.construct.packaging === 'sc'
+                  ? t.shell.selfComplementary
+                  : t.shell.singleStranded}
               </span>
             </div>
             <div className="castor-panel__body" style={{ paddingTop: 8 }}>
@@ -167,17 +168,21 @@ function DesignerBody({
                 onRequestPart={setRequest}
                 onRemove={(id) => dispatch({ type: 'removePart', instanceId: id })}
                 onMove={(id, toIndex) => dispatch({ type: 'movePart', instanceId: id, toIndex })}
-                onSetStrand={(id, strand) => dispatch({ type: 'setStrand', instanceId: id, strand })}
+                onSetStrand={(id, strand) =>
+                  dispatch({ type: 'setStrand', instanceId: id, strand })
+                }
               />
             </div>
           </section>
 
           <section className="castor-panel">
             <div className="castor-panel__head">
-              <h2 className="castor-panel__title">Findings</h2>
+              <h2 className="castor-panel__title">{t.shell.findings}</h2>
               <span className="castor-hint">
-                {analysis.validation.counts.error} errors ·{' '}
-                {analysis.validation.counts.warning} warnings
+                {t.shell.errorsWarnings(
+                  analysis.validation.counts.error,
+                  analysis.validation.counts.warning,
+                )}
               </span>
             </div>
             <div className="castor-panel__body">
@@ -191,8 +196,8 @@ function DesignerBody({
 
           <section className="castor-panel">
             <div className="castor-panel__head">
-              <h2 className="castor-panel__title">Designs</h2>
-              <span className="castor-hint">{state.cart.items.length} saved</span>
+              <h2 className="castor-panel__title">{t.shell.designs}</h2>
+              <span className="castor-hint">{t.shell.saved(state.cart.items.length)}</span>
             </div>
             <div className="castor-panel__body">
               <CartPanel
@@ -212,7 +217,7 @@ function DesignerBody({
         {/* --- right: what it looks like ---------------------------------------------- */}
         <section className="castor-panel">
           <div className="castor-panel__head">
-            <h2 className="castor-panel__title">Map</h2>
+            <h2 className="castor-panel__title">{t.shell.map}</h2>
             <span style={{ display: 'flex', gap: 4 }}>
               {(['plasmid', 'cassette'] as const).map((s) => (
                 <button
@@ -220,7 +225,9 @@ function DesignerBody({
                   type="button"
                   className="castor-btn castor-btn--ghost"
                   aria-pressed={mapSpace === s}
-                  style={mapSpace === s ? { color: 'var(--castor-ink)', fontWeight: 600 } : undefined}
+                  style={
+                    mapSpace === s ? { color: 'var(--castor-ink)', fontWeight: 600 } : undefined
+                  }
                   onClick={() => setMapSpace(s)}
                 >
                   {s === 'plasmid' ? t.map.wholePlasmid : t.map.pgoiOnly}
@@ -249,10 +256,8 @@ function DesignerBody({
       {/* --- the comparison ------------------------------------------------------------ */}
       <section className="castor-panel">
         <div className="castor-panel__head">
-          <h2 className="castor-panel__title">Compare</h2>
-          <span className="castor-hint">
-            Ribbons join parts that are the same catalogue entry. The gaps are the differences.
-          </span>
+          <h2 className="castor-panel__title">{t.shell.compare}</h2>
+          <span className="castor-hint">{t.shell.comparisonHint}</span>
         </div>
         <ComparisonView
           model={comparison}
@@ -262,9 +267,7 @@ function DesignerBody({
         />
       </section>
 
-      <p className="castor-disclaimer">
-        {t.disclaimer}
-      </p>
+      <p className="castor-disclaimer">{t.disclaimer}</p>
 
       <PartPicker
         open={request !== null}

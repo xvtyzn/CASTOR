@@ -75,12 +75,17 @@ function projectAt(pxPerBase: number, flipped: Record<string, boolean> = {}, wid
   const layout = layoutOf(flipped)
   return {
     layout,
-    px: project(layout, scaleAt(pxPerBase), { width, plotLeft: PLOT_LEFT }, {
-      geom: DEFAULT_GEOM,
-      rowHeight: DEFAULT_LAYOUT_OPTIONS.rowHeight,
-      minLabelWidthPx: 34,
-      overscanPx: 0,
-    }),
+    px: project(
+      layout,
+      scaleAt(pxPerBase),
+      { width, plotLeft: PLOT_LEFT },
+      {
+        geom: DEFAULT_GEOM,
+        rowHeight: DEFAULT_LAYOUT_OPTIONS.rowHeight,
+        minLabelWidthPx: 34,
+        overscanPx: 0,
+      },
+    ),
   }
 }
 
@@ -130,13 +135,18 @@ describe('sequence rendering', () => {
 
   it('draws no bases at all rather than an arbitrary subset when over budget', () => {
     const layout = layoutOf()
-    const px = project(layout, scaleAt(10), { width: 600, plotLeft: PLOT_LEFT }, {
-      geom: DEFAULT_GEOM,
-      rowHeight: DEFAULT_LAYOUT_OPTIONS.rowHeight,
-      minLabelWidthPx: 34,
-      overscanPx: 0,
-      maxBaseGlyphs: 10,
-    })
+    const px = project(
+      layout,
+      scaleAt(10),
+      { width: 600, plotLeft: PLOT_LEFT },
+      {
+        geom: DEFAULT_GEOM,
+        rowHeight: DEFAULT_LAYOUT_OPTIONS.rowHeight,
+        minLabelWidthPx: 34,
+        overscanPx: 0,
+        maxBaseGlyphs: 10,
+      },
+    )
     expect(px.basesTruncated).toBe(true)
     // Half a figure's sequence is worse than none: the user cannot tell which rows were
     // dropped or why.
@@ -169,12 +179,17 @@ describe('sequence rendering', () => {
     const starts = layout.items.map((i) => i.x0)
     expect(new Set(starts).size).toBe(1)
 
-    const px = project(layout, scaleAt(10), { width: 900, plotLeft: PLOT_LEFT }, {
-      geom: DEFAULT_GEOM,
-      rowHeight: DEFAULT_LAYOUT_OPTIONS.rowHeight,
-      minLabelWidthPx: 34,
-      overscanPx: 0,
-    })
+    const px = project(
+      layout,
+      scaleAt(10),
+      { width: 900, plotLeft: PLOT_LEFT },
+      {
+        geom: DEFAULT_GEOM,
+        rowHeight: DEFAULT_LAYOUT_OPTIONS.rowHeight,
+        minLabelWidthPx: 34,
+        overscanPx: 0,
+      },
+    )
     // At the x where the anchored CDS starts, both rows must show the same base.
     const cdsX = layout.items[0]!.x0
     const at = (row: string) =>
