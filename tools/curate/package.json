@@ -1,0 +1,11 @@
+{
+  "name": "@castor-bio/curate",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Authoring-time scripts that build the shipped catalogue. Never published.",
+  "scripts": {
+    "fetch": "node --experimental-strip-types src/fetch.ts",
+    "inspect": "node --experimental-strip-types src/inspect.ts"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "$schema": "../../schema/part.schema.json",
+  "collection": "joiner",
+  "version": "2026.08.29",
+  "parts": [
+    {
+      "id": "joiner/P2A@1.0.0",
+      "name": "P2A",
+      "role": "joiner",
+      "sequence": "GGAAGCGGAGCTACTAACTTCAGCCTGCTGAAGCAGGCTGGAGACGTGGAGGAGAACCCTGGACCT",
+      "length": 66,
+      "checksum": "sha1:6278d9cf158ff6ef95e64913a9192a9caa6b84ff",
+      "attributes": {
+        "role": "joiner",
+        "mechanism": "2A",
+        "peptide": "P2A",
+        "needsGsgSpacer": false,
+        "relativeEfficiency": 1
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "note": "Peptide GSG-ATNFSLLKQAGDVEENPGP (porcine teschovirus-1 2A) with the GSG spacer included. Back-translated from the canonical peptide with human high-frequency codons. The peptide is the definitive spec; the exact codons differ between vendors and are not load-bearing.",
+        "usages": []
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0",
+      "description": "Highest ribosome-skipping efficiency of the common 2A peptides. Leaves ~22 aa on the upstream protein and one proline on the downstream one."
+    },
+    {
+      "id": "joiner/T2A@1.0.0",
+      "name": "T2A",
+      "role": "joiner",
+      "sequence": "GGAAGCGGAGAGGGCAGAGGAAGTCTGCTAACATGCGGTGACGTCGAGGAGAATCCTGGCCCA",
+      "length": 63,
+      "checksum": "sha1:e4196a612d6314dbf2026ec466041bccaaab9e77",
+      "attributes": {
+        "role": "joiner",
+        "mechanism": "2A",
+        "peptide": "T2A",
+        "needsGsgSpacer": false,
+        "relativeEfficiency": 0.9
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "note": "Peptide GSG-EGRGSLLTCGDVEENPGP (Thosea asigna virus 2A) with the GSG spacer included. Back-translated from the canonical peptide with human high-frequency codons. The peptide is the definitive spec; the exact codons differ between vendors and are not load-bearing.",
+        "usages": []
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0"
+    }
+  ]
+}

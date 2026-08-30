@@ -1,0 +1,9 @@
+packages:
+  - 'packages/*'
+  - 'apps/*'
+  - 'tools/*'
+
+# esbuild ships a platform binary installed by its postinstall script; vite and tsdown both
+# need it. Approving this one explicitly keeps every other package's scripts blocked.
+allowBuilds:
+  esbuild: true

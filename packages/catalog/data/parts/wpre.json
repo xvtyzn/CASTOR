@@ -1,0 +1,50 @@
+{
+  "$schema": "../../schema/part.schema.json",
+  "collection": "wpre",
+  "version": "2026.08.29",
+  "parts": [
+    {
+      "id": "wpre/WPRE@1.0.0",
+      "name": "WPRE",
+      "aliases": [
+        "woodchuck hepatitis post-transcriptional regulatory element"
+      ],
+      "role": "wpre",
+      "sequence": "ATCAACCTCTGGATTACAAAATTTGTGAAAGATTGACTGGTATTCTTAACTATGTTGCTCCTTTTACGCTATGTGGATACGCTGCTTTAATGCCTTTGTATCATGCTATTGCTTCCCGTATGGCTTTCATTTTCTCCTCCTTGTATAAATCCTGGTTGCTGTCTCTTTATGAGGAGTTGTGGCCCGTTGTCAGGCAACGTGGCGTGGTGTGCACTGTGTTTGCTGACGCAACCCCCACTGGTTGGGGCATTGCCACCACCTGTCAGCTCCTTTCCGGGACTTTCGCTTTCCCCCTCCCTATTGCCACGGCGGAACTCATCGCCGCCTGCCTTGCCCGCTGCTGGACAGGGGCTCGGCTGTTGGGCACTGACAATTCCGTGGTGTTGTCGGGGAAGCTGACGTCCTTTCCATGGCTGCTCGCCTGTGTTGCCACCTGGATTCTGCGCGGGACGTCCTTCTGCTACGTCCCTTCGGCCCTCAATCCAGCGGACCTTCCTTCCCGCGGCCTGCTGCCGGCTCTGCGGCCTCTTCCGCGTCTTCGCCTTCGCCCTCAGACGAGTCGGATCTCCCTTTGGGCCGCCTCCCCGCCTGT",
+      "length": 592,
+      "checksum": "sha1:2e973e85aaaa679553717d3f1075de9e03cb7892",
+      "attributes": {
+        "role": "wpre",
+        "variant": "full",
+        "xProteinOrf": true
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "accessions": [
+          {
+            "db": "GenBank",
+            "id": "J04514",
+            "url": "https://www.ncbi.nlm.nih.gov/nuccore/J04514"
+          }
+        ],
+        "note": "Extracted from J04514 1094..1685. Source record: Woodchuck hepatitis B virus (WHV8), complete genome.",
+        "usages": [
+          {
+            "kind": "publication",
+            "title": "Woodchuck hepatitis B virus (WHV8), complete genome.",
+            "pmid": "2928306",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/2928306/"
+          }
+        ]
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0",
+      "description": "Woodchuck hepatitis virus post-transcriptional regulatory element, the 592 bp form used in most vectors (WHV8 nt 1094-1685). Its 3′ end overlaps the WHV X-protein ORF, which starts at nt 1503 of this record — that ~180 bp overlap is the basis of the tumorigenicity concern for clinical use."
+    }
+  ]
+}

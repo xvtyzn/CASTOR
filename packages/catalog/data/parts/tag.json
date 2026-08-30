@@ -1,0 +1,157 @@
+{
+  "$schema": "../../schema/part.schema.json",
+  "collection": "tag",
+  "version": "2026.08.29",
+  "parts": [
+    {
+      "id": "tag/FLAG@1.0.0",
+      "name": "FLAG",
+      "role": "tag",
+      "sequence": "GACTACAAAGACGATGACGACAAG",
+      "length": 24,
+      "checksum": "sha1:52393d27c45ab9b8626a7c5d893554c954226d6f",
+      "attributes": {
+        "role": "tag",
+        "terminus": "either",
+        "copies": 1
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "note": "Peptide DYKDDDDK. Back-translated from the canonical peptide with human high-frequency codons. The peptide is the definitive spec; the exact codons differ between vendors and are not load-bearing.",
+        "usages": []
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0"
+    },
+    {
+      "id": "tag/3xFLAG@1.0.0",
+      "name": "3xFLAG",
+      "role": "tag",
+      "sequence": "GACTACAAAGACCATGACGGTGATTATAAAGATCATGACATCGATTACAAGGATGACGATGACAAG",
+      "length": 66,
+      "checksum": "sha1:233179778db493da5851180990a15d33567f7c25",
+      "attributes": {
+        "role": "tag",
+        "terminus": "either",
+        "copies": 3
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "note": "Peptide DYKDHDGDYKDHDIDYKDDDDK. Back-translated from the canonical peptide with human high-frequency codons. The peptide is the definitive spec; the exact codons differ between vendors and are not load-bearing.",
+        "usages": []
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0"
+    },
+    {
+      "id": "tag/HA@1.0.0",
+      "name": "HA",
+      "role": "tag",
+      "sequence": "TACCCATACGATGTTCCAGATTACGCT",
+      "length": 27,
+      "checksum": "sha1:3c35a01ffd318438c05338500cfc2948865b0d4a",
+      "attributes": {
+        "role": "tag",
+        "terminus": "either",
+        "copies": 1
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "note": "Peptide YPYDVPDYA (influenza haemagglutinin epitope). Back-translated from the canonical peptide with human high-frequency codons. The peptide is the definitive spec; the exact codons differ between vendors and are not load-bearing.",
+        "usages": []
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0"
+    },
+    {
+      "id": "tag/His6@1.0.0",
+      "name": "His6",
+      "role": "tag",
+      "sequence": "CACCACCATCACCATCAC",
+      "length": 18,
+      "checksum": "sha1:6b00e42637f5e76cb81fbc63f43e1b2b5d7d916c",
+      "attributes": {
+        "role": "tag",
+        "terminus": "either",
+        "copies": 1
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "note": "Peptide HHHHHH. Back-translated from the canonical peptide with human high-frequency codons. The peptide is the definitive spec; the exact codons differ between vendors and are not load-bearing.",
+        "usages": []
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0"
+    },
+    {
+      "id": "tag/V5@1.0.0",
+      "name": "V5",
+      "role": "tag",
+      "sequence": "GGTAAGCCTATCCCTAACCCTCTCCTCGGTCTCGATTCTACG",
+      "length": 42,
+      "checksum": "sha1:b59ee64b5d389b876c4d6961e627d4dbf03c70b0",
+      "attributes": {
+        "role": "tag",
+        "terminus": "either",
+        "copies": 1
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "note": "Peptide GKPIPNPLLGLDST. Back-translated from the canonical peptide with human high-frequency codons. The peptide is the definitive spec; the exact codons differ between vendors and are not load-bearing.",
+        "usages": []
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0"
+    },
+    {
+      "id": "tag/myc@1.0.0",
+      "name": "c-myc",
+      "role": "tag",
+      "sequence": "GAACAAAAACTCATCTCAGAAGAGGATCTG",
+      "length": 30,
+      "checksum": "sha1:d5ba007ff30ad19efcaa2590912750b0d290456d",
+      "attributes": {
+        "role": "tag",
+        "terminus": "either",
+        "copies": 1
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "note": "Peptide EQKLISEEDL. Back-translated from the canonical peptide with human high-frequency codons. The peptide is the definitive spec; the exact codons differ between vendors and are not load-bearing.",
+        "usages": []
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "../../schema/part.schema.json",
+  "collection": "switch",
+  "version": "2026.08.29",
+  "parts": [
+    {
+      "id": "switch/loxP@1.0.0",
+      "name": "loxP",
+      "role": "switch",
+      "sequence": "ATAACTTCGTATAATGTATGCTATACGAAGTTAT",
+      "length": 34,
+      "checksum": "sha1:a1e7f2c7d1f614418089de1401d4547e87aa2475",
+      "attributes": {
+        "role": "switch",
+        "system": "FLEX",
+        "site": "loxP",
+        "half": "5",
+        "pairKey": "flex-1"
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "note": "The canonical 34 bp loxP site (13 bp inverted repeat – 8 bp spacer – 13 bp inverted repeat). A single published sequence, verifiable by its own palindromic structure.",
+        "usages": []
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0"
+    },
+    {
+      "id": "switch/lox2272@1.0.0",
+      "name": "lox2272",
+      "role": "switch",
+      "sequence": "ATAACTTCGTATAAAGTATCCTATACGAAGTTAT",
+      "length": 34,
+      "checksum": "sha1:7186bd555c2fb3d5d06408572338f812fb41d844",
+      "attributes": {
+        "role": "switch",
+        "system": "FLEX",
+        "site": "lox2272",
+        "half": "5",
+        "pairKey": "flex-1"
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "note": "loxP with the spacer mutations that make it heterotypic (positions 2 and 7 of the 8 bp spacer). 34 bp, published, and checkable against loxP by diff.",
+        "usages": []
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0"
+    }
+  ]
+}

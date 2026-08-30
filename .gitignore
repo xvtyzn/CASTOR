@@ -1,0 +1,12 @@
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+.DS_Store
+.vite/
+apps/playground/dist/
+packages/*/dist/
+
+# Cached GenBank downloads. Re-fetched on demand by tools/curate; keeping them out of the
+# repo means the catalogue's provenance is the recipe file, not a stale copy of NCBI.
+tools/curate/cache/

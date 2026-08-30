@@ -1,0 +1,134 @@
+{
+  "$schema": "../../schema/part.schema.json",
+  "collection": "promoter",
+  "version": "2026.08.29",
+  "parts": [
+    {
+      "id": "promoter/CAG-935@1.0.0",
+      "name": "CAG (935 bp)",
+      "aliases": [
+        "CAGGS",
+        "CBA hybrid"
+      ],
+      "role": "promoter",
+      "sequence": "ATTGACGTCAATAATGACGTATGTTCCCATAGTAACGCCAATAGGGACTTTCCATTGACGTCAATGGGTGGACTATTTACGGTAAACTGCCCACTTGGCAGTACATCAAGTGTATCATATGCCAAGTACGCCCCCTATTGACGTCAATGACGGTAAATGGCCCGCCTGGCATTATGCCCAGTACATGACCTTATGGGACTTTCCTACTTGGCAGTACATCTACGTATTAGTCATCGCTATTACCATGGTCGAGGTGAGCCCCACGTTCTGCTTCACTCTCCCCATCTCCCCCCCCTCCCCACCCCCAATTTTGTATTTATTTATTTTTTAATTATTTTGTGCAGCGATGGGGGCGGGGGGGGGGGGGGGGCGCGCGCCAGGCGGGGCGGGGCGGGGCGAGGGGCGGGGCGGGGCGAGGCGGAGAGGTGCGGCGGCAGCCAATCAGAGCGGCGCGCTCCGAAAGTTTCCTTTTATGGCGAGGCGGCGGCGGCGGCGGCCCTATAAAAAGCGAAGCGCGCGGCGGGCGGGAGTCGCTGCGACGCTGCCTTCGCCCCGTGCCCCGCTCCGCCGCCGCCTCGCGCCGCCCGCCCCGGCTCTGACTGACCGCGTTACTCCCACAGGTGAGCGGGCGGGACGGCCCTTCTCCTCCGGGCTGTAATTAGCGCTTGGTTTAATGACGGCTTGTTTCTTTTCTGTGGCTGCGTGAAAGCCTTGAGGGGCTCCGGGAGGGCCCTTTGTGCGGGGGGAGCGGCTCGGGGCTGTCCGCGGGGGGACGGCTGCCTTCGGGGGGGACGGGGCAGGGCGGGGTTCGGCTTCTGGCGTGTGACCGGCGGCTCTAGAGCCTCTGCTAACCATGTTCATGCCTTCTTCTTTTTCCTACAGCTCCTGGGCAACGTGCTGGTTATTGTGCTGTCTCATCATTTTGGCAAAGAATT",
+      "length": 935,
+      "checksum": "sha1:eb08479c6a54c180eb0f8d45ad3fe760b54b7279",
+      "attributes": {
+        "role": "promoter",
+        "polymerase": "II",
+        "strength": "strong",
+        "minimal": false,
+        "tissue": [
+          "ubiquitous"
+        ],
+        "silencingProne": false
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "accessions": [
+          {
+            "db": "GenBank",
+            "id": "JN898962",
+            "url": "https://www.ncbi.nlm.nih.gov/nuccore/JN898962"
+          }
+        ],
+        "note": "Extracted from JN898962 453..1387. Source record: Cloning vector AAV, complete sequence.",
+        "usages": []
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0",
+      "description": "A CAG-family promoter as annotated in the AAV cloning vector JN898962: CMV enhancer (the ATTGACGTCAATAATGACGTATG repeat is visible at the 5′ end) driving a chicken beta-actin promoter with a rabbit beta-globin splice acceptor. CAG constructs vary widely in length between labs (581 bp tCAG to 1733 bp full CAG); this is the 935 bp variant carried by this record, and the length is part of the name for that reason."
+    },
+    {
+      "id": "promoter/EF1a@1.0.0",
+      "name": "EF1α (full)",
+      "aliases": [
+        "EF1a",
+        "EEF1A1 promoter",
+        "EF-1alpha"
+      ],
+      "role": "promoter",
+      "sequence": "GGCTCCGGTGCCCGTCAGTGGGCAGAGCGCACATCGCCCACAGTCCCCGAGAAGTTGGGGGGAGGGGTCGGCAATTGAACCGGTGCCTAGAGAAGGTGGCGCGGGGTAAACTGGGAAAGTGATGTCGTGTACTGGCTCCGCCTTTTTCCCGAGGGTGGGGGAGAACCGTATATAAGTGCAGTAGTCGCCGTGAACGTTCTTTTTCGCAACGGGTTTGCCGCCAGAACACAGGTAAGTGCCGTGTGTGGTTCCCGCGGGCCTGGCCTCTTTACGGGTTATGGCCCTTGCGTGCCTTGAATTACTTCCACCTGGCTGCAGTACGTGATTCTTGATCCCGAGCTTCGGGTTGGAAGTGGGTGGGAGAGTTCGAGGCCTTGCGCTTAAGGAGCCCCTTCGCCTCGTGCTTGAGTTGAGGCCTGGCCTGGGCGCTGGGGCCGCCGCGTGCGAATCTGGTGGCACCTTCGCGCCTGTCTCGCTGCTTTCGATAAGTCTCTAGCCATTTAAAATTTTTGATGACCTGCTGCGACGCTTTTTTTCTGGCAAGATAGTCTTGTAAATGCGGGCCAAGATCTGCACACTGGTATTTCGGTTTTTGGGGCCGCGGGCGGCGACGGGGCCCGTGCGTCCCAGCGCACATGTTCGGCGAGGCGGGGCCTGCGAGCGCGGCCACCGAGAATCGGACGGGGGTAGTCTCAAGCTGGCCGGCCTGCTCTGGTGCCTGGCCTCGCGCCGCCGTGTATCGCCCCGCCCTGGGCGGCAAGGCTGGCCCGGTCGGCACCAGTTGCGTGAGCGGAAAGATGGCCGCTTCCCGGCCCTGCTGCAGGGAGCTCAAAATGGAGGACGCGGCGCTCGGGAGAGCGGGCGGGTGAGTCACCCACACAAAGGAAAAGGGCCTTTCCGTCCTCAGCCGTCGCTTCATGTGACTCCACGGAGTACCGGGCGCCGTCCAGGCACCTCGATTAGTTCTCGAGCTTTTGGAGTACGTCGTCTTTAGGTTGGGGGGAGGGGTTTTATGCGATGGAGTTTCCCCACACTGAGTGGGTGGAGACTGAAGTTAGGCCAGCTTGGCACTTGATGTAATTCTCCTTGGAATTTGCCCTTTTTGAGTTTGGATCTTGGTTCATTCTCAAGCCTCAGACAGTGGTTCAAAGTTTTTTTCTTCCATTTCAGGTGTCGTGA",
+      "length": 1179,
+      "checksum": "sha1:a781ec5b32c9ae3feb74649a08b2ea98e1d4ff65",
+      "attributes": {
+        "role": "promoter",
+        "polymerase": "II",
+        "strength": "strong",
+        "minimal": false,
+        "tissue": [
+          "ubiquitous"
+        ],
+        "silencingProne": false
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "accessions": [
+          {
+            "db": "GenBank",
+            "id": "PZ458742",
+            "url": "https://www.ncbi.nlm.nih.gov/nuccore/PZ458742"
+          }
+        ],
+        "note": "Extracted from PZ458742 172..1350. Source record: Vector pAAV-Ef1a-DIO-MCP-EGFP-WPRE-hGHpA, complete sequence.",
+        "usages": []
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0",
+      "description": "Full-length human elongation factor 1-alpha promoter including intron 1, from the AAV vector pAAV-Ef1a-DIO-MCP-EGFP-WPRE-hGHpA. Resists the in vivo silencing that affects CMV, at the cost of 1.2 kb of a 4.7 kb budget."
+    },
+    {
+      "id": "promoter/gfaABC1D@1.0.0",
+      "name": "gfaABC1D",
+      "aliases": [
+        "GFAP short",
+        "gfaABC(1)D"
+      ],
+      "role": "promoter",
+      "sequence": "AGATCTAACATATCCTGGTGTGGAGTAGGGGACGCTGCTCTGACAGAGGCTCGGGGGCCTGAGCTGGCTCTGTGAGCTGGGGAGGAGGCAGACAGCCAGGCCTTGTCTGCAAGCAGACCTGGCAGCATTGGGCTGGCCGCCCCCCAGGGCCTCCTCTTCATGCCCAGTGAATGACTCACCTTGGCACAGACACAATGTTCGGGGTGGGCACAGTGCCTGCTTCCCGCCGCACCCCAGCCCCCCTCAAATGCCTTCCGAGAAGCCCATTGAGCAGGGGGCTTGCATTGCACCCCAGCCTGACAGCCTGGCATCTTGGGATAAAAGCAGCACAGCCCCCTAGGGGCTGCCCTTGCTGTGTGGCGCCACCGGCGGTGGAGAACAAGGCTCTATTCAGCCTGTGCCCAGGAAAGGGGATCAGGGGATGCCCAGGCATGGACAGTGGGTGGCAGGGGGGGAGAGGAGGGCTGTCTGCTTCCCAGAAGTCCAAGGACACAAATGGGTGAGGGGAGAGCTCTCCCCATAGCTGGGCTGCGGCCCAACCCCACCCCCTCAGGCTATGCCAGGGGGTGTTGCCAGGGGCACCCGGGCATCGCCAGTCTAGCCCACTCCTTCATAAAGCCCTCGCATCCCAGGAGCGAGCAGAGCCAGAGCAGGTTGGAGAGGAGACGCATCACCTCCGCTGCTCGC",
+      "length": 687,
+      "checksum": "sha1:e07f3bf95532704f7bb87bdc152c452414d86e5b",
+      "attributes": {
+        "role": "promoter",
+        "polymerase": "II",
+        "strength": "medium",
+        "minimal": false,
+        "tissue": [
+          "astrocyte"
+        ],
+        "silencingProne": false
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "accessions": [
+          {
+            "db": "GenBank",
+            "id": "PZ398262",
+            "url": "https://www.ncbi.nlm.nih.gov/nuccore/PZ398262"
+          }
+        ],
+        "note": "Extracted from PZ398262 3384..4070. Source record: Synthetic construct clone pAAV-GfaABC1D-MCP-4xsfGFP-W3-bGHpA, complete sequence.",
+        "usages": []
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0",
+      "description": "Compact astrocyte-specific promoter derived from human GFAP, from the AAV vector pAAV-GfaABC1D-MCP-4xsfGFP-W3-bGHpA. The practical choice for astrocyte targeting: full-length GFAP is ~2.2 kb, which is half an AAV genome."
+    }
+  ]
+}

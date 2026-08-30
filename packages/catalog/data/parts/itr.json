@@ -1,0 +1,111 @@
+{
+  "$schema": "../../schema/part.schema.json",
+  "collection": "itr",
+  "version": "2026.08.29",
+  "parts": [
+    {
+      "id": "itr/AAV2-ITR-145-flip@1.0.0",
+      "name": "AAV2 5' ITR (145 nt)",
+      "aliases": [
+        "ITR",
+        "5' ITR",
+        "AAV2 ITR"
+      ],
+      "role": "itr",
+      "sequence": "TTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGGGCGACCAAAGGTCGCCCGACGCCCGGGCTTTGCCCGGGCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACTCCATCACTAGGGGTTCCT",
+      "length": 145,
+      "checksum": "sha1:d63cef6deab7d4256900bb8c29ebf4bc4bfb6194",
+      "attributes": {
+        "role": "itr",
+        "serotype": "AAV2",
+        "form": "145",
+        "deltaTRS": false,
+        "orientation": "flip"
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "accessions": [
+          {
+            "db": "GenBank",
+            "id": "NC_001401",
+            "url": "https://www.ncbi.nlm.nih.gov/nuccore/NC_001401"
+          }
+        ],
+        "note": "Extracted from NC_001401 1..145. Source record: Adeno-associated virus - 2, complete genome.",
+        "usages": [
+          {
+            "kind": "publication",
+            "title": "Adeno-associated virus - 2, complete genome.",
+            "pmid": "25127256",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25127256/"
+          },
+          {
+            "kind": "publication",
+            "title": "Adeno-associated virus - 2, complete genome.",
+            "pmid": "7996133",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/7996133/"
+          }
+        ]
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0",
+      "description": "Wild-type AAV2 inverted terminal repeat, flip orientation. Annotated in the AAV2 reference genome as repeat_region 1..145, \"inverted terminal repeat\"."
+    },
+    {
+      "id": "itr/AAV2-ITR-145-3prime@1.0.0",
+      "name": "AAV2 3' ITR (145 nt)",
+      "aliases": [
+        "3' ITR"
+      ],
+      "role": "itr",
+      "sequence": "TTGGCCACTCCCTCTCTGCGCGCTCGCTCGCTCACTGAGGCCGCCCGGGCAAAGCCCGGGCGTCGGGCGACCTTTGGTCGCCCGGCCTCAGTGAGCGAGCGAGCGCGCAGAGAGGGAGTGGCCAACTCCATCACTAGGGGTTCCT",
+      "length": 145,
+      "checksum": "sha1:4caa9ad34136c2aadea1aec8e4a0e4d813c4454c",
+      "attributes": {
+        "role": "itr",
+        "serotype": "AAV2",
+        "form": "145",
+        "deltaTRS": false,
+        "orientation": "flop"
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "accessions": [
+          {
+            "db": "GenBank",
+            "id": "NC_001401",
+            "url": "https://www.ncbi.nlm.nih.gov/nuccore/NC_001401"
+          }
+        ],
+        "note": "Extracted from NC_001401 4535..4679 (reverse complement). Source record: Adeno-associated virus - 2, complete genome.",
+        "usages": [
+          {
+            "kind": "publication",
+            "title": "Adeno-associated virus - 2, complete genome.",
+            "pmid": "25127256",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25127256/"
+          },
+          {
+            "kind": "publication",
+            "title": "Adeno-associated virus - 2, complete genome.",
+            "pmid": "7996133",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/7996133/"
+          }
+        ]
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0",
+      "description": "The 3' ITR of the AAV2 reference genome, stored as the reverse complement so that it reads 5′->3′ on the transfer plasmid like every other part."
+    }
+  ]
+}

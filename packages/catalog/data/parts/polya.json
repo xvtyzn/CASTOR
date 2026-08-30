@@ -1,0 +1,79 @@
+{
+  "$schema": "../../schema/part.schema.json",
+  "collection": "polya",
+  "version": "2026.08.29",
+  "parts": [
+    {
+      "id": "polya/SV40@1.0.0",
+      "name": "SV40 polyA",
+      "aliases": [
+        "SV40 poly(A) signal"
+      ],
+      "role": "polya",
+      "sequence": "TGATAAGATACATTGATGAGTTTGGACAAACCACAACTAGAATGCAGTGAAAAAAATGCTTTATTTGTGAAATTTGTGATGCTATTGCTTTATTTGTAACCATTATAAGCTGCAATAAACAAGTTAACAACAACAATTGCATTCATTTTATGTTTCAGGTTCAGGGGGAGATGTGGGAGGTTTTTTAAAGCAAGTAAAACCTCTACAAATGTGGTAAAATC",
+      "length": 221,
+      "checksum": "sha1:26c89ecbe5ebc5dd52e9b6201ef5da65e358874e",
+      "attributes": {
+        "role": "polya",
+        "source": "SV40",
+        "strength": "strong"
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "accessions": [
+          {
+            "db": "GenBank",
+            "id": "JN898962",
+            "url": "https://www.ncbi.nlm.nih.gov/nuccore/JN898962"
+          }
+        ],
+        "note": "Extracted from JN898962 2076..2296. Source record: Cloning vector AAV, complete sequence.",
+        "usages": []
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0",
+      "description": "SV40 polyadenylation signal. Note that JN898962 annotates this region simply as \"polyA signal\"; the identity was established from the sequence itself, which is the SV40 element carried by pcDNA3 and pEGFP-N1. The cloning linker at the 5′ end of the annotated feature is excluded here."
+    },
+    {
+      "id": "polya/hGH@1.0.0",
+      "name": "hGH polyA",
+      "aliases": [
+        "human growth hormone poly(A) signal"
+      ],
+      "role": "polya",
+      "sequence": "GGGTGGCATCCCTGTGACCCCTCCCCAGTGCCTCTCCTGGCCCTGGAAGTTGCCACTCCAGTGCCCACCAGCCTTGTCCTAATAAAATTAAGTTGCATCATTTTGTCTGACTAGGTGTCCTTCTATAATATTATGGGGTGGAGGGGGGTGGTATGGAGCAAGGGGCAAGTTGGGAAGACAACCTGTAGGGCCTGCGGGGTCTATTGGGAACCAAGCTGGAGTGCAGTGGCACAATCTTGGCTCACTGCAATCTCCGCCTCCTGGGTTCAAGCGATTCTCCTGCCTCAGCCTCCCGAGTTGTTGGGATTCCAGGCATGCATGACCAGGCTCAGCTAATTTTTGTTTTTTTGGTAGAGACGGGGTTTCACCATATTGGCCAGGCTGGTCTCCAACTCCTAATCTCAGGTGATCTACCCACCTTGGCCTCCCAAATTGCTGGGATTACAGGCGTGAACCACTGCTCCCTTCCCTGTCCTT",
+      "length": 477,
+      "checksum": "sha1:babfe274c47b820d4fd2f4d05a1c2c8984617e15",
+      "attributes": {
+        "role": "polya",
+        "source": "hGH",
+        "strength": "strong"
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "accessions": [
+          {
+            "db": "GenBank",
+            "id": "PZ458742",
+            "url": "https://www.ncbi.nlm.nih.gov/nuccore/PZ458742"
+          }
+        ],
+        "note": "Extracted from PZ458742 3400..3876. Source record: Vector pAAV-Ef1a-DIO-MCP-EGFP-WPRE-hGHpA, complete sequence.",
+        "usages": []
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0",
+      "description": "Human growth hormone polyadenylation region, as carried by pAAV-Ef1a-DIO-MCP-EGFP-WPRE-hGHpA. Longer than the minimal hGH pA variants (113/189/324 bp) reported elsewhere; this is the full annotated element from the source vector."
+    }
+  ]
+}

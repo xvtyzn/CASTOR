@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://castor-bio.dev/schema/part.schema.json",
+  "title": "AAV Designer part collection",
+  "type": "object",
+  "required": ["collection", "parts"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "collection": { "type": "string" },
+    "version": { "type": "string" },
+    "parts": { "type": "array", "items": { "$ref": "#/$defs/part" } }
+  },
+  "$defs": {
+    "part": {
+      "type": "object",
+      "required": [
+        "id", "name", "role", "sequence", "length", "checksum",
+        "attributes", "provenance", "license", "version"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z_]+/[A-Za-z0-9._+()-]+@\\d+\\.\\d+\\.\\d+$" },
+        "name": { "type": "string", "minLength": 1 },
+        "aliases": { "type": "array", "items": { "type": "string" } },
+        "role": {
+          "enum": [
+            "backbone", "itr", "spacer", "enhancer", "promoter", "switch", "intron",
+            "utr5", "kozak", "signal_peptide", "tag", "linker", "cds", "joiner", "stop",
+            "utr3", "wpre", "polya", "stuffer", "shrna", "amirna_scaffold",
+            "grna_scaffold", "terminator", "custom"
+          ]
+        },
+        "sequence": { "type": "string", "pattern": "^[ACGTURYSWKMBDHVN]*$" },
+        "length": { "type": "integer", "minimum": 0 },
+        "checksum": { "type": "string", "pattern": "^sha1:[0-9a-f]{40}$" },
+        "attributes": { "type": "object", "required": ["role"] },
+        "variantOf": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "description": { "type": "string" },
+        "version": { "type": "string" },
+        "provenance": { "$ref": "#/$defs/provenance" },
+        "license": { "$ref": "#/$defs/license" }
+      },
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["origin", "confidence"],
+      "properties": {
+        "origin": { "enum": ["curated", "user", "imported", "derived"] },
+        "confidence": { "enum": ["high", "medium", "low"] },
+        "curatedBy": { "type": "string" },
+        "curatedAt": { "type": "string" },
+        "note": { "type": "string" },
+        "accessions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["db", "id"],
+            "properties": {
+              "db": { "enum": ["GenBank", "ENA", "RefSeq", "UniProt", "FPbase", "iGEM", "SynBioHub"] },
+              "id": { "type": "string" },
+              "url": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "addgene": {
+          "type": "object",
+          "required": ["plasmidId"],
+          "properties": {
+            "plasmidId": { "type": "integer" },
+            "name": { "type": "string" },
+            "url": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        "usages": { "type": "array", "items": { "$ref": "#/$defs/usage" } }
+      },
+      "additionalProperties": false
+    },
+    "usage": {
+      "type": "object",
+      "required": ["kind", "title"],
+      "properties": {
+        "kind": { "enum": ["publication", "project", "repository"] },
+        "title": { "type": "string" },
+        "pmid": { "type": "string" },
+        "pmcid": { "type": "string" },
+        "doi": { "type": "string" },
+        "year": { "type": "integer" },
+        "journal": { "type": "string" },
+        "authorsShort": { "type": "string" },
+        "projectId": { "type": "string" },
+        "owner": { "type": "string" },
+        "team": { "type": "string" },
+        "constructName": { "type": "string" },
+        "url": { "type": "string" },
+        "note": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "license": {
+      "type": "object",
+      "required": ["spdx", "redistributable"],
+      "properties": {
+        "spdx": { "type": "string" },
+        "redistributable": { "type": "boolean" },
+        "source": { "type": "string" },
+        "note": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

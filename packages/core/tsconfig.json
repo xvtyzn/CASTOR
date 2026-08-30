@@ -1,0 +1,24 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "../..",
+    "paths": {
+      "@castor-bio/core": [
+        "./packages/core/src/index.ts"
+      ],
+      "@castor-bio/core/*": [
+        "./packages/core/src/*"
+      ],
+      "@castor-bio/catalog": [
+        "./packages/catalog/src/index.ts"
+      ],
+      "@castor-bio/react": [
+        "./packages/react/src/index.ts"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "scripts/**/*"
+  ]
+}

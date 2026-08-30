@@ -1,0 +1,71 @@
+{
+  "name": "@castor-bio/core",
+  "version": "0.1.0",
+  "description": "Framework-free domain model, sequence assembly, validation and comparison layout for AAV vector design.",
+  "type": "module",
+  "sideEffects": false,
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./compare": {
+      "import": {
+        "types": "./dist/compare/index.d.mts",
+        "default": "./dist/compare/index.mjs"
+      },
+      "require": {
+        "types": "./dist/compare/index.d.cts",
+        "default": "./dist/compare/index.cjs"
+      }
+    },
+    "./validate": {
+      "import": {
+        "types": "./dist/validate/index.d.mts",
+        "default": "./dist/validate/index.mjs"
+      },
+      "require": {
+        "types": "./dist/validate/index.d.cts",
+        "default": "./dist/validate/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "scripts": {
+    "build": "tsdown"
+  },
+  "dependencies": {
+    "@teselagen/range-utils": "^0.3.20"
+  },
+  "devDependencies": {
+    "fast-check": "^3.23.2",
+    "tsdown": "^0.22.14",
+    "typescript": "~5.9.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "typesVersions": {
+    "*": {
+      "compare": [
+        "./dist/compare/index.d.cts"
+      ],
+      "validate": [
+        "./dist/validate/index.d.cts"
+      ]
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "playground",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "smoke": "node e2e/smoke.mjs"
+  },
+  "dependencies": {
+    "@castor-bio/catalog": "workspace:^",
+    "@castor-bio/core": "workspace:^",
+    "@castor-bio/react": "workspace:^",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "@castor-bio/mui": "workspace:^",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^9.4.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "~5.9.0",
+    "vite": "^6.0.7"
+  }
+}

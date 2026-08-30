@@ -1,0 +1,53 @@
+{
+  "$schema": "../../schema/part.schema.json",
+  "collection": "linker",
+  "version": "2026.08.29",
+  "parts": [
+    {
+      "id": "linker/G4S@1.0.0",
+      "name": "(G4S)1 linker",
+      "role": "linker",
+      "sequence": "GGAGGCGGAGGTTCT",
+      "length": 15,
+      "checksum": "sha1:bf9017e1aa9b70dfe8d881f1fec81ebf6f69870b",
+      "attributes": {
+        "role": "linker"
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "note": "Peptide GGGGS, the standard flexible linker. Back-translated from the canonical peptide with human high-frequency codons. The peptide is the definitive spec; the exact codons differ between vendors and are not load-bearing.",
+        "usages": []
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0"
+    },
+    {
+      "id": "linker/G4Sx3@1.0.0",
+      "name": "(G4S)3 linker",
+      "role": "linker",
+      "sequence": "GGAGGCGGAGGTTCTGGAGGCGGAGGTTCTGGAGGCGGAGGTTCT",
+      "length": 45,
+      "checksum": "sha1:530ac4edb82be3bc6758c1451bd6109824c664ae",
+      "attributes": {
+        "role": "linker"
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "note": "Peptide (GGGGS)3. Back-translated from the canonical peptide with human high-frequency codons. The peptide is the definitive spec; the exact codons differ between vendors and are not load-bearing.",
+        "usages": []
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0"
+    }
+  ]
+}

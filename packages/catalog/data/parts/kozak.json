@@ -1,0 +1,32 @@
+{
+  "$schema": "../../schema/part.schema.json",
+  "collection": "kozak",
+  "version": "2026.08.29",
+  "parts": [
+    {
+      "id": "kozak/Kozak-consensus@1.0.0",
+      "name": "Kozak (GCCACC)",
+      "role": "kozak",
+      "sequence": "GCCACC",
+      "length": 6,
+      "checksum": "sha1:217ecc94a4e2a40cccd57902a6aa093ce9603de8",
+      "attributes": {
+        "role": "kozak",
+        "strength": "strong"
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "note": "The 6 bp immediately 5′ of the ATG in the Kozak consensus gccRccATGG. Six bases, one published consensus, nothing to get wrong.",
+        "usages": []
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0",
+      "description": "Places a purine at −3 and leaves the CDS to supply the +4 G, giving strong translation initiation context."
+    }
+  ]
+}

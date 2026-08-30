@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        run: pnpm typecheck
+      - name: Test
+        run: pnpm test
+      - name: Build (runs publint + attw on @castor-bio/core)
+        run: pnpm build
+      - name: Validate catalogue against JSON Schema
+        run: pnpm --filter @castor-bio/catalog validate
+      - name: Browser smoke test
+        run: |
+          pnpm --filter playground exec playwright install --with-deps chromium
+          pnpm --filter playground dev &
+          npx wait-on http://localhost:5178 -t 60000
+          pnpm --filter playground smoke

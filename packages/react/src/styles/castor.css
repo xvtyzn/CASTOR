@@ -1,0 +1,846 @@
+/*
+ * @castor-bio/react chrome styles.
+ *
+ * Rules this file obeys, because it is shipped into somebody else's application:
+ *   - every selector is prefixed .castor-; there are no element selectors and no resets
+ *   - no !important anywhere
+ *   - no @font-face and no webfont imports; an embedded widget that pulls fonts over the
+ *     network is hostile to its host
+ *   - colours come from --castor-* custom properties, which <CastorDesigner> writes from the same
+ *     JS theme object the SVG marks read, so the two can never drift
+ *
+ * Colour policy: THE CHROME HAS NO SATURATED COLOUR. In this tool colour encodes biology —
+ * part identity, homology group, packaging risk — so any saturated pixel that is not data is
+ * noise competing with data. The greys below are the entire chrome palette.
+ */
+
+/*
+ * Two scopes, deliberately.
+ *
+ *   .castor-scope  defines the tokens and the type. Anything rendering CASTOR components needs
+ *                  this, including a host that arranges them itself.
+ *   .castor-root   is .castor-scope plus the batteries-included stacked layout.
+ *
+ * They were one class at first, which meant a host that composed the components without the
+ * built-in layout got no custom properties at all — every button and link silently fell back to
+ * unstyled. Splitting them is what lets an application shell own its own layout and still get
+ * the tokens.
+ */
+.castor-scope,
+.castor-root {
+  --castor-bg: #fbfbfc;
+  --castor-surface: #ffffff;
+  --castor-surface-sunken: #f4f6f8;
+  --castor-line: #dfe3e8;
+  --castor-line-strong: #9aa5b1;
+  --castor-ink: #1b2733;
+  --castor-ink-muted: #616e7c;
+  --castor-ink-faint: #9aa5b1;
+  --castor-focus: #2f3e4e;
+
+  --castor-radius: 3px;
+  --castor-gap: 12px;
+
+  --castor-font: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+  --castor-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono',
+    monospace;
+
+  color: var(--castor-ink);
+  font-family: var(--castor-font);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.castor-root {
+  background: var(--castor-bg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--castor-gap);
+}
+
+/* Every number in this interface is a measurement, so every number is tabular and
+   monospaced. Lengths are the subject; they should line up. */
+.castor-num {
+  font-family: var(--castor-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.castor-panel {
+  background: var(--castor-surface);
+  border: 1px solid var(--castor-line);
+  border-radius: var(--castor-radius);
+}
+
+.castor-panel__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--castor-line);
+}
+
+.castor-panel__title {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--castor-ink-muted);
+}
+
+.castor-panel__body {
+  padding: 12px;
+}
+
+.castor-hint {
+  margin: 0;
+  color: var(--castor-ink-muted);
+  font-size: 12px;
+}
+
+/* --- controls ------------------------------------------------------------------------- */
+
+.castor-btn {
+  font: inherit;
+  color: var(--castor-ink);
+  background: var(--castor-surface);
+  border: 1px solid var(--castor-line-strong);
+  border-radius: var(--castor-radius);
+  padding: 4px 10px;
+  cursor: pointer;
+}
+.castor-btn:hover:not(:disabled) {
+  background: var(--castor-surface-sunken);
+}
+.castor-btn:disabled {
+  color: var(--castor-ink-faint);
+  border-color: var(--castor-line);
+  cursor: not-allowed;
+}
+.castor-btn--primary {
+  background: var(--castor-ink);
+  border-color: var(--castor-ink);
+  color: var(--castor-surface);
+}
+.castor-btn--primary:hover:not(:disabled) {
+  background: #2f3e4e;
+}
+.castor-btn--ghost {
+  border-color: transparent;
+  background: transparent;
+  color: var(--castor-ink-muted);
+  padding: 2px 6px;
+}
+.castor-btn--ghost:hover:not(:disabled) {
+  color: var(--castor-ink);
+  background: var(--castor-surface-sunken);
+}
+
+.castor-select,
+.castor-input {
+  font: inherit;
+  color: var(--castor-ink);
+  background: var(--castor-surface);
+  border: 1px solid var(--castor-line-strong);
+  border-radius: var(--castor-radius);
+  padding: 4px 6px;
+}
+
+.castor-scope :focus-visible,
+.castor-root :focus-visible {
+  outline: 2px solid var(--castor-focus);
+  outline-offset: 1px;
+}
+
+/* --- the cassette ruler: the editor and the capacity meter are one object -------------- */
+
+.castor-ruler {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.castor-ruler__seg {
+  cursor: pointer;
+  transition: x 180ms ease, width 180ms ease;
+}
+.castor-ruler__seg:hover {
+  filter: brightness(1.08);
+}
+.castor-ruler__seg--selected {
+  stroke-width: 2;
+}
+.castor-ruler__tick-label,
+.castor-ruler__seg-label {
+  font-family: var(--castor-mono);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .castor-ruler__seg {
+    transition: none;
+  }
+}
+
+/* --- slot list ------------------------------------------------------------------------ */
+
+.castor-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.castor-slot {
+  position: relative;
+  display: grid;
+  grid-template-columns: 122px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--castor-radius);
+  text-align: left;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  width: 100%;
+  cursor: pointer;
+}
+.castor-slot:hover {
+  background: var(--castor-surface-sunken);
+}
+.castor-slot--selected {
+  border-color: var(--castor-line-strong);
+  background: var(--castor-surface-sunken);
+}
+.castor-slot__label {
+  color: var(--castor-ink-muted);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  min-width: 0;
+}
+
+/* The grip doubles as the slot label, so the drag target is the whole label column rather
+   than a separate handle competing for the same few pixels. */
+.castor-slot__grip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  padding: 2px 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  text-align: left;
+  cursor: grab;
+  touch-action: none;
+}
+.castor-slot__grip:active {
+  cursor: grabbing;
+}
+.castor-slot__grip svg {
+  flex: none;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+.castor-slot:hover .castor-slot__grip svg,
+.castor-slot:focus-within .castor-slot__grip svg,
+.castor-slot--selected .castor-slot__grip svg {
+  opacity: 0.55;
+}
+.castor-slot__grip-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.castor-slot--dragging {
+  background: var(--castor-surface);
+  border-color: var(--castor-line-strong);
+  box-shadow: 0 2px 8px rgb(27 39 51 / 0.14);
+  z-index: 2;
+  position: relative;
+}
+.castor-slot--locked {
+  cursor: default;
+}
+/* Locked rows have no grip, so they reserve its width instead — otherwise the ITR labels sit
+   a few pixels left of every other label and the column reads as ragged. */
+.castor-slot--locked .castor-slot__label {
+  padding-left: 13px;
+}
+
+.castor-add {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 8px 2px;
+  margin-top: 4px;
+  border-top: 1px solid var(--castor-line);
+}
+.castor-add__label {
+  flex: none;
+  color: var(--castor-ink-muted);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.castor-add__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.castor-chip {
+  font: inherit;
+  font-size: 12px;
+  color: var(--castor-ink-muted);
+  background: var(--castor-surface-sunken);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 1px 9px;
+  cursor: pointer;
+}
+.castor-chip:hover {
+  color: var(--castor-ink);
+  border-color: var(--castor-line-strong);
+}
+.castor-chip--required {
+  color: var(--castor-ink);
+  border-color: var(--castor-line-strong);
+  background: var(--castor-surface);
+}
+.castor-slot__flag {
+  color: var(--castor-ink-faint);
+  font-size: 11px;
+}
+.castor-slot__value {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.castor-slot__swatch {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 1px;
+}
+.castor-slot__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.castor-slot__empty {
+  color: var(--castor-ink-faint);
+  font-style: italic;
+}
+.castor-slot__len {
+  color: var(--castor-ink-muted);
+  font-size: 12px;
+}
+/* The actions overlay the row rather than reserving a column.
+   Reserving one costs ~140px of the part-name column on every row, permanently, so that a
+   pair of buttons visible on hover can avoid a layout shift — a bad trade in a panel whose
+   whole job is showing which part is in each slot. Overlaying keeps the names readable and
+   still shifts nothing. */
+.castor-slot__actions {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 2px;
+  padding-left: 12px;
+  background: linear-gradient(to right, transparent, var(--castor-surface-sunken) 12px);
+  opacity: 0;
+  pointer-events: none;
+}
+/* Hover and focus only, deliberately not on the selected row: the actions overlay the part
+   name, and a selected row keeping them up means the name it selected stays hidden. Selection
+   is already carried by the border. :focus-within keeps them keyboard-reachable. */
+.castor-slot:hover .castor-slot__actions,
+.castor-slot:focus-within .castor-slot__actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Without :focus-within above, a keyboard user tabbing into the row would find the actions
+   inert and invisible — hover-only affordances are a keyboard trap. */
+
+
+/* --- part picker ---------------------------------------------------------------------- */
+
+.castor-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgb(27 39 51 / 0.32);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 1000;
+}
+.castor-dialog {
+  background: var(--castor-surface);
+  border: 1px solid var(--castor-line-strong);
+  border-radius: var(--castor-radius);
+  width: min(920px, 100%);
+  max-height: min(680px, 100%);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: var(--castor-font);
+  font-size: 13px;
+  color: var(--castor-ink);
+}
+.castor-dialog__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--castor-line);
+}
+.castor-dialog__title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+.castor-dialog__tabs {
+  display: flex;
+  gap: 2px;
+  padding: 8px 14px 0;
+  border-bottom: 1px solid var(--castor-line);
+}
+.castor-tab {
+  font: inherit;
+  border: 1px solid transparent;
+  border-bottom: none;
+  background: transparent;
+  color: var(--castor-ink-muted);
+  padding: 5px 12px;
+  border-radius: var(--castor-radius) var(--castor-radius) 0 0;
+  cursor: pointer;
+  margin-bottom: -1px;
+}
+.castor-tab[aria-selected='true'] {
+  color: var(--castor-ink);
+  background: var(--castor-surface);
+  border-color: var(--castor-line);
+  border-bottom: 1px solid var(--castor-surface);
+}
+.castor-dialog__body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(260px, 340px) 1fr;
+}
+.castor-dialog__list {
+  overflow: auto;
+  border-right: 1px solid var(--castor-line);
+  padding: 8px;
+}
+.castor-dialog__detail {
+  overflow: auto;
+  padding: 14px;
+}
+.castor-dialog__foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--castor-line);
+}
+
+.castor-candidate {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--castor-radius);
+  padding: 6px 8px;
+  cursor: pointer;
+}
+.castor-candidate:hover {
+  background: var(--castor-surface-sunken);
+}
+.castor-candidate[aria-selected='true'] {
+  background: var(--castor-surface-sunken);
+  border-color: var(--castor-line-strong);
+}
+.castor-candidate__top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.castor-candidate__name {
+  font-weight: 600;
+}
+.castor-candidate__meta {
+  color: var(--castor-ink-muted);
+  font-size: 12px;
+}
+
+.castor-seq {
+  font-family: var(--castor-mono);
+  font-size: 11.5px;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  color: var(--castor-ink);
+  background: var(--castor-surface-sunken);
+  border: 1px solid var(--castor-line);
+  border-radius: var(--castor-radius);
+  padding: 8px 10px;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 0;
+}
+
+.castor-deflist {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 3px 12px;
+  margin: 0 0 12px;
+  font-size: 12px;
+}
+.castor-deflist dt {
+  color: var(--castor-ink-muted);
+}
+.castor-deflist dd {
+  margin: 0;
+}
+
+.castor-usages {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.castor-usage {
+  border-left: 2px solid var(--castor-line-strong);
+  padding-left: 10px;
+}
+.castor-usage__title {
+  font-size: 12.5px;
+}
+.castor-usage__meta {
+  color: var(--castor-ink-muted);
+  font-size: 11.5px;
+}
+.castor-usage__construct {
+  font-family: var(--castor-mono);
+  font-size: 11.5px;
+}
+.castor-usage__constructs {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.castor-usage__note {
+  color: var(--castor-ink-muted);
+  font-size: 11.5px;
+}
+
+/* The badge answers one question — is this the group's standard choice, or a one-off? — so it
+   gets a weight difference rather than a colour: colour in this tool means biology. */
+.castor-usage-badge {
+  display: block;
+}
+.castor-usage-badge--shared {
+  color: var(--castor-ink);
+  font-weight: 600;
+}
+.castor-usage-badge--unique {
+  font-style: italic;
+}
+.castor-usage-badge--none {
+  color: var(--castor-ink-faint);
+}
+.castor-scope a,
+.castor-root a {
+  color: var(--castor-ink);
+  text-underline-offset: 2px;
+}
+
+/* --- map popover ----------------------------------------------------------------------- */
+
+.castor-popover {
+  position: absolute;
+  z-index: 40;
+  min-width: 180px;
+  max-width: 260px;
+  /* Vertical offset is applied in JS along with the clamping, so it is not doubled here. */
+  transform: translateX(-50%);
+  background: var(--castor-surface);
+  border: 1px solid var(--castor-line-strong);
+  border-radius: var(--castor-radius);
+  box-shadow: 0 6px 20px rgb(27 39 51 / 0.18);
+  padding: 8px 0 6px;
+  font-size: 13px;
+}
+.castor-popover__head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+}
+.castor-popover__title {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.castor-popover__meta {
+  margin: 2px 10px 6px;
+  color: var(--castor-ink-muted);
+  font-size: 11.5px;
+}
+.castor-popover__actions {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--castor-line);
+  padding-top: 4px;
+}
+.castor-popover__action {
+  font: inherit;
+  text-align: left;
+  border: none;
+  background: none;
+  color: var(--castor-ink);
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.castor-popover__action:hover {
+  background: var(--castor-surface-sunken);
+}
+.castor-popover__action--danger {
+  color: #b2182b;
+}
+
+/* --- findings ------------------------------------------------------------------------- */
+
+.castor-findings {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.castor-finding {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+  padding: 7px 0;
+  border-top: 1px solid var(--castor-line);
+  text-align: left;
+  background: transparent;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  font: inherit;
+  color: inherit;
+  width: 100%;
+  cursor: pointer;
+}
+.castor-findings > .castor-finding:first-child {
+  border-top: none;
+}
+.castor-finding:hover .castor-finding__title {
+  text-decoration: underline;
+}
+.castor-finding__mark {
+  width: 3px;
+  border-radius: 2px;
+  align-self: stretch;
+}
+.castor-finding__title {
+  font-weight: 600;
+  font-size: 12.5px;
+}
+.castor-finding__detail {
+  color: var(--castor-ink-muted);
+  font-size: 12px;
+}
+.castor-finding__cites {
+  margin-top: 3px;
+  font-size: 11.5px;
+}
+
+/* --- cart ----------------------------------------------------------------------------- */
+
+.castor-cart {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.castor-cart__item {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--castor-radius);
+  background: var(--castor-surface);
+}
+.castor-cart__grip {
+  display: flex;
+  align-items: center;
+  border: none;
+  background: none;
+  padding: 2px;
+  color: var(--castor-ink-faint);
+  cursor: grab;
+  touch-action: none;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+.castor-cart__item:hover .castor-cart__grip,
+.castor-cart__item:focus-within .castor-cart__grip {
+  opacity: 1;
+}
+.castor-cart__grip:active {
+  cursor: grabbing;
+}
+.castor-cart__item--dragging {
+  border-color: var(--castor-line-strong);
+  box-shadow: 0 2px 8px rgb(27 39 51 / 0.14);
+  position: relative;
+  z-index: 2;
+}
+.castor-cart__item:hover {
+  background: var(--castor-surface-sunken);
+}
+.castor-cart__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.castor-cart__meta {
+  color: var(--castor-ink-muted);
+  font-size: 12px;
+}
+
+/* --- comparison ----------------------------------------------------------------------- */
+
+.castor-compare__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--castor-line);
+}
+.castor-compare__field {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--castor-ink-muted);
+}
+.castor-compare__scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.castor-compare__svg {
+  display: block;
+  touch-action: none;
+}
+.castor-compare__row-label {
+  font-family: var(--castor-font);
+  font-size: 12px;
+  fill: var(--castor-ink);
+}
+.castor-compare__row-sub {
+  font-family: var(--castor-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 10.5px;
+  fill: var(--castor-ink-muted);
+}
+.castor-compare__base {
+  font-family: var(--castor-mono);
+  pointer-events: none;
+  user-select: none;
+}
+
+.castor-compare__item-label {
+  font-family: var(--castor-mono);
+  font-size: 9.5px;
+  fill: var(--castor-ink-muted);
+  pointer-events: none;
+  user-select: none;
+}
+.castor-compare__arrow {
+  cursor: pointer;
+}
+.castor-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  padding: 8px 12px;
+  border-top: 1px solid var(--castor-line);
+}
+.castor-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  border: none;
+  background: none;
+  font-family: inherit;
+  color: var(--castor-ink);
+  cursor: pointer;
+  padding: 0;
+}
+.castor-legend__item[aria-pressed='false'] {
+  color: var(--castor-ink-faint);
+}
+.castor-legend__swatch {
+  width: 9px;
+  height: 9px;
+  border-radius: 1px;
+}
+
+.castor-layout {
+  display: grid;
+  grid-template-columns: minmax(300px, 400px) 1fr;
+  gap: var(--castor-gap);
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .castor-layout {
+    grid-template-columns: 1fr;
+  }
+  .castor-dialog__body {
+    grid-template-columns: 1fr;
+  }
+  .castor-dialog__list {
+    border-right: none;
+    border-bottom: 1px solid var(--castor-line);
+    max-height: 220px;
+  }
+}
+
+.castor-disclaimer {
+  font-size: 11.5px;
+  color: var(--castor-ink-muted);
+  border-top: 1px solid var(--castor-line);
+  padding-top: 8px;
+}

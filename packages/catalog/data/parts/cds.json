@@ -1,0 +1,55 @@
+{
+  "$schema": "../../schema/part.schema.json",
+  "collection": "cds",
+  "version": "2026.08.29",
+  "parts": [
+    {
+      "id": "cds/EGFP@1.0.0",
+      "name": "EGFP",
+      "aliases": [
+        "enhanced green fluorescent protein",
+        "GFP"
+      ],
+      "role": "cds",
+      "sequence": "ATGGTGAGCAAGGGCGAGGAGCTGTTCACCGGGGTGGTGCCCATCCTGGTCGAGCTGGACGGCGACGTAAACGGCCACAAGTTCAGCGTGTCCGGCGAGGGCGAGGGCGATGCCACCTACGGCAAGCTGACCCTGAAGTTCATCTGCACCACCGGCAAGCTGCCCGTGCCCTGGCCCACCCTCGTGACCACCCTGACCTACGGCGTGCAGTGCTTCAGCCGCTACCCCGACCACATGAAGCAGCACGACTTCTTCAAGTCCGCCATGCCCGAAGGCTACGTCCAGGAGCGCACCATCTTCTTCAAGGACGACGGCAACTACAAGACCCGCGCCGAGGTGAAGTTCGAGGGCGACACCCTGGTGAACCGCATCGAGCTGAAGGGCATCGACTTCAAGGAGGACGGCAACATCCTGGGGCACAAGCTGGAGTACAACTACAACAGCCACAACGTCTATATCATGGCCGACAAGCAGAAGAACGGCATCAAGGTGAACTTCAAGATCCGCCACAACATCGAGGACGGCAGCGTGCAGCTCGCCGACCACTACCAGCAGAACACCCCCATCGGCGACGGCCCCGTGCTGCTGCCCGACAACCACTACCTGAGCACCCAGTCCGCCCTGAGCAAAGACCCCAACGAGAAGCGCGATCACATGGTCCTGCTGGAGTTCGTGACCGCCGCCGGGATCACTCTCGGCATGGACGAGCTGTACAAGTAA",
+      "length": 720,
+      "checksum": "sha1:024c492c4aaccc12bdd6ebb073d4417e9918b4f1",
+      "attributes": {
+        "role": "cds",
+        "product": "enhanced green fluorescent protein",
+        "hasStartCodon": true,
+        "hasStopCodon": true,
+        "nTermTaggable": true,
+        "cTermTaggable": true,
+        "fpbase": "egfp"
+      },
+      "provenance": {
+        "origin": "curated",
+        "confidence": "high",
+        "curatedAt": "2026-08-29",
+        "accessions": [
+          {
+            "db": "GenBank",
+            "id": "U55762",
+            "url": "https://www.ncbi.nlm.nih.gov/nuccore/U55762"
+          }
+        ],
+        "note": "Extracted from U55762 679..1398. Source record: Cloning vector pEGFP-N1, complete sequence, enhanced green fluorescent protein (egfp) and neomycin phosphotransferase genes, complete cds.",
+        "usages": [
+          {
+            "kind": "publication",
+            "title": "Cloning vector pEGFP-N1, complete sequence, enhanced green fluorescent protein (egfp) and neomycin phosphotransferase genes, complete cds.",
+            "pmid": "8707053",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/8707053/"
+          }
+        ]
+      },
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true
+      },
+      "version": "1.0.0",
+      "description": "EGFP coding sequence, exactly as annotated in pEGFP-N1 (CDS 679..1398): ATG through the TAA stop, 239 residues plus terminator."
+    }
+  ]
+}

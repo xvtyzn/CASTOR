@@ -1,0 +1,163 @@
+{
+  "$schema": "../schema/template.schema.json",
+  "collection": "templates",
+  "templates": [
+    {
+      "id": "template/coding.simple@1.0.0",
+      "name": "Single transgene (ssAAV)",
+      "kind": "coding.simple",
+      "packaging": "ss",
+      "description": "The standard AAV expression cassette: ITR – (enhancer) – promoter – (intron) – Kozak – CDS – (tags) – (WPRE) – polyA – ITR. Slots marked 0..n accept as many parts as you add.",
+      "nodes": [
+        {
+          "kind": "slot",
+          "key": "itr_5",
+          "label": "5' ITR",
+          "roles": ["itr"],
+          "min": 1,
+          "max": 1,
+          "strand": "forward",
+          "locked": true,
+          "defaultPartId": "itr/AAV2-ITR-145-flip@1.0.0",
+          "hint": "Defines the 5' packaging boundary. Everything below is packaged."
+        },
+        {
+          "kind": "slot",
+          "key": "enhancer",
+          "label": "Enhancer",
+          "roles": ["enhancer"],
+          "min": 0,
+          "max": null,
+          "strand": "forward",
+          "hint": "Optional. Cell-type-specific enhancers need a minimal promoter downstream."
+        },
+        {
+          "kind": "slot",
+          "key": "promoter",
+          "label": "Promoter",
+          "roles": ["promoter"],
+          "min": 1,
+          "max": 1,
+          "strand": "forward",
+          "hint": "Pol II for protein expression. Decides whether Kozak, WPRE and polyA apply."
+        },
+        {
+          "kind": "slot",
+          "key": "intron",
+          "label": "Intron",
+          "roles": ["intron"],
+          "min": 0,
+          "max": 1,
+          "strand": "forward",
+          "hint": "Optional. Can raise expression substantially, at a cost in cargo space."
+        },
+        {
+          "kind": "slot",
+          "key": "kozak",
+          "label": "Kozak",
+          "roles": ["kozak"],
+          "min": 0,
+          "max": 1,
+          "strand": "forward",
+          "defaultPartId": "kozak/Kozak-consensus@1.0.0",
+          "hint": "Required in practice whenever a Pol II promoter drives a CDS."
+        },
+        {
+          "kind": "slot",
+          "key": "tag_n",
+          "label": "N-terminal tag",
+          "roles": ["tag"],
+          "min": 0,
+          "max": null,
+          "strand": "forward",
+          "hint": "Must stay in frame with the CDS. Add as many as you need."
+        },
+        {
+          "kind": "slot",
+          "key": "linker_n",
+          "label": "N-terminal linker",
+          "roles": ["linker"],
+          "min": 0,
+          "max": null,
+          "strand": "forward"
+        },
+        {
+          "kind": "slot",
+          "key": "cds",
+          "label": "Transgene (CDS)",
+          "roles": ["cds"],
+          "min": 1,
+          "max": 1,
+          "strand": "forward",
+          "hint": "The gene of interest."
+        },
+        {
+          "kind": "slot",
+          "key": "linker_c",
+          "label": "C-terminal linker",
+          "roles": ["linker"],
+          "min": 0,
+          "max": null,
+          "strand": "forward"
+        },
+        {
+          "kind": "slot",
+          "key": "tag_c",
+          "label": "C-terminal tag",
+          "roles": ["tag"],
+          "min": 0,
+          "max": null,
+          "strand": "forward",
+          "hint": "Requires the CDS stop codon to be removed."
+        },
+        {
+          "kind": "slot",
+          "key": "wpre",
+          "label": "WPRE",
+          "roles": ["wpre"],
+          "min": 0,
+          "max": 1,
+          "strand": "forward",
+          "hint": "Raises expression. Must sit between the stop codon and the polyA."
+        },
+        {
+          "kind": "slot",
+          "key": "polya",
+          "label": "polyA signal",
+          "roles": ["polya"],
+          "min": 1,
+          "max": 1,
+          "strand": "forward",
+          "hint": "The last transcribed element before the 3' ITR."
+        },
+        {
+          "kind": "slot",
+          "key": "stuffer",
+          "label": "Stuffer",
+          "roles": ["stuffer"],
+          "min": 0,
+          "max": 1,
+          "strand": "forward",
+          "hint": "Padding for cassettes below ~2.4 kb, where overfilled particles become common."
+        },
+        {
+          "kind": "slot",
+          "key": "itr_3",
+          "label": "3' ITR",
+          "roles": ["itr"],
+          "min": 1,
+          "max": 1,
+          "strand": "forward",
+          "locked": true,
+          "defaultPartId": "itr/AAV2-ITR-145-3prime@1.0.0",
+          "hint": "Defines the 3' packaging boundary."
+        }
+      ],
+      "seed": [
+        { "slotKey": "itr_5", "partId": "itr/AAV2-ITR-145-flip@1.0.0" },
+        { "slotKey": "kozak", "partId": "kozak/Kozak-consensus@1.0.0" },
+        { "slotKey": "itr_3", "partId": "itr/AAV2-ITR-145-3prime@1.0.0" }
+      ]
+    }
+  ]
+}
