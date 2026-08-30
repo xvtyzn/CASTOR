@@ -20,7 +20,13 @@ export interface WorkbenchMessages {
     whatItIs: { title: string; body: string }
     steps: { title: string; items: { title: string; body: string }[] }
     principles: { title: string; items: { title: string; body: string }[] }
-    status: { parts: string; backbones: string; templates: string; designs: string }
+    /** Counts pluralise in English and do not in Japanese, so the label takes the number. */
+    status: {
+      parts: (n: number) => string
+      backbones: (n: number) => string
+      templates: (n: number) => string
+      designs: (n: number) => string
+    }
   }
   design: {
     explainTitle: string
@@ -118,10 +124,10 @@ export const workbenchEn: WorkbenchMessages = {
       ],
     },
     status: {
-      parts: 'parts in the catalogue',
-      backbones: 'backbones',
-      templates: 'cassette templates',
-      designs: 'designs saved',
+      parts: (n) => `part${n === 1 ? '' : 's'} in the catalogue`,
+      backbones: (n) => `backbone${n === 1 ? '' : 's'}`,
+      templates: (n) => `cassette template${n === 1 ? '' : 's'}`,
+      designs: (n) => `design${n === 1 ? '' : 's'} saved`,
     },
   },
   design: {
@@ -234,10 +240,10 @@ export const workbenchJa: WorkbenchMessages = {
       ],
     },
     status: {
-      parts: 'カタログのパーツ',
-      backbones: 'バックボーン',
-      templates: 'カセットテンプレート',
-      designs: '保存済みデザイン',
+      parts: () => 'カタログのパーツ',
+      backbones: () => 'バックボーン',
+      templates: () => 'カセットテンプレート',
+      designs: () => '保存済みデザイン',
     },
   },
   design: {

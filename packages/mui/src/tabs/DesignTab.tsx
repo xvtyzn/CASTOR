@@ -48,7 +48,7 @@ export function DesignTab({ t, designer, onRequestPart }: DesignTabProps) {
         ))}
       </Explain>
 
-      <Stack spacing={2}>
+      <Stack spacing={1.5}>
         <Section
           title={m.cassette.title}
           aside={
@@ -73,12 +73,12 @@ export function DesignTab({ t, designer, onRequestPart }: DesignTabProps) {
         <Box
           sx={{
             display: 'grid',
-            gap: 2,
+            gap: 1.5,
             gridTemplateColumns: { xs: '1fr', lg: 'minmax(340px, 440px) 1fr' },
             alignItems: 'start',
           }}
         >
-          <Stack spacing={2}>
+          <Stack spacing={1.5}>
             <Section
               title={t.design.composition}
               aside={`${state.construct.genomeSerotype}/${state.construct.capsidSerotype} · ${

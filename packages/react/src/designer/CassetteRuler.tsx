@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   type CastorTheme,
   type AssemblyResult,
@@ -62,7 +62,28 @@ export function CassetteRuler({
     return out
   }, [domainMax])
 
-  const viewWidth = 1000 // user units; the SVG scales to its container via viewBox
+  /**
+   * Measured width, so one user unit is one pixel.
+   *
+   * The first version used a fixed 1000-unit viewBox with preserveAspectRatio="none", which is
+   * fine for the rectangles and wrong for everything with a glyph in it: at a 1900 px container
+   * the labels were stretched 1.9x horizontally. Measuring costs a ResizeObserver and makes the
+   * type render at its actual proportions.
+   */
+  const hostRef = useRef<HTMLDivElement>(null)
+  const [measured, setMeasured] = useState(0)
+  useEffect(() => {
+    const el = hostRef.current
+    if (!el) return
+    const ro = new ResizeObserver(([entry]) => {
+      const w = entry?.contentRect.width ?? 0
+      if (w > 0) setMeasured(w)
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
+  const viewWidth = measured || 1000
   const x = (v: number) => (v / domainMax) * viewWidth
   const trackY = AXIS_HEIGHT
   const labelY = AXIS_HEIGHT + TRACK_HEIGHT + 11
@@ -81,8 +102,8 @@ export function CassetteRuler({
     for (const f of cassette.features) {
       const w = x(f.end) - x(f.start)
       const text = f.name.length > 14 ? `${f.name.slice(0, 13)}…` : f.name
-      // ~4.6 user units per glyph at fontSize 9 in this viewBox.
-      const halfText = (text.length * 4.6) / 2
+      // ~5.2 px per glyph of the monospace label at fontSize 9.
+      const halfText = (text.length * 5.2) / 2
       // Clamp into the viewBox so the first and last labels are not half-cut by its edges.
       const centre = Math.min(
         Math.max(x(f.start) + w / 2, halfText),
@@ -99,14 +120,15 @@ export function CassetteRuler({
   }, [cassette.features, domainMax])
 
   return (
-    <svg
-      className={['castor-ruler', className].filter(Boolean).join(' ')}
-      viewBox={`0 0 ${viewWidth} ${height}`}
-      preserveAspectRatio="none"
-      role="img"
-      aria-label={`Cassette, ${cassette.length} base pairs of a ${capacity.limit} base pair packaging limit`}
-      style={{ height }}
-    >
+    <div ref={hostRef} className={className} style={{ width: '100%' }}>
+      <svg
+        className="castor-ruler"
+        width={viewWidth}
+        height={height}
+        viewBox={`0 0 ${viewWidth} ${height}`}
+        role="img"
+        aria-label={`Cassette, ${cassette.length} base pairs of a ${capacity.limit} base pair packaging limit`}
+      >
       {/* packaging bands, behind everything */}
       {bands.map((band, i) => {
         const from = i === 0 ? 0 : bands[i - 1]!.max
@@ -229,7 +251,8 @@ export function CassetteRuler({
         stroke={theme.textPrimary}
         strokeWidth={1}
       />
-    </svg>
+      </svg>
+    </div>
   )
 }
 

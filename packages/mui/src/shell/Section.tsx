@@ -28,7 +28,7 @@ export function Section({ title, aside, children, flush, sx }: SectionProps) {
           alignItems: 'baseline',
           justifyContent: 'space-between',
           px: 1.5,
-          py: 1,
+          py: 0.75,
           borderBottom: 1,
           borderColor: 'divider',
         }}
@@ -38,7 +38,7 @@ export function Section({ title, aside, children, flush, sx }: SectionProps) {
         </Typography>
         <Box sx={{ fontSize: 12, color: 'text.secondary' }}>{aside}</Box>
       </Stack>
-      <Box sx={{ p: flush ? 0 : 1.5 }}>{children}</Box>
+      <Box sx={{ p: flush ? 0 : 1.25 }}>{children}</Box>
     </Paper>
   )
 }

@@ -49,22 +49,22 @@ export function ReferenceTab({ locale }: ReferenceTabProps) {
 
   return (
     <Box sx={{ maxWidth: 900 }}>
-      <Typography variant="h6" sx={{ fontWeight: 600, mb: 0.5 }}>
+      <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 0.5 }}>
         {ref.title}
       </Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
         {ref.lede}
       </Typography>
 
-      <Stack spacing={3}>
+      <Stack spacing={1.5}>
         {ref.sections.map((s) => (
-          <Paper key={s.id} variant="outlined" sx={{ p: 2.5 }}>
-            <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1.5 }}>
+          <Paper key={s.id} variant="outlined" sx={{ p: 1.75 }}>
+            <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
               {s.title}
             </Typography>
-            <Stack spacing={1.25}>
+            <Stack spacing={1}>
               {s.body.map((p, i) => (
-                <Typography key={i} variant="body2" sx={{ lineHeight: 1.75 }}>
+                <Typography key={i} variant="body2" sx={{ lineHeight: 1.7 }}>
                   <Rich text={p} />
                 </Typography>
               ))}
@@ -73,9 +73,9 @@ export function ReferenceTab({ locale }: ReferenceTabProps) {
               <Box
                 component="pre"
                 sx={{
-                  mt: 2,
+                  mt: 1.5,
                   mb: 0,
-                  p: 1.5,
+                  p: 1.25,
                   fontFamily: castorMonospace,
                   fontSize: 11.5,
                   lineHeight: 1.65,
@@ -93,7 +93,7 @@ export function ReferenceTab({ locale }: ReferenceTabProps) {
         ))}
       </Stack>
 
-      <Divider sx={{ my: 3 }} />
+      <Divider sx={{ my: 2 }} />
       <Typography variant="caption" color="text.secondary">
         The types above are exported from{' '}
         <Box component="code" sx={{ fontFamily: castorMonospace }}>

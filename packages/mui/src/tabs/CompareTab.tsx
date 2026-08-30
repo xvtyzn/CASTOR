@@ -28,7 +28,7 @@ export function CompareTab({ t, designer, width = 1180 }: CompareTabProps) {
       <Box
         sx={{
           display: 'grid',
-          gap: 2,
+          gap: 1.5,
           gridTemplateColumns: { xs: '1fr', lg: '1fr minmax(260px, 320px)' },
           alignItems: 'start',
         }}
@@ -42,7 +42,7 @@ export function CompareTab({ t, designer, width = 1180 }: CompareTabProps) {
           />
         </Section>
 
-        <Stack spacing={2}>
+        <Stack spacing={1.5}>
           <Section title={t.design.designs} aside={t.design.saved(state.cart.items.length)}>
             <CartPanel
               cart={state.cart}

@@ -32,19 +32,28 @@ export function createCastorMuiTheme(
       typography: {
         fontFamily: t.fontFamily,
         fontSize: 13,
-        // Lengths are the subject of this tool, so anywhere a number appears it is tabular and
-        // monospaced. `overline` is repurposed as the section-label style used throughout.
+        /**
+         * `overline` is repurposed as the section-label style used throughout — but without the
+         * wide tracking and the uppercasing MUI defaults to. Spaced-out capitals are a magazine
+         * device: in a dense tool they cost horizontal space, slow reading, and make the chrome
+         * compete with the data for attention.
+         */
         overline: {
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 600,
-          letterSpacing: '0.08em',
-          lineHeight: 1.6,
+          letterSpacing: 'normal',
+          textTransform: 'none',
+          lineHeight: 1.5,
         },
         button: { textTransform: 'none', fontWeight: 500 },
       },
       components: {
         MuiPaper: { defaultProps: { elevation: 0 }, styleOverrides: { root: { backgroundImage: 'none' } } },
-        MuiTab: { styleOverrides: { root: { minHeight: 44, textTransform: 'none', fontWeight: 500 } } },
+        MuiTab: {
+          styleOverrides: {
+            root: { minHeight: 38, padding: '8px 14px', textTransform: 'none', fontWeight: 500 },
+          },
+        },
         MuiTooltip: { defaultProps: { arrow: true } },
         MuiTableCell: { styleOverrides: { root: { paddingTop: 6, paddingBottom: 6 } } },
       },

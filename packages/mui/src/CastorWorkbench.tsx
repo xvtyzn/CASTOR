@@ -128,10 +128,10 @@ function WorkbenchBody({
     <MessagesProvider messages={activeLocale}>
       <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
         <AppBar position="sticky" color="inherit" elevation={0} sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Toolbar variant="dense" sx={{ gap: 2, minHeight: 52 }}>
+          <Toolbar variant="dense" sx={{ gap: 1.5, minHeight: 44 }}>
             <Tooltip title={`${t.tagline} — ${t.expansion}`}>
               <Typography
-                sx={{ fontWeight: 700, letterSpacing: '0.14em', fontSize: 15, cursor: 'default' }}
+                sx={{ fontWeight: 700, fontSize: 15, cursor: 'default' }}
               >
                 {t.appName}
               </Typography>
@@ -189,7 +189,7 @@ function WorkbenchBody({
           <Tabs
             value={tab}
             onChange={(_, v) => setTab(v as TabKey)}
-            sx={{ px: 2, minHeight: 44, borderTop: 1, borderColor: 'divider' }}
+            sx={{ px: 2, minHeight: 38, borderTop: 1, borderColor: 'divider' }}
           >
             {TAB_ORDER.map((key) => (
               <Tab key={key} value={key} label={t.tabs[key]} />
@@ -199,7 +199,7 @@ function WorkbenchBody({
 
         {/* castor-scope carries the library's design tokens without its stacked layout, which
             this shell provides instead. */}
-        <Container maxWidth="xl" className="castor-scope" sx={{ py: 3 }}>
+        <Container maxWidth="xl" className="castor-scope" sx={{ py: 2 }}>
           {tab === 'overview' && (
             <OverviewTab
               t={t}

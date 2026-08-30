@@ -126,7 +126,7 @@ export function RegistryTab({ t, parts }: RegistryTabProps) {
         aside={`${rows.length} of ${parts.length}`}
         flush
       >
-        <Stack direction="row" spacing={1.5} sx={{ p: 1.5, alignItems: 'center', flexWrap: 'wrap' }}>
+        <Stack direction="row" spacing={1.5} sx={{ p: 1.25, alignItems: 'center', flexWrap: 'wrap' }}>
           <TextField
             size="small"
             placeholder={t.registry.searchPlaceholder}
